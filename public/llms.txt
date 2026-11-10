@@ -1,0 +1,70 @@
+# AuraShades
+
+> AuraShades is a library of live WebGL shader backgrounds for websites in six styles: gradient, grain, pastel, aurora, dither and ASCII. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Six shaders are free; Pro unlocks all 12 and the React component.
+
+## Pages
+
+- [Home](https://aurashades.com/): what AuraShades is, a live editor, pricing and FAQ
+- [Library](https://aurashades.com/library): every shader, filterable by style and plan
+- [Pricing](https://aurashades.com/pricing): Free, Pro and Team plans with a feature comparison and licence terms
+- [Docs](https://aurashades.com/docs): install, the <AuraShade /> component props, performance and browser support
+
+## Styles
+
+- Gradient: Smooth colour fields with slow, folded motion.
+- Grain: Light and colour exposed through film grain.
+- Pastel: Low-contrast washes that sit quietly behind text.
+- Aurora: Ribbons of light, for night skies and daylight heroes.
+- Dither: Gradients crushed to flat inks with ordered dots.
+- ASCII: Moving fields drawn entirely in characters.
+
+## Shaders
+
+- [Silk](https://aurashades.com/library/silk) (Gradient, Free): Folded satin bands with a soft sheen.
+- [Mesh Drift](https://aurashades.com/library/mesh-drift) (Gradient, Pro): Four colour anchors orbiting and blending by distance.
+- [Grain Bloom](https://aurashades.com/library/grain-bloom) (Grain, Free): Soft light leaks exposed through film grain.
+- [Dune](https://aurashades.com/library/dune) (Grain, Pro): Sunset strata pressed into layers.
+- [Pastel Haze](https://aurashades.com/library/pastel-haze) (Pastel, Free): Pastel clouds drifting into one another.
+- [Iridescent](https://aurashades.com/library/iridescent) (Pastel, Pro): Thin-film colour, like foil or a soap bubble.
+- [Aurora Veil](https://aurashades.com/library/aurora-veil) (Aurora, Free): Curtains of light that fray into rays.
+- [Aurora Dawn](https://aurashades.com/library/aurora-dawn) (Aurora, Pro): Soft ribbons that blend into the sky.
+- [Bayer Wave](https://aurashades.com/library/bayer-wave) (Dither, Free): A flowing gradient in four flat inks.
+- [Halftone](https://aurashades.com/library/halftone) (Dither, Pro): A rotated dot screen over moving noise.
+- [ASCII Flow](https://aurashades.com/library/ascii-flow) (ASCII, Free): Warped noise set in type, like a terminal.
+- [ASCII Rings](https://aurashades.com/library/ascii-rings) (ASCII, Pro): Ripples drawn entirely in characters.
+
+## Plans
+
+- Free: free. 6 shaders, one in every style; Live editor with every control; Copy as GLSL or CSS palette; Personal and commercial use with a credit link.
+- Pro: $12 per month or $96 per year. All 12 shaders and every new release; Copy as a typed React component; No credit link needed; Commercial licence for unlimited sites.
+- Team: $36 per month or $288 per year. Everything in Pro for 5 seats; Shared palette library for the team; One invoice, add seats any time; Priority email support.
+
+## FAQ
+
+### What is a shader background?
+
+A shader background is an animated image drawn by the GPU in real time from a short program called a fragment shader. Unlike a video or GIF it is a few kilobytes, stays sharp at any size, and its colours and motion can be changed with code.
+
+### How do I add an animated gradient background in React?
+
+Install AuraShades, then render <AuraShade shader="silk" className="absolute inset-0" /> inside a positioned section and place your content above it. Every shader in the library exports this snippet with your palette already filled in.
+
+### Do I need to know GLSL to use AuraShades?
+
+No. Pick a shader, change the colours and sliders in the editor, and copy the result. The React component takes the same values as props. GLSL export is there if you want to edit the shader itself.
+
+### How heavy is it on the page?
+
+Every background on a page shares one WebGL context, so ten backgrounds cost about the same as one. Backgrounds that scroll out of view stop rendering, and the pixel density is capped so large heroes stay smooth on laptops.
+
+### What happens without WebGL, or with reduced motion?
+
+Without WebGL, each background shows a static CSS gradient built from its palette. With reduced motion turned on, shaders draw one still frame and stop.
+
+### Can I use the free shaders in client work?
+
+Yes. Free shaders can be used in personal and commercial projects as long as the site links back to AuraShades. Pro removes the credit requirement and adds the React component.
+
+### Can I cancel Pro?
+
+Yes, any time. Code you copied while subscribed stays yours to use on the sites you shipped it on.
