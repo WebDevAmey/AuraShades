@@ -655,6 +655,31 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale+vec2(t*.05,t*.02);
     c=mix(col,uC3,glint*.25);}
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'linen', name: 'Linen', style: 'Texture', tier: 'pro',
+    summary: 'Woven cloth with dye flowing through it.',
+    description: 'A plain weave drawn thread by thread: warp and weft cross over and under, each thread a little thicker or thinner than the next, with the odd slub. A slow ombré dye drifts through the cloth.',
+    palettes: { dark: ['#0d0e10', '#2d3b4f', '#c9734d', '#efe2cf'], light: ['#f3eee5', '#d9cbb5', '#a8b8c9', '#6d5a46'] },
+    defaults: { palette: ['#0d0e10', '#2d3b4f', '#c9734d', '#efe2cf'], speed: .25, scale: 1, grain: .02, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA();vec2 p=frag()/(9.*uScale);
+  vec2 id=floor(p);vec2 f=fract(p)-.5;
+  float wx=.43+.06*hash(vec2(id.x,0.));float wy=.43+.06*hash(vec2(0.,id.y));
+  wx*=1.+.25*smoothstep(.75,1.,noise(vec2(id.x*3.,p.y*.08)));wy*=1.+.25*smoothstep(.75,1.,noise(vec2(p.x*.08,id.y*3.)));
+  float onTop=mod(id.x+id.y,2.);
+  float warp=1.-smoothstep(wx-.05,wx,abs(f.x));float weft=1.-smoothstep(wy-.05,wy,abs(f.y));
+  float sx=cos(f.x/wx*1.5)*(.6+.4*cos(f.y*3.14));float sy=cos(f.y/wy*1.5)*(.6+.4*cos(f.x*3.14));
+  float top=onTop>.5?warp:weft;float bot=onTop>.5?weft:warp;
+  float sh=onTop>.5?sx:sy;float shb=onTop>.5?sy:sx;
+  vec2 q=a*uScale;
+  float dye=fbm(q*1.1+vec2(t*.08,-t*.05))+.4*sin(q.x*1.5+t*.3);
+  vec3 thread=ramp(.35+dye*.5);
+  vec3 c=uC0;
+  c=mix(c,thread*(.45+.35*shb),bot);
+  c=mix(c,thread*(.6+.5*sh),top);
+  c=mix(c,c*.7,bot*(1.-top)*.25);
+  c*=.92+.12*noise(p*vec2(.5,5.)+onTop*13.);
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
