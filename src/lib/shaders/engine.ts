@@ -1,5 +1,5 @@
 import { byId, type ShaderParams } from './library'
-import { GLYPHS, hexToRgb, LIVE_HEAD, LIVE_MAIN, VERT } from './glsl'
+import { fragmentSource, GLYPHS, hexToRgb, VERT } from './glsl'
 
 /**
  * One WebGL context draws every background on the page.
@@ -108,7 +108,7 @@ class Engine {
     }
     const p = gl.createProgram()!
     gl.attachShader(p, mk(gl.VERTEX_SHADER, VERT))
-    gl.attachShader(p, mk(gl.FRAGMENT_SHADER, LIVE_HEAD + def.body + LIVE_MAIN))
+    gl.attachShader(p, mk(gl.FRAGMENT_SHADER, fragmentSource(def)))
     gl.bindAttribLocation(p, 0, 'p')
     gl.linkProgram(p)
     if (!gl.getProgramParameter(p, gl.LINK_STATUS)) { this.progs.set(id, null); return null }
