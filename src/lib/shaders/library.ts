@@ -56,8 +56,8 @@ export const SHADERS: ShaderDef[] = [
   float ph=(q.x*1.3+q.y*.8)*2.6+fbm(q*1.1+t*.08)*1.8+t*.5;
   float f=.5+.5*sin(ph);
   vec3 c=ramp(mix(f,uvN().y,.25));
-  c=mix(c,uC3,pow(max(0.,sin(ph+1.1)),14.)*.35);
-  c*=.92+.08*sin(ph-1.);
+  float sp=max(0.,sin(ph+1.1));c=mixok(c,uC3,pow(sp,28.)*.55+pow(sp,6.)*.12);
+  c*=.9+.1*sin(ph-1.);
   return c+grain()*uGrain;}`,
   },
   {
@@ -74,7 +74,7 @@ export const SHADERS: ShaderDef[] = [
   vec2 e=vec2((.78+.12*sin(t*.7))*asp,.82+.12*cos(t));
   vec2 g=vec2((.22+.12*cos(t*.95))*asp,.8+.14*sin(t*.75));
   float wa=1./pow(length(p-a)+.05,2.4),wb=1./pow(length(p-b)+.05,2.4),we=1./pow(length(p-e)+.05,2.4),wg=1./pow(length(p-g)+.05,2.4);
-  vec3 c=(uC0*wa+uC1*wb+uC2*we+uC3*wg)/(wa+wb+we+wg);
+  vec3 c=srgb((K0*wa+K1*wb+K2*we+K3*wg)/(wa+wb+we+wg));
   return c+grain()*uGrain;}`,
   },
   {
@@ -117,7 +117,7 @@ export const SHADERS: ShaderDef[] = [
   vec2 q=uv+vec2(fbm(uv+t*.07),fbm(uv+8.-t*.07))*1.2;
   float f=fbm(q*.9+t*.05);
   float g=.5+.5*sin(q.x*1.6-q.y*1.1+t*.3);
-  vec3 c=mix(ramp(f*2.-.5),ramp(g),.4);
+  vec3 c=mixok(ramp(f*2.-.5),ramp(g),.4);
   return c+grain()*uGrain;}`,
   },
   {
@@ -131,9 +131,8 @@ export const SHADERS: ShaderDef[] = [
   vec2 q=uv+.6*vec2(fbm(uv*1.3+t*.1),fbm(uv*1.3+2.7-t*.1));
   float h=fbm(q*1.6)+.3*sin(q.x*2.+t*.4);
   vec3 film=.5+.5*cos(TAU*(h*1.4+vec3(0.,.33,.67)+t*.05));
-  film=mix(film*.45,film,L0);
   vec3 base=ramp(.5+.5*sin(h*4.+t*.2));
-  vec3 c=mix(base,film,.32);c=mix(c,uC3,.12);
+  vec3 c=mix(base+film*film*.22*(1.-L0),mixok(base,film,.32),L0);c=mixok(c,uC3,.1);
   c=mix(c,uC3,pow(max(0.,1.-abs(sin(h*6.+t*.5))),18.)*.35);
   return c+grain()*uGrain;}`,
   },
