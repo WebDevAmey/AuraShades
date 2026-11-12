@@ -719,6 +719,23 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   c=mix(c,mix(c,uC0,.5),(1.-l1*l2)*.25);
   return c+grain()*uGrain;}`
   },
+  {
+    id: 'thermal', name: 'Thermal', style: 'Gradient', tier: 'free',
+    summary: 'Heat rising off a dark floor in slow plumes.',
+    description: 'A heat map that never settles. Warmth pools low and to one side, then lifts in slow convection plumes that curl as they rise, cooling through violet into the dark. Crop it to a corner and it still holds.',
+    palettes: { dark: ['#07050d', '#3a1260', '#e0466b', '#ffc98a'], light: ['#f6f1f5', '#dcc8f3', '#ff8a78', '#ffcf94'] },
+    defaults: { palette: ['#07050d', '#3a1260', '#e0466b', '#ffc98a'], speed: .35, scale: 1, grain: .045, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 uv=uvN();vec2 a=uvA()*uScale;
+  vec2 q=a+vec2(fbm(a*1.3+vec2(0.,-t*.22)),fbm(a*1.3+vec2(4.1,-t*.27)))*.75;
+  float rise=fbm(q*1.7+vec2(0.,-t*.32));
+  float plume=.5+.5*sin(q.x*3.+fbm(q*.8-t*.08)*4.);
+  float base=(1.-uv.y)*1.05-pow(uv.x-.3,2.)*.7;
+  float h=base*.8+rise*.6*(.55+.45*plume)-.32;
+  h=smoothstep(0.,1.,h);
+  vec3 c=ramp(pow(h,1.15));
+  c=mixok(c,uC3,smoothstep(.82,1.,h)*.5);
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
