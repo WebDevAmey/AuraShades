@@ -1,6 +1,6 @@
 # AuraShades
 
-> AuraShades is a library of live WebGL shader backgrounds for websites in nine styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light and liquid. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Nine shaders are free; Pro unlocks all 22 and the React component.
+> AuraShades is a library of live WebGL shader backgrounds for websites in ten styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light, liquid and texture. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Ten shaders are free; Pro unlocks all 32 and the React component.
 
 ## Pages
 
@@ -20,6 +20,7 @@
 - Grid: Floors, grids and contour maps in perspective.
 - Light: Beams, lines, glass and ribbons that catch the light.
 - Liquid: Water, chrome and soft blobs that flow.
+- Texture: Stone, cloth, paper and print you can almost touch.
 
 ## Shaders
 
@@ -35,6 +36,11 @@
 - [Halftone](https://aurashades.com/library/halftone) (Dither, Pro): A rotated dot screen over moving noise.
 - [ASCII Flow](https://aurashades.com/library/ascii-flow) (ASCII, Free): Warped noise set in type, like a terminal.
 - [ASCII Rings](https://aurashades.com/library/ascii-rings) (ASCII, Pro): Ripples drawn entirely in characters.
+- [Velvet](https://aurashades.com/library/velvet) (Gradient, Pro): Deep folds with a pile that catches light at the edges.
+- [Riso Bloom](https://aurashades.com/library/riso-bloom) (Grain, Pro): Two inks printed slightly out of register.
+- [Watercolour](https://aurashades.com/library/watercolour) (Pastel, Pro): Pastel washes that pool and dry on rough paper.
+- [Frost Aurora](https://aurashades.com/library/frost-aurora) (Aurora, Pro): An aurora seen through a frosted window.
+- [Crosshatch](https://aurashades.com/library/crosshatch) (Dither, Pro): A moving field engraved in hatched lines.
 - [Ripple Tiles](https://aurashades.com/library/ripple-tiles) (Grid, Pro): A tiled floor that lifts as ripples pass.
 - [Horizon Grid](https://aurashades.com/library/horizon-grid) (Grid, Free): A glowing grid rolling toward a low sun.
 - [Topography](https://aurashades.com/library/topography) (Grid, Pro): Contour lines over slowly shifting terrain.
@@ -45,11 +51,16 @@
 - [Liquid Chrome](https://aurashades.com/library/liquid-chrome) (Liquid, Pro): Molten metal that reflects a soft sky.
 - [Swell](https://aurashades.com/library/swell) (Liquid, Free): Open water rolling under a quiet sky.
 - [Morph](https://aurashades.com/library/morph) (Liquid, Pro): Soft blobs that merge and split.
+- [Marble](https://aurashades.com/library/marble) (Texture, Free): Polished stone with veins that slowly drift.
+- [Terrazzo](https://aurashades.com/library/terrazzo) (Texture, Pro): Chips of colour set in a speckled floor.
+- [Linen](https://aurashades.com/library/linen) (Texture, Pro): Woven cloth with dye flowing through it.
+- [Crumpled Paper](https://aurashades.com/library/crumpled-paper) (Texture, Pro): Creased paper under a light that slowly turns.
+- [Moiré](https://aurashades.com/library/moire) (Texture, Pro): Two fine line screens beating against each other.
 
 ## Plans
 
-- Free: free. 9 shaders, one in every style; Live editor with every control; Copy as GLSL or CSS palette; Personal and commercial use with a credit link.
-- Pro: $12 per month or $96 per year. All 22 shaders and every new release; Copy as a typed React component; No credit link needed; Commercial licence for unlimited sites.
+- Free: free. 10 shaders, one in every style; Live editor with every control; Copy as GLSL or CSS palette; Personal and commercial use with a credit link.
+- Pro: $12 per month or $96 per year. All 32 shaders and every new release; Copy as a typed React component; No credit link needed; Commercial licence for unlimited sites.
 - Team: $36 per month or $288 per year. Everything in Pro for 5 seats; Shared palette library for the team; One invoice, add seats any time; Priority email support.
 
 ## FAQ
