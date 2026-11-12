@@ -1,4 +1,4 @@
-export type Style = 'Gradient' | 'Grain' | 'Pastel' | 'Aurora' | 'Dither' | 'ASCII'
+export type Style = 'Gradient' | 'Grain' | 'Pastel' | 'Aurora' | 'Dither' | 'ASCII' | 'Grid' | 'Light' | 'Liquid'
 export type Tier = 'free' | 'pro'
 export type ThemeName = 'dark' | 'light'
 
@@ -32,6 +32,9 @@ export const STYLES: { id: Style; blurb: string }[] = [
   { id: 'Aurora', blurb: 'Ribbons of light, for night skies and daylight heroes.' },
   { id: 'Dither', blurb: 'Gradients crushed to flat inks with ordered dots.' },
   { id: 'ASCII', blurb: 'Moving fields drawn entirely in characters.' },
+  { id: 'Grid', blurb: 'Floors, grids and contour maps in perspective.' },
+  { id: 'Light', blurb: 'Beams, lines, glass and ribbons that catch the light.' },
+  { id: 'Liquid', blurb: 'Water, chrome and soft blobs that flow.' },
 ]
 
 const ASCII_FN = `
@@ -229,10 +232,283 @@ export const SHADERS: ShaderDef[] = [
   float m=glyph(l,f);
   return mix(uC0,ramp(.34+f*.66),m);}`,
   },
+  {
+    id: 'ripple-tiles', name: 'Ripple Tiles', style: 'Grid', tier: 'pro',
+    summary: 'A tiled floor that lifts as ripples pass.',
+    description: 'A perspective floor of square tiles. Rings spread out from shifting points, and each tile brightens and catches a bevel of light as a ring crosses it, then fades into the distance.',
+    palettes: { dark: ['#07090f', '#1b2235', '#3b67ef', '#9ec2ff'], light: ['#eef1f7', '#dde3ee', '#7a96ff', '#3b5bdb'] },
+    defaults: { palette: ['#07090f', '#1b2235', '#3b67ef', '#9ec2ff'], speed: .5, scale: 1, grain: .02, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA();
+  float hz=.3;
+  vec3 c=mix(mix(uC0,uC1,.35),uC0,smoothstep(hz-.05,.5,a.y));
+  float d=hz-a.y;
+  if(d>0.){
+    float z=.55/d;
+    vec2 p=vec2(a.x*z,z)*2.4*uScale;
+    vec2 id=floor(p);vec2 f=fract(p)-.5;
+    float h=0.;
+    for(int i=0;i<3;i++){float fi=float(i);
+      float cyc=t*.22+fi*.333;float k=floor(cyc);float age=fract(cyc)*13.;
+      vec2 src=vec2(sin(fi*2.1+k*1.7)*5.,6.+cos(fi*1.3+k*2.3)*3.);
+      float r=length(id+.5-src);
+      h+=exp(-pow((r-age)*.7,2.))*(1.-fract(cyc))*1.3;}
+    h=clamp(h,0.,1.);
+    float aa=clamp(.02*z,.02,.25);
+    float tileMask=smoothstep(.5,.5-aa,max(abs(f.x),abs(f.y)));
+    float bevel=clamp(.5+(f.y-f.x)*.9,0.,1.);
+    vec3 tile=mix(mix(uC0,uC1,.75),uC2,h);
+    tile=mix(tile,uC3,h*h*.85);
+    tile=mix(tile,uC3,bevel*h*.25);
+    tile=mix(tile,uC0,(1.-bevel)*.12);
+    vec3 fl=mix(mix(uC0,uC1,.25),tile,tileMask);
+    float fog=1.-exp(-z*.07);
+    c=mix(fl,c,clamp(fog,0.,1.));
+  }
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'horizon-grid', name: 'Horizon Grid', style: 'Grid', tier: 'free',
+    summary: 'A glowing grid rolling toward a low sun.',
+    description: 'Fine perspective lines stream toward the viewer and fade into a hazy horizon, where a banded sun sits half-risen. Line width follows the pixel, so the far grid stays clean instead of shimmering.',
+    palettes: { dark: ['#06070d', '#2a1a3d', '#ff7a59', '#ffd29a'], light: ['#f6f3ef', '#f2dccf', '#ef6a4a', '#c2410c'] },
+    defaults: { palette: ['#06070d', '#2a1a3d', '#ff7a59', '#ffd29a'], speed: .45, scale: 1, grain: .02, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA();float hz=.04;
+  float sky=a.y-hz;
+  vec3 c=mix(mix(uC0,uC1,.85),uC0,smoothstep(0.,.5,sky));
+  vec2 sp=a-vec2(0.,hz+.1);float sr=length(sp);
+  float px=1.5/uRes.y;
+  float disc=smoothstep(.17+px,.17-px,sr);
+  float band=smoothstep(.35,.55,fract(sp.y*26.+t*.5));
+  disc*=mix(1.,band,smoothstep(.06,-.1,sp.y));
+  disc*=step(0.,sky);
+  c=mix(c,uC2,exp(-sr*4.5)*.45);
+  c=mix(c,mix(uC2,uC3,smoothstep(-.12,.17,sp.y)),disc);
+  if(sky<0.){
+    float d=-sky;float k=2.2*uScale;
+    float z=.4/d;
+    vec2 p=vec2(a.x*z*k,z*k+t*1.3);
+    vec2 gd=abs(fract(p+.5)-.5);
+    float wx=1.2*z*k/uRes.y;float wy=1.2*z*z/.4*k/uRes.y;
+    float lx=1.-smoothstep(0.,wx+.015,gd.x);
+    float ly=1.-smoothstep(0.,wy+.015,gd.y);
+    float line=max(lx*clamp(.6/(wx*8.+.6),0.,1.),ly*clamp(.6/(wy*8.+.6),0.,1.));
+    float fog=exp(-z*.16);
+    vec3 ground=mix(mix(uC0,uC1,.6),uC0,fog);
+    c=mix(ground,mix(uC2,uC3,fog*.6),line*fog);
+    c=mix(c,uC2,exp(-d*30.)*.55);
+  }
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'topography', name: 'Topography', style: 'Grid', tier: 'pro',
+    summary: 'Contour lines over slowly shifting terrain.',
+    description: 'A height field drawn as a contour map. Every fifth line is an index contour drawn heavier, lines stay one pixel wide at any zoom, and the land itself drifts and reshapes over time.',
+    palettes: { dark: ['#0b0d12', '#1f2a3a', '#59a5ff', '#c9f0ff'], light: ['#f4f3ef', '#e4e1d6', '#8a7f63', '#2f6b4f'] },
+    defaults: { palette: ['#0b0d12', '#1f2a3a', '#59a5ff', '#c9f0ff'], speed: .4, scale: 1, grain: .015, cell: 6 },
+    body: `float H(vec2 a,float t){return fbm(a*1.2+vec2(t*.05,-t*.03))+.35*fbm(a*2.6-t*.04);}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale*1.6;
+  float e=1.6*uScale/uRes.y;
+  float h=H(a,t);float hx=H(a+vec2(e,0.),t);float hy=H(a+vec2(0.,e),t);
+  float n=h*15.;
+  float dn=15.*length(vec2(hx-h,hy-h));
+  float pd=abs(fract(n+.5)-.5)/max(dn,1e-4);
+  float major=step(mod(floor(n+.5),5.),.5);
+  float minor=1.-smoothstep(.35,1.25,pd);
+  float heavy=1.-smoothstep(.9,2.,pd);
+  float line=mix(minor*.55,heavy,major);
+  vec3 fill=mix(uC0,mix(uC0,uC1,.7),smoothstep(.25,.95,h));
+  vec3 lc=ramp(clamp(h*1.25-.15,.34,1.));
+  return mix(fill,lc,line)+grain()*uGrain;}`,
+  },
+  {
+    id: 'fluted-glass', name: 'Fluted Glass', style: 'Light', tier: 'pro',
+    summary: 'Soft colour seen through ribbed glass.',
+    description: 'Drifting pools of colour sit behind a pane of vertical glass flutes. Each flute flips and squeezes what is behind it like a real lens, with a bright highlight on one shoulder and a soft crease between flutes.',
+    palettes: { dark: ['#090b12', '#3b67ef', '#ff8a5b', '#7fd6c8'], light: ['#f1f3f8', '#9db6ff', '#ffc4a6', '#a6e3d6'] },
+    defaults: { palette: ['#090b12', '#3b67ef', '#ff8a5b', '#7fd6c8'], speed: .35, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 bg(vec2 p,float t){vec3 c=uC0;
+  vec2 b1=vec2(-.3+.25*sin(t*.4),.05+.18*cos(t*.33));
+  vec2 b2=vec2(.32+.2*cos(t*.37),-.08+.2*sin(t*.29));
+  vec2 b3=vec2(.05+.3*sin(t*.23+2.),.22*cos(t*.41+1.));
+  c=mix(c,uC1,clamp(exp(-dot(p-b1,p-b1)*7.),0.,1.));
+  c=mix(c,uC2,clamp(exp(-dot(p-b2,p-b2)*8.),0.,1.));
+  c=mix(c,uC3,clamp(exp(-dot(p-b3,p-b3)*11.)*.85,0.,1.));
+  vec2 o=vec2(.18*sin(t*.3),.04*cos(t*.25));
+  float disc=smoothstep(.205,.195,length(p-o));
+  c=mix(c,mix(uC2,uC3,.5+p.y*1.5),disc*.85);
+  float bands=smoothstep(.3,.7,abs(fract((p.x+p.y)*2.5+t*.08)-.5)*2.);
+  c=mix(c,mix(c,uC1,.4),bands*(1.-disc)*.3);
+  return c;}
+vec3 shade(){float t=T();vec2 a=uvA();float n=11./uScale;
+  float fx=a.x*n;float id=floor(fx);float l=fract(fx)-.5;
+  vec2 p=vec2((id+.5-l*.85)/n,a.y+l*l*.06);
+  vec3 c=bg(p,t);
+  c=mix(c,uC0,pow(abs(l)*2.,4.)*.35);
+  float hl=exp(-pow((l+.24)*10.,2.));
+  c=mix(c,mix(c,vec3(1.),.55),hl*.55);
+  float px=n/uRes.y;
+  c=mix(c,uC0,(1.-smoothstep(0.,px*1.5,.5-abs(l)))*.35);
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'twisted-ribbon', name: 'Twisted Ribbon', style: 'Light', tier: 'pro',
+    summary: 'A satin ribbon twisting through the frame.',
+    description: 'Two ribbons drift across the frame and turn as they go, narrowing to an edge and widening again. Front and back faces carry different colours, with a sheen along the middle and lit edges.',
+    palettes: { dark: ['#07080d', '#4b7bff', '#ff6f98', '#e9ecff'], light: ['#f4f5f9', '#5b7cff', '#ff7aa0', '#ffffff'] },
+    defaults: { palette: ['#07080d', '#4b7bff', '#ff6f98', '#e9ecff'], speed: .45, scale: 1, grain: .02, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA();float px=1.5/uRes.y;
+  vec3 c=mix(uC0,mix(uC0,uC1,.12),.5-a.y);
+  for(int i=1;i>=0;i--){float fi=float(i);float w=1.-fi*.5;
+    float x=a.x*uScale*(1.+fi*.35)+fi*2.3;
+    float y0=.13*sin(x*1.45+t*.6+fi*1.3)+.05*sin(x*3.2-t*.45)+fi*.1-.03;
+    float tw=cos(x*1.35+t*.55+fi*1.7);
+    float hw=(.085*abs(tw)+.004)*w;
+    float dy=a.y-y0;
+    c=mix(c,mix(uC2,uC1,smoothstep(-.3,.3,tw)),exp(-abs(dy)*13.)*.2*w);
+    float inside=smoothstep(hw+px,hw-px,abs(dy));
+    float v=clamp(dy/hw,-1.,1.);
+    vec3 face=tw>0.?uC1:uC2;
+    float lit=.35+.65*abs(tw)*(1.-v*v);
+    vec3 rc=mix(mix(uC0,face,.45),face,lit);
+    rc=mix(rc,uC3,pow(1.-abs(v),8.)*abs(tw)*.55);
+    rc=mix(rc,uC3,smoothstep(.7,1.,abs(v))*.45);
+    c=mix(c,rc,inside*(.55+.45*w));
+  }
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'light-rays', name: 'Light Rays', style: 'Light', tier: 'free',
+    summary: 'Sunbeams falling through dusty air.',
+    description: 'Shafts of light fan down from a bright source in the corner, breaking into beams that slowly shift. Dust specks catch the light only where a beam passes through them.',
+    palettes: { dark: ['#05060a', '#1a2238', '#ffcf9a', '#fff4e3'], light: ['#d9dfe8', '#c9d1df', '#ffa95a', '#fff2df'] },
+    defaults: { palette: ['#05060a', '#1a2238', '#ffcf9a', '#fff4e3'], speed: .35, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA();float asp=uRes.x/uRes.y;
+  vec2 src=vec2(-.42*asp,.62);
+  vec2 d=a-src;float r=length(d);float ang=atan(d.x,-d.y);
+  float b=noise(vec2(ang*16.*uScale,t*.22))*.6+noise(vec2(ang*39.*uScale+7.,t*.37))*.4;
+  b=pow(b,2.);
+  float cone=smoothstep(1.35,.35,ang)*smoothstep(-.2,.35,ang);
+  float I=clamp(b*cone*exp(-r*.9)*1.9,0.,1.);
+  vec3 c=mix(uC0,mix(uC0,uC1,.6),smoothstep(.6,-.5,a.y));
+  c=mix(c,uC2,I*.85);
+  c=mix(c,uC3,I*I*.7);
+  c=mix(c,uC3,exp(-r*5.5)*.8);
+  vec2 g=a*30.+vec2(t*.25,-t*.12);vec2 id=floor(g);vec2 f=fract(g)-.5;
+  vec2 o=vec2(hash(id+3.),hash(id+7.))-.5;
+  float dust=smoothstep(.07,0.,length(f-o*.6))*step(.82,hash(id));
+  c=mix(c,uC3,clamp(dust*I*2.,0.,1.));
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'light-lines', name: 'Light Lines', style: 'Light', tier: 'pro',
+    summary: 'Fine lines with pulses of light running along them.',
+    description: 'Twelve hairlines flow across the frame and gather toward one side. Short pulses of light race along each line at its own pace, with a faint glow around the line that carries them.',
+    palettes: { dark: ['#06070c', '#3b67ef', '#19e3a1', '#ffffff'], light: ['#f3f4f8', '#5b7cff', '#18b98a', '#2f4fe0'] },
+    defaults: { palette: ['#06070c', '#3b67ef', '#19e3a1', '#ffffff'], speed: .45, scale: 1, grain: .015, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA();float px=1./uRes.y;
+  vec3 c=mix(uC0,mix(uC0,uC1,.08),.5+a.y);
+  float asp=uRes.x/uRes.y;float xn=a.x/asp+.5;
+  for(int i=0;i<12;i++){float fi=float(i);float k=fi/11.;
+    float y0=mix(-.4,.4,k)*mix(1.,.22,smoothstep(.0,1.,xn));
+    y0+=.06*sin(a.x*1.3*uScale+t*.4+fi*.7)+.035*sin(a.x*2.9*uScale-t*.3+fi*1.3);
+    float dy=abs(a.y-y0);
+    float core=1.-smoothstep(.5*px,1.8*px,dy);
+    float glow=exp(-dy*110.);
+    float ph=fract(xn*1.2-t*.18*(1.+k*.6)+hash(vec2(fi,1.)));
+    float pulse=pow(ph,10.)*smoothstep(1.,.985,ph);
+    c=mix(c,mix(uC1,uC2,k),clamp(core*.6+glow*.25,0.,1.));
+    c=mix(c,uC3,clamp(pulse*(core*1.2+glow*.7),0.,1.));
+  }
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'liquid-chrome', name: 'Liquid Chrome', style: 'Liquid', tier: 'pro',
+    summary: 'Molten metal that reflects a soft sky.',
+    description: 'A flowing surface lit like polished chrome. Its slope picks colours from a studio reflection, with a dark horizon band, a pale sky and sharp specular highlights where the metal turns toward the light.',
+    palettes: { dark: ['#05060a', '#2a3550', '#9fb3d9', '#ffffff'], light: ['#7d869c', '#d9dee8', '#a9b6cf', '#ffffff'] },
+    defaults: { palette: ['#05060a', '#2a3550', '#9fb3d9', '#ffffff'], speed: .35, scale: 1, grain: .015, cell: 6 },
+    body: `float n3(vec2 p){return noise(p)*.6+noise(p*2.03+5.2)*.28+noise(p*4.01+1.7)*.12;}
+float H(vec2 p,float t){vec2 q=p+vec2(n3(p*.7+t*.07),n3(p*.7+4.-t*.06))*1.3;return n3(q*.9+t*.04);}
+vec3 shade(){float t=T();vec2 p=uvA()*uScale*1.6;float e=.01;
+  float h=H(p,t);float hx=H(p+vec2(e,0.),t);float hy=H(p+vec2(0.,e),t);
+  vec3 n=normalize(vec3((h-hx)/e*.28,(h-hy)/e*.28,1.));
+  vec3 r=reflect(vec3(0.,0.,-1.),n);
+  float y=r.y*.8+r.x*.25;
+  vec3 env=mix(uC0,uC1,smoothstep(-.9,-.05,y));
+  env=mix(env,uC0,smoothstep(-.08,0.,y)*smoothstep(.12,0.,y)*.8);
+  env=mix(env,uC2,smoothstep(0.,.5,y));
+  env=mix(env,uC3,smoothstep(.45,.95,y));
+  vec3 c=mix(env,uC3,pow(1.-n.z,2.)*.2);
+  float spec=pow(max(dot(r,normalize(vec3(-.4,.6,.7))),0.),40.);
+  c=mix(c,uC3,clamp(spec,0.,1.)*.8);
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'swell', name: 'Swell', style: 'Liquid', tier: 'free',
+    summary: 'Open water rolling under a quiet sky.',
+    description: 'A perspective sea built from crossing wave trains and noise. Faces turned to the light brighten, the far water takes on the colour of the sky, and foam gathers on the highest crests.',
+    palettes: { dark: ['#05070d', '#0a2a3a', '#2f7f95', '#cfe9ef'], light: ['#eaf1f5', '#5d9cb0', '#a9d6df', '#ffffff'] },
+    defaults: { palette: ['#05070d', '#0a2a3a', '#2f7f95', '#cfe9ef'], speed: .45, scale: 1, grain: .02, cell: 6 },
+    body: `float W(vec2 p,float t){float h=sin(dot(p,vec2(.8,.6))*1.2+t*1.1)*.5;
+  h+=sin(dot(p,vec2(-.5,.9))*2.1+t*1.6)*.25;h+=sin(dot(p,vec2(.3,-.95))*3.7+t*2.3)*.12;
+  return h+(fbm(p*.6+t*.15)-.5)*.6;}
+vec3 shade(){float t=T();vec2 a=uvA();float hz=.18;
+  vec3 skyC=mix(mix(mix(uC1,uC2,.5),uC3,.35),uC0,smoothstep(0.,.45,a.y-hz));
+  vec3 c=skyC;
+  c=mix(c,uC3,exp(-length(a-vec2(.25,hz+.04))*7.)*.35);
+  float d=hz-a.y;
+  if(d>0.){
+    float z=.5/d;vec2 p=vec2(a.x*z,z)*1.4*uScale+vec2(0.,t*.5);
+    float e=.05+z*.01;
+    float h=W(p,t);float hx=W(p+vec2(e,0.),t);float hy=W(p+vec2(0.,e),t);
+    vec3 n=normalize(vec3(-(hx-h)/e,1.,-(hy-h)/e));
+    float diff=max(dot(n,normalize(vec3(.3,.6,-.7))),0.);
+    vec3 water=mix(uC1,uC2,diff);
+    float f=mix(.15,.9,smoothstep(.0,1.,1.-d*3.2));
+    c=mix(water,skyC,f);
+    c=mix(c,uC3,smoothstep(.55,.9,h)*(1.-f)*.6);
+    c=mix(c,skyC,exp(-d*20.));
+  }
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'morph', name: 'Morph', style: 'Liquid', tier: 'pro',
+    summary: 'Soft blobs that merge and split.',
+    description: 'Five drops of colour drift on their own paths and melt together when they meet, like oil in water. Edges stay smooth at any size, with a lit rim and a soft glow on the background around them.',
+    palettes: { dark: ['#07080d', '#3b67ef', '#ff8a5b', '#ffe3d1'], light: ['#f2f4f9', '#7f9bff', '#ffb08f', '#ffffff'] },
+    defaults: { palette: ['#07080d', '#3b67ef', '#ff8a5b', '#ffe3d1'], speed: .4, scale: 1, grain: .02, cell: 6 },
+    body: `float F(vec2 p,float t){float s=0.;for(int i=0;i<5;i++){float fi=float(i);
+    vec2 c=vec2(.42*sin(t*(.31+fi*.07)+fi*1.9),.24*cos(t*(.27+fi*.05)+fi*2.7));
+    float r=.13+.04*sin(fi*3.1+t*.5);
+    s+=r*r/max(dot(p-c,p-c),1e-4);}return s;}
+vec3 shade(){float t=T();vec2 p=uvA()/uScale;float e=.002;
+  float f=F(p,t);vec2 g=vec2(F(p+vec2(e,0.),t)-f,F(p+vec2(0.,e),t)-f)/e;
+  float d=(f-1.)/max(length(g),1e-3);
+  float px=1.5/uRes.y/uScale;
+  float inside=smoothstep(-px,px,d);
+  vec3 c=mix(uC0,mix(uC0,uC1,.1),.5-p.y);
+  c=mix(c,uC1,exp(-max(-d,0.)*10.)*.3*(1.-inside));
+  float core=smoothstep(1.,3.,f);
+  vec3 fill=mix(uC1,uC2,clamp(.5+.5*sin(p.x*2.2-p.y*1.4+t*.3+core*1.5),0.,1.));
+  vec2 nrm=normalize(-g+1e-5);
+  float edge=(1.-smoothstep(1.,1.6,f));
+  float rim=edge*clamp(dot(nrm,normalize(vec2(-.6,.8)))*.5+.5,0.,1.);
+  fill=mix(fill,uC3,rim*.7);
+  fill=mix(fill,mix(fill,uC0,.25),edge*(1.-rim)*.5);
+  return mix(c,fill,inside)+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
 export const freeCount = SHADERS.filter((s) => s.tier === 'free').length
+export const proCount = SHADERS.length - freeCount
+
+const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty']
+/** A count as a word for copy ("nine styles"), digits past twenty. */
+export const word = (n: number) => WORDS[n] ?? String(n)
+export const Word = (n: number) => { const w = word(n); return w.charAt(0).toUpperCase() + w.slice(1) }
+/** Style names joined for sentences: "gradient, grain, … and liquid". */
+export const styleList = () => { const s = STYLES.map((x) => (x.id === 'ASCII' ? 'ASCII' : x.id.toLowerCase())); return s.slice(0, -1).join(', ') + ' and ' + s[s.length - 1] }
 
 /** Palettes Shuffle can pick, per style and theme: every shader's own palette in that style, plus one extra. */
 const EXTRA: Record<Style, { dark: string[]; light: string[] }> = {
@@ -242,6 +518,9 @@ const EXTRA: Record<Style, { dark: string[]; light: string[] }> = {
   Aurora: { dark: ['#03100f', '#6cf2c2', '#2fa4ff', '#ffe16b'], light: ['#f1f6f5', '#58d6b0', '#62a8ff', '#ffd36b'] },
   Dither: { dark: ['#0e1a14', '#2f6b4f', '#c9e27a', '#f7f5e8'], light: ['#f7f5e8', '#c9e27a', '#2f6b4f', '#0e1a14'] },
   ASCII: { dark: ['#080b14', '#1d2a5c', '#5fa8ff', '#e6f2ff'], light: ['#f3f6fb', '#c3cde0', '#2f6fd6', '#0f1a33'] },
+  Grid: { dark: ['#060a0c', '#12302c', '#2fd6a3', '#d8fff1'], light: ['#f1f5f3', '#dbe8e2', '#1fa37a', '#0f4a3a'] },
+  Light: { dark: ['#07060c', '#2b1d3f', '#ffb86b', '#fff3e0'], light: ['#f4f1ec', '#e8ddd0', '#ff9f4a', '#ffffff'] },
+  Liquid: { dark: ['#04080a', '#103440', '#46b3c4', '#e6fbff'], light: ['#eef5f7', '#7cc2cf', '#bfe6ec', '#ffffff'] },
 }
 export function shufflePalettes(style: Style, theme: ThemeName): string[][] {
   return [...SHADERS.filter((x) => x.style === style).map((x) => [...x.palettes[theme]]), EXTRA[style][theme]]
