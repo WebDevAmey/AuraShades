@@ -4,7 +4,7 @@
  * Set VITE_SITE_URL at build time to your production origin.
  */
 import { FAQS, PLANS } from '~/lib/content'
-import { SHADERS, type ShaderDef } from '~/lib/shaders/library'
+import { SHADERS, STYLES, styleList, word, type ShaderDef } from '~/lib/shaders/library'
 
 export const SITE = {
   name: 'AuraShades',
@@ -12,7 +12,7 @@ export const SITE = {
   email: 'hello@aurashades.example',
   tagline: 'Live shader backgrounds for websites',
   description:
-    'AuraShades is a library of live WebGL shader backgrounds for websites: gradient, grain, pastel, aurora, dither and ASCII. Tune the palette in the browser and copy a React component, GLSL or CSS.',
+    `AuraShades is a library of ${SHADERS.length} live WebGL shader backgrounds for websites in ${word(STYLES.length)} styles: ${styleList()}. Tune the palette in the browser and copy a React component, GLSL or CSS.`,
 }
 
 type JsonLd = Record<string, unknown>

@@ -1,6 +1,6 @@
 # AuraShades
 
-Marketing site, shader library and live editor for AuraShades: live WebGL shader backgrounds in six styles (gradient, grain, pastel, aurora, dither, ASCII).
+Marketing site, shader library and live editor for AuraShades: 22 live WebGL shader backgrounds in nine styles (gradient, grain, pastel, aurora, dither, ASCII, grid, light, liquid).
 
 Built with TanStack Start, React 19, Tailwind CSS 4, Motion, Radix, Sonner, Lucide and Paper Shaders.
 
@@ -30,7 +30,7 @@ Node 22+ is recommended. `npm run build` prerenders all routes (home, library, e
 
 | Path | What it is |
 | --- | --- |
-| `src/lib/shaders/library.ts` | The 12 shaders: name, style, plan, default palette and GLSL body |
+| `src/lib/shaders/library.ts` | Every shader: name, style, plan, dark and light palettes and GLSL body |
 | `src/lib/shaders/glsl.ts` | Shared GLSL helpers and the React / GLSL / CSS exporters |
 | `src/lib/shaders/engine.ts` | One WebGL context that renders every background on the page and copies pixels into each canvas; skips offscreen views, honours reduced motion, supports pause |
 | `src/components/AuraShade.tsx` | `<AuraShade shader="silk" params={…} />` — the React component |

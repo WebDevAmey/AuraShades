@@ -1,13 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Check, Minus } from 'lucide-react'
 import { Faq, PricingPlans } from '~/components/Pricing'
+import { freeCount, SHADERS, word, Word } from '~/lib/shaders/library'
 import { breadcrumbLd, faqLd, seo, softwareLd } from '~/lib/seo'
 
 export const Route = createFileRoute('/pricing')({
   head: () =>
     seo({
       title: 'Pricing · AuraShades',
-      description: 'AuraShades is free for six shaders. Pro is $12 a month or $96 a year for all shaders and the React component; Team is $36 a month for five seats.',
+      description: `AuraShades is free for ${word(freeCount)} shaders. Pro is $12 a month or $96 a year for all ${SHADERS.length} shaders and the React component; Team is $36 a month for five seats.`,
       path: '/pricing',
       jsonLd: [softwareLd(), faqLd(), breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Pricing', path: '/pricing' }])],
     }),
@@ -15,7 +16,7 @@ export const Route = createFileRoute('/pricing')({
 })
 
 const ROWS: { label: string; free: string | boolean; pro: string | boolean; team: string | boolean }[] = [
-  { label: 'Shaders', free: '6', pro: '12 and new releases', team: '12 and new releases' },
+  { label: 'Shaders', free: String(freeCount), pro: `${SHADERS.length} and new releases`, team: `${SHADERS.length} and new releases` },
   { label: 'Live editor', free: true, pro: true, team: true },
   { label: 'GLSL export', free: 'Free shaders', pro: true, team: true },
   { label: 'CSS palette export', free: true, pro: true, team: true },
@@ -39,7 +40,7 @@ function PricingPage() {
       <section className="wrap pt-12 pb-20 md:pt-16" aria-labelledby="pricing-title">
         <div className="mb-12 flex max-w-3xl flex-col gap-5">
           <h1 id="pricing-title" className="display text-[clamp(44px,6vw,84px)]">Plans for every kind of page</h1>
-          <p className="lede">Six shaders stay free for good. Pro adds the full library and the React component; Team shares palettes across a studio.</p>
+          <p className="lede">{Word(freeCount)} shaders stay free for good. Pro adds the full library and the React component; Team shares palettes across a studio.</p>
         </div>
         <PricingPlans />
       </section>

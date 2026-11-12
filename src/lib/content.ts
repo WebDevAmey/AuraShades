@@ -1,16 +1,17 @@
 /** Plans and FAQs, shared by the pages, structured data and llms.txt. */
+import { freeCount, SHADERS } from './shaders/library'
 
 export const PLANS = [
   {
     id: 'free', name: 'Free', monthly: 0, yearly: 0,
     pitch: 'For side projects and trying the look.',
-    features: ['6 shaders, one in every style', 'Live editor with every control', 'Copy as GLSL or CSS palette', 'Personal and commercial use with a credit link'],
+    features: [`${freeCount} shaders, one in every style`, 'Live editor with every control', 'Copy as GLSL or CSS palette', 'Personal and commercial use with a credit link'],
     cta: { label: 'Browse free shaders', kind: 'link' as const },
   },
   {
     id: 'pro', name: 'Pro', monthly: 12, yearly: 96,
     pitch: 'For designers and developers shipping client work.',
-    features: ['All 12 shaders and every new release', 'Copy as a typed React component', 'No credit link needed', 'Commercial licence for unlimited sites'],
+    features: [`All ${SHADERS.length} shaders and every new release`, 'Copy as a typed React component', 'No credit link needed', 'Commercial licence for unlimited sites'],
     cta: { label: 'Start Pro', kind: 'mail' as const },
   },
   {

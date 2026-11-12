@@ -1,6 +1,6 @@
 # AuraShades
 
-> AuraShades is a library of live WebGL shader backgrounds for websites in six styles: gradient, grain, pastel, aurora, dither and ASCII. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Six shaders are free; Pro unlocks all 12 and the React component.
+> AuraShades is a library of live WebGL shader backgrounds for websites in nine styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light and liquid. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Six shaders are free; Pro unlocks all 22 and the React component.
 
 ## Pages
 
@@ -17,6 +17,9 @@
 - Aurora: Ribbons of light, for night skies and daylight heroes.
 - Dither: Gradients crushed to flat inks with ordered dots.
 - ASCII: Moving fields drawn entirely in characters.
+- Grid: Floors, grids and contour maps in perspective.
+- Light: Beams, lines, glass and ribbons that catch the light.
+- Liquid: Water, chrome and soft blobs that flow.
 
 ## Shaders
 
@@ -32,11 +35,21 @@
 - [Halftone](https://aurashades.com/library/halftone) (Dither, Pro): A rotated dot screen over moving noise.
 - [ASCII Flow](https://aurashades.com/library/ascii-flow) (ASCII, Free): Warped noise set in type, like a terminal.
 - [ASCII Rings](https://aurashades.com/library/ascii-rings) (ASCII, Pro): Ripples drawn entirely in characters.
+- [Ripple Tiles](https://aurashades.com/library/ripple-tiles) (Grid, Pro): A tiled floor that lifts as ripples pass.
+- [Horizon Grid](https://aurashades.com/library/horizon-grid) (Grid, Free): A glowing grid rolling toward a low sun.
+- [Topography](https://aurashades.com/library/topography) (Grid, Pro): Contour lines over slowly shifting terrain.
+- [Fluted Glass](https://aurashades.com/library/fluted-glass) (Light, Pro): Soft colour seen through ribbed glass.
+- [Twisted Ribbon](https://aurashades.com/library/twisted-ribbon) (Light, Pro): A satin ribbon twisting through the frame.
+- [Light Rays](https://aurashades.com/library/light-rays) (Light, Free): Sunbeams falling through dusty air.
+- [Light Lines](https://aurashades.com/library/light-lines) (Light, Pro): Fine lines with pulses of light running along them.
+- [Liquid Chrome](https://aurashades.com/library/liquid-chrome) (Liquid, Pro): Molten metal that reflects a soft sky.
+- [Swell](https://aurashades.com/library/swell) (Liquid, Free): Open water rolling under a quiet sky.
+- [Morph](https://aurashades.com/library/morph) (Liquid, Pro): Soft blobs that merge and split.
 
 ## Plans
 
-- Free: free. 6 shaders, one in every style; Live editor with every control; Copy as GLSL or CSS palette; Personal and commercial use with a credit link.
-- Pro: $12 per month or $96 per year. All 12 shaders and every new release; Copy as a typed React component; No credit link needed; Commercial licence for unlimited sites.
+- Free: free. 9 shaders, one in every style; Live editor with every control; Copy as GLSL or CSS palette; Personal and commercial use with a credit link.
+- Pro: $12 per month or $96 per year. All 22 shaders and every new release; Copy as a typed React component; No credit link needed; Commercial licence for unlimited sites.
 - Team: $36 per month or $288 per year. Everything in Pro for 5 seats; Shared palette library for the team; One invoice, add seats any time; Priority email support.
 
 ## FAQ

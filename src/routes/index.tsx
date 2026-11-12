@@ -7,7 +7,7 @@ import { useTheme } from '~/lib/theme'
 import { faqLd, seo, softwareLd } from '~/lib/seo'
 import { ShaderEditor, useShaderParams } from '~/components/ShaderEditor'
 import { Faq, PricingPlans } from '~/components/Pricing'
-import { ATMOSPHERE, byId, SHADERS, type ShaderParams } from '~/lib/shaders/library'
+import { ATMOSPHERE, byId, freeCount, proCount, SHADERS, STYLES, styleList, word, Word, type ShaderParams } from '~/lib/shaders/library'
 import { getEngine } from '~/lib/shaders/engine'
 import { cx } from '~/lib/cx'
 import { button } from '~/lib/button'
@@ -18,7 +18,7 @@ export const Route = createFileRoute('/')({
   head: () =>
     seo({
       title: 'AuraShades · Live shader backgrounds for websites',
-      description: 'Twelve hand-tuned WebGL backgrounds in six styles: gradient, grain, pastel, aurora, dither and ASCII. Tune the palette and copy one React component. Six are free.',
+      description: `${SHADERS.length} hand-tuned WebGL backgrounds in ${word(STYLES.length)} styles: ${styleList()}. Tune the palette and copy one React component. ${Word(freeCount)} are free.`,
       path: '/',
       jsonLd: [softwareLd(), faqLd()],
     }),
@@ -60,7 +60,7 @@ function Hero() {
           Live shader backgrounds for websites that should feel lit
         </h1>
         <p className="lede mx-auto !text-ink">
-          Twelve hand-tuned WebGL backgrounds in six styles. Tune the palette, then drop one React component behind your headline. Six are free for good.
+          {SHADERS.length} hand-tuned WebGL backgrounds in {word(STYLES.length)} styles. Tune the palette, then drop one React component behind your headline. {Word(freeCount)} are free for good.
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           <Link to="/library" className={button({ variant: 'primary' })}>Browse free shaders</Link>
@@ -82,12 +82,12 @@ function Hero() {
 }
 
 const BENTO: { id: string; span: string }[] = [
-  { id: 'mesh-drift', span: 'md:col-span-7 md:row-span-2' },
-  { id: 'iridescent', span: 'md:col-span-5' },
-  { id: 'dune', span: 'md:col-span-5' },
-  { id: 'aurora-dawn', span: 'md:col-span-4' },
-  { id: 'halftone', span: 'md:col-span-4' },
-  { id: 'ascii-rings', span: 'md:col-span-4' },
+  { id: 'ripple-tiles', span: 'md:col-span-7 md:row-span-2' },
+  { id: 'liquid-chrome', span: 'md:col-span-5' },
+  { id: 'fluted-glass', span: 'md:col-span-5' },
+  { id: 'twisted-ribbon', span: 'md:col-span-4' },
+  { id: 'topography', span: 'md:col-span-4' },
+  { id: 'morph', span: 'md:col-span-4' },
 ]
 
 function Collection() {
@@ -95,8 +95,8 @@ function Collection() {
     <section className="wrap section" aria-labelledby="collection-title">
       <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div className="flex max-w-2xl flex-col gap-4">
-          <h2 id="collection-title" className="h2">Six more backgrounds come with Pro</h2>
-          <p className="lede">Mesh gradients, foil, sand strata, a softer aurora, halftone print and type that ripples. Each one previews free in the editor.</p>
+          <h2 id="collection-title" className="h2">{Word(proCount)} more backgrounds come with Pro</h2>
+          <p className="lede">Rippling tile floors, fluted glass, liquid chrome, twisting ribbons, contour maps and more. Each one previews free in the editor.</p>
         </div>
         <Link to="/library" className={button({ variant: 'secondary', className: 'shrink-0' })}>See all {SHADERS.length} shaders <ArrowRight size={16} className="arrow" /></Link>
       </div>

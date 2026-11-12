@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { AuraShade } from '~/components/AuraShade'
 import { Segmented } from '~/components/Segmented'
-import { SHADERS, STYLES, type Style } from '~/lib/shaders/library'
+import { SHADERS, STYLES, word, type Style } from '~/lib/shaders/library'
 import { breadcrumbLd, libraryLd, seo } from '~/lib/seo'
 import { button } from '~/lib/button'
 
@@ -44,7 +44,7 @@ function Library() {
     <section className="wrap pt-12 pb-24 md:pt-16" aria-labelledby="lib-title">
       <div className="flex flex-col gap-5">
         <h1 id="lib-title" className="display text-[clamp(44px,6vw,84px)]">The library</h1>
-        <p className="lede">{SHADERS.length} live backgrounds across six styles. Every one opens in the editor, free or Pro.</p>
+        <p className="lede">{SHADERS.length} live backgrounds across {word(STYLES.length)} styles. Every one opens in the editor, free or Pro.</p>
       </div>
 
       <div className="mt-10 flex flex-col gap-3 border-y border-line py-4 md:flex-row md:items-center md:justify-between">
