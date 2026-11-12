@@ -799,6 +799,24 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;float e=.015;
   c=mixok(c,uC1,pow(1.-n.z,1.5)*.3);
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'pour', name: 'Pour', style: 'Liquid', tier: 'pro',
+    summary: 'Colour poured into milk, curling as it rises.',
+    description: 'Ink drifting up through something creamy. The flow folds over on itself in slow swirls, thin wisps break off at the edges, and the colour thins out as it climbs, like matcha poured into a glass.',
+    palettes: { dark: ['#0b0f0c', '#1f3a2a', '#7fc48a', '#e3f0d6'], light: ['#f6f3ea', '#e6ead6', '#86b35f', '#3d6a3a'] },
+    defaults: { palette: ['#0b0f0c', '#1f3a2a', '#7fc48a', '#e3f0d6'], speed: .3, scale: 1, grain: .025, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 uv=uvN();vec2 a=uvA()*uScale;
+  vec2 q=a*1.2+vec2(0.,-t*.1);
+  for(int i=0;i<4;i++){float fi=float(i);q+=.3*vec2(sin(q.y*1.7+t*.2+fi*1.3),cos(q.x*1.6-t*.17+fi*2.1));}
+  float d=fbm(q*1.3);
+  float rise=smoothstep(1.15,0.,uv.y+.15*sin(a.x*2.+t*.2));
+  float ink=smoothstep(.42,.7,d)*rise;
+  float wisp=smoothstep(.56,.62,d)*(1.-smoothstep(.62,.72,d))*rise;
+  vec3 c=mixok(uC0,uC1,.25+.35*(1.-uv.y));
+  c=mixok(c,uC2,ink*.85);
+  c=mixok(c,uC3,clamp(wisp*.55+ink*ink*.25,0.,1.));
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
