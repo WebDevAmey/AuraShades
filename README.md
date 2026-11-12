@@ -18,7 +18,7 @@ Node 22+ is recommended. `npm run build` prerenders all routes (home, library, e
 ## SEO and answer engines
 
 - Set `VITE_SITE_URL=https://your-domain.com` when you build. It feeds canonical URLs, social cards, structured data, `sitemap.xml`, `robots.txt` and `llms.txt`.
-- Every route builds its head through `seo()` in `src/lib/seo.ts`: unique title and description, canonical link, Open Graph and Twitter cards with `public/og.png`, and JSON-LD (Organization, WebSite, SoftwareApplication with offers, FAQPage, CollectionPage, SoftwareSourceCode per shader, TechArticle, BreadcrumbList).
+- Every route builds its head through `seo()` in `src/lib/seo.ts`: unique title and description, canonical link, Open Graph and Twitter cards with `public/og.jpg`, and JSON-LD (Organization, WebSite, SoftwareApplication with offers, FAQPage, CollectionPage, SoftwareSourceCode per shader, TechArticle, BreadcrumbList).
 - `npm run build` first runs `scripts/gen-seo.ts`, which writes the sitemap, robots file and `llms.txt` from the same data the pages use.
 - Only canonical pages are prerendered; filtered library views and anchors are excluded.
 

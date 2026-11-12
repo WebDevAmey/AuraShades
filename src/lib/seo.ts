@@ -19,7 +19,7 @@ type JsonLd = Record<string, unknown>
 
 export function seo(opts: { title: string; description: string; path: string; type?: 'website' | 'article'; jsonLd?: JsonLd[]; noindex?: boolean }) {
   const url = SITE.url + (opts.path === '/' ? '/' : opts.path)
-  const image = `${SITE.url}/og.png`
+  const image = `${SITE.url}/og.jpg`
   return {
     meta: [
       { title: opts.title },
