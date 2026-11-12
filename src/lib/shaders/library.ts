@@ -296,6 +296,35 @@ vec3 shade(){float t=T();vec2 px=frag();float s=uScale/uRes.y;
   return c+grain()*uGrain;}`,
   },
   {
+    id: 'frost-aurora', name: 'Frost Aurora', style: 'Aurora', tier: 'pro',
+    summary: 'An aurora seen through a frosted window.',
+    description: 'Soft aurora bands behind a pane of ice. Each crystal bends the light a little differently, thin frost lines trace the crystal edges, and tiny sparkles come and go.',
+    palettes: { dark: ['#04070f', '#2ee6b0', '#4f7dff', '#e8f6ff'], light: ['#eef4fa', '#6fd8bd', '#8fa8ff', '#ffffff'] },
+    defaults: { palette: ['#04070f', '#2ee6b0', '#4f7dff', '#e8f6ff'], speed: .35, scale: 1, grain: .02, cell: 6 },
+    body: `vec3 vor(vec2 p){vec2 i=floor(p),f=fract(p);float d1=8.,d2=8.;vec2 id=i;
+  for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++){vec2 g=vec2(float(x),float(y));vec2 o=vec2(hash(i+g),hash(i+g+19.7));vec2 r=g+o-f;float d=dot(r,r);
+    if(d<d1){d2=d1;d1=d;id=i+g;}else if(d<d2){d2=d;}}
+  return vec3(sqrt(d2)-sqrt(d1),id);}
+vec3 shade(){float t=T();vec2 a=uvA();
+  vec3 v=vor(a*7.*uScale);vec3 v2=vor(a*19.*uScale+3.);
+  vec2 bend=(vec2(hash(v.yz),hash(v.yz+5.1))-.5)*.05+(vec2(hash(v2.yz),hash(v2.yz+2.3))-.5)*.02;
+  vec2 b=a+bend;vec2 uv=vec2(b.x,b.y+.5);
+  vec3 c=mix(uC0,mix(uC0,uC2,.2),1.-uv.y);
+  for(int i=0;i<3;i++){float fi=float(i);
+    float y0=.38+fi*.15+.12*sin(b.x*(1.2+fi*.3)+t*.4+fi*1.7)+.08*(fbm(vec2(b.x*.8+fi*4.,t*.1))-.5);
+    float d=uv.y-y0;
+    float band=exp(-d*d*(30.-fi*7.));
+    vec3 col=i==0?uC1:(i==1?uC2:mix(uC1,uC3,.5));
+    c=mix(c,col,band*(.7+.3*fbm(vec2(b.x*8.+fi,d*2.-t*.2)))*.85);}
+  float L0=dot(uC0,vec3(.299,.587,.114));
+  float line=1.-smoothstep(.0,.035,v.x);float fine=1.-smoothstep(.0,.04,v2.x);
+  vec3 frost=mix(uC3,uC0,L0*.6);
+  c=mix(c,frost,line*.28+fine*.12);
+  c=mix(c,frost,fbm(a*30.)*.12);
+  c+=step(.997,hash(floor(frag()/2.)+floor(t*3.)))*.6*(1.-L0);
+  return c+grain()*uGrain;}`,
+  },
+  {
     id: 'ripple-tiles', name: 'Ripple Tiles', style: 'Grid', tier: 'pro',
     summary: 'A tiled floor that lifts as ripples pass.',
     description: 'A perspective floor of square tiles. Rings spread out from shifting points, and each tile brightens and catches a bevel of light as a ring crosses it, then fades into the distance.',
