@@ -255,6 +255,26 @@ vec3 shade(){float t=T();vec2 uv=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
+    id: 'riso-bloom', name: 'Riso Bloom', style: 'Grain', tier: 'pro',
+    summary: 'Two inks printed slightly out of register.',
+    description: 'Light leaks like Grain Bloom, printed the way a risograph would: each colour is its own ink of clumpy dots, the second plate sits a few pixels off, and where the two overlap a third colour appears.',
+    palettes: { dark: ['#0d0c10', '#ff5a8a', '#2fb5ff', '#f4e9ff'], light: ['#f6f1e7', '#ff4f7b', '#1d8fe0', '#3b2a6b'] },
+    defaults: { palette: ['#0d0c10', '#ff5a8a', '#2fb5ff', '#f4e9ff'], speed: .3, scale: 1, grain: .2, cell: 6 },
+    body: `float B(vec2 p,float t,float k){vec2 a=vec2(.35*sin(t*.6+k),.18*cos(t*.5+k*2.));vec2 b=vec2(-.3*cos(t*.45+k*1.3),.15*sin(t*.7+k));
+  return clamp(exp(-dot(p-a,p-a)*5.5)+exp(-dot(p-b,p-b)*7.)*.8+(fbm(p*2.+t*.1+k)-.5)*.5,0.,1.);}
+vec3 shade(){float t=T();vec2 px=frag();float s=uScale/uRes.y;
+  vec2 pa=(px-.5*uRes)*s;vec2 pb=(px+vec2(3.,-2.)-.5*uRes)*s;
+  float da=B(pa,t,0.),db=B(pb*1.1+vec2(.15,0.),t,2.4);
+  float soft=.03+uGrain*.25;
+  vec2 cl=floor(px/2.);float na=mix(hash(cl),noise(px*.35),.45),nb=mix(hash(cl+71.3),noise(px*.35+40.),.45);
+  float ia=smoothstep(na-soft,na+soft,da*.95);
+  float ib=smoothstep(nb-soft,nb+soft,db*.85);
+  vec3 c=uC0;
+  c=mix(c,uC1,ia*.92);c=mix(c,uC2,ib*.9);
+  c=mix(c,uC3,ia*ib*.55);
+  return c;}`,
+  },
+  {
     id: 'ripple-tiles', name: 'Ripple Tiles', style: 'Grid', tier: 'pro',
     summary: 'A tiled floor that lifts as ripples pass.',
     description: 'A perspective floor of square tiles. Rings spread out from shifting points, and each tile brightens and catches a bevel of light as a ring crosses it, then fades into the distance.',
