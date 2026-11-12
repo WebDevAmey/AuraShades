@@ -2,12 +2,12 @@
 import { defineConfig } from 'vite'
 import viteReact from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
-import tsconfigPaths from 'vite-tsconfig-paths'
 import { viteSingleFile } from 'vite-plugin-singlefile'
 import path from 'node:path'
 
 export default defineConfig({
   root: 'preview',
+  resolve: { tsconfigPaths: true },
   plugins: [
     {
       name: 'preview-root',
@@ -16,7 +16,6 @@ export default defineConfig({
         if (id === './routes/__root' && importer?.endsWith('routeTree.gen.ts')) return path.resolve('preview/root.tsx')
       },
     },
-    tsconfigPaths({ root: '..' }),
     tailwindcss(),
     viteReact(),
     viteSingleFile(),
