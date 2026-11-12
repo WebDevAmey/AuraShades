@@ -1,6 +1,6 @@
 # Spec: Shader quality pass + trend-led additions
 
-Status: **draft, waiting for approval**
+Status: **approved and shipped** (13 Nov 2026). Defaults taken for the open questions: grade on by default (flat for Dither/ASCII), breathing time on, the 6 picks with Thermal free.
 
 ## Objective
 
@@ -71,7 +71,7 @@ Dev:        npm run dev
 Typecheck:  npm run typecheck
 Build:      npm run build          # gen-seo + vite + nitro prerender
 Static:     npm run preview:static
-Render QA:  node harness/render.cjs  # compiles every shader in headless Chromium, PNG per theme × time
+Render QA:  headless Chromium script (kept outside the repo) that compiles every shader, live and exported, and saves a PNG per theme × time
 ```
 
 ## Project structure (touched)
@@ -110,11 +110,11 @@ There's no test runner in the repo, so verification is:
 
 ## Success criteria
 
-- [ ] All 38 shaders compile and pass the review bar in both themes
-- [ ] Side-by-side before/after sheet shows cleaner mid-tones and no banding on silk, mesh-drift, aurora-dawn and grain-bloom
-- [ ] Build clean, zero console errors on `/library` and a shader page
-- [ ] Exported GLSL for one shader runs standalone (compile check)
-- [ ] Pushed to `main` as several small commits with no co-author lines
+- [x] All 38 shaders compile and pass the review bar in both themes
+- [x] Side-by-side before/after sheet shows cleaner mid-tones and no banding on silk, mesh-drift, aurora-dawn and grain-bloom
+- [x] Build clean, zero console errors on `/library` and a shader page
+- [x] Exported GLSL (all 38) for one shader runs standalone (compile check)
+- [x] Pushed to `main` as several small commits with no co-author lines
 
 ## Open questions
 
