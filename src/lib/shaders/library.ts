@@ -780,6 +780,25 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   c=mix(c,uC0,smoothstep(.36,.62,length(b*vec2(1.,1.15)))*.6);
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'obsidian', name: 'Obsidian', style: 'Liquid', tier: 'pro',
+    summary: 'Near-black liquid metal with light gliding over it.',
+    description: 'A dark, slow-moving metal surface, every shade tinted rather than black. Thin streaks of reflected light travel across the ripples one after another, so it looks expensive without ever getting loud.',
+    palettes: { dark: ['#050508', '#17141f', '#7a7699', '#eeeaff'], light: ['#eeedf2', '#d3d1dc', '#5b5875', '#1d1b29'] },
+    defaults: { palette: ['#050508', '#17141f', '#7a7699', '#eeeaff'], speed: .35, scale: 1, grain: .03, cell: 6 },
+    body: `float OH(vec2 p,float t){vec2 q=p+vec2(noise(p*.7+t*.05),noise(p*.7+3.-t*.04))*1.3;return noise(q*1.1)*.65+noise(q*2.3+t*.03)*.25;}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale;float e=.015;
+  float h=OH(a,t);vec2 g=vec2(OH(a+vec2(e,0.),t)-h,OH(a+vec2(0.,e),t)-h)/e;
+  vec3 n=normalize(vec3(-g*.55,1.));vec3 r=reflect(vec3(0.,0.,-1.),n);
+  float y=r.y*1.8+r.x*.5+a.y*.35;
+  float s=0.;
+  for(int i=0;i<3;i++){float fi=float(i);float p=fract(t*.05+fi*.37)*3.4-1.7;s+=exp(-pow((y-p)*(16.+fi*9.),2.))*(1.-fi*.22);}
+  vec3 c=mixok(uC0,uC1,smoothstep(-.6,.8,y)*.85);
+  c=mixok(c,uC2,clamp(s*.85,0.,1.));
+  c=mixok(c,uC3,pow(clamp(s,0.,1.),3.)*.65);
+  c=mixok(c,uC1,pow(1.-n.z,1.5)*.3);
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
