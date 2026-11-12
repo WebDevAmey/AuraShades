@@ -736,6 +736,28 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   c=mixok(c,uC3,smoothstep(.82,1.,h)*.5);
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'holo-foil', name: 'Holo Foil', style: 'Pastel', tier: 'pro',
+    summary: 'Embossed holographic foil that shifts as light moves.',
+    description: 'A sheet of pressed foil. The colour you see depends on how each part of the surface faces a slowly moving light, so the spectrum slides as the foil "tilts". Micro-facets glint as a soft sweep of light crosses the sheet.',
+    palettes: { dark: ['#0b0c14', '#2b3566', '#9a86e0', '#eef2ff'], light: ['#eef0f8', '#cfe3ff', '#f7d1ec', '#fbfaff'] },
+    defaults: { palette: ['#0b0c14', '#2b3566', '#9a86e0', '#eef2ff'], speed: .35, scale: 1, grain: .02, cell: 6 },
+    body: `float FH(vec2 p,float t){vec2 q=p+.4*vec2(noise(p*.8+t*.06),noise(p*.8+4.-t*.05));return noise(q*.9)*.6+noise(q*1.9)*.25+.25*sin(p.x*1.4+p.y*.9+t*.25);}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale;
+  float e=.01;float h=FH(a,t);vec2 g=vec2(FH(a+vec2(e,0.),t)-h,FH(a+vec2(0.,e),t)-h)/e;
+  vec2 cell=floor(frag()/3.);
+  vec3 n=normalize(vec3(-g*.5+(vec2(hash(cell+1.3),hash(cell+7.1))-.5)*.06,1.));
+  vec2 v=vec2(.35*sin(t*.4),.25*cos(t*.33));
+  float ph=dot(n.xy,v)*1.8+h*1.1+a.x*.3+a.y*.15-t*.04;
+  vec3 spec=.5+.5*cos(TAU*(ph+vec3(0.,.33,.67)));
+  float L0=dot(uC0,vec3(.299,.587,.114));
+  vec3 base=ramp(.25+.55*h);
+  vec3 c=mixok(base,mix(spec*.62,mix(spec,vec3(1.),.45),L0),.42);
+  float sw=exp(-pow((a.x+a.y*.5)-mod(t*.5,4.)+2.,2.)*5.);
+  c=mixok(c,uC3,sw*.3);
+  c+=step(.993,hash(cell+floor(t*5.)))*(.25+sw)*.5*(1.-L0*.5);
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
