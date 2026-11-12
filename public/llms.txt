@@ -1,6 +1,6 @@
 # AuraShades
 
-> AuraShades is a library of live WebGL shader backgrounds for websites in nine styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light and liquid. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Six shaders are free; Pro unlocks all 22 and the React component.
+> AuraShades is a library of live WebGL shader backgrounds for websites in nine styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light and liquid. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Nine shaders are free; Pro unlocks all 22 and the React component.
 
 ## Pages
 

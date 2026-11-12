@@ -3,7 +3,7 @@
  * own data, so they never drift from the pages. Runs before every build.
  */
 import { writeFileSync } from 'node:fs'
-import { SHADERS, STYLES, styleList, word } from '../src/lib/shaders/library'
+import { freeCount, SHADERS, STYLES, styleList, Word, word } from '../src/lib/shaders/library'
 import { FAQS, PLANS } from '../src/lib/content'
 
 const SITE = (process.env.VITE_SITE_URL ?? 'https://aurashades.com').replace(/\/$/, '')
@@ -39,7 +39,7 @@ writeFileSync(
   'public/llms.txt',
   `# AuraShades
 
-> AuraShades is a library of live WebGL shader backgrounds for websites in ${word(STYLES.length)} styles: ${styleList()}. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Six shaders are free; Pro unlocks all ${SHADERS.length} and the React component.
+> AuraShades is a library of live WebGL shader backgrounds for websites in ${word(STYLES.length)} styles: ${styleList()}. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. ${Word(freeCount)} shaders are free; Pro unlocks all ${SHADERS.length} and the React component.
 
 ## Pages
 
