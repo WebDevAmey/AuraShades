@@ -275,6 +275,27 @@ vec3 shade(){float t=T();vec2 px=frag();float s=uScale/uRes.y;
   return c;}`,
   },
   {
+    id: 'watercolour', name: 'Watercolour', style: 'Pastel', tier: 'pro',
+    summary: 'Pastel washes that pool and dry on rough paper.',
+    description: 'Soft washes laid in layers. Pigment gathers at the edge of each wash as it dries, settles into the tooth of the paper, and the layers slowly bleed into new shapes.',
+    palettes: { dark: ['#121521', '#2c3b63', '#6b7fb8', '#e4b7c6'], light: ['#fbf8f1', '#bcd3f0', '#f3b9c9', '#9ec9b4'] },
+    defaults: { palette: ['#121521', '#2c3b63', '#6b7fb8', '#e4b7c6'], speed: .25, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 uv=uvA()*uScale*1.7;
+  float paper=fbm(frag()*.06)*.6+noise(frag()*.5)*.4;
+  vec3 c=mix(uC0,mix(uC0,uC3,.08),paper);
+  for(int i=0;i<3;i++){float fi=float(i);
+    vec2 o=vec2(fi*3.7,fi*1.9);
+    vec2 q=uv+vec2(fbm(uv*1.2+o+t*.06),fbm(uv*1.2+o+4.-t*.05))*.9;
+    float f=fbm(q*1.1+o)+(paper-.5)*.06;
+    float k=.5+fi*.025;
+    float wash=smoothstep(k,k+.015,f);
+    float rim=wash*(1.-smoothstep(k+.005,k+.07,f));
+    vec3 pig=i==0?uC1:(i==1?uC2:uC3);
+    float dens=(.32+.35*rim)*(.75+.5*(1.-paper));
+    c=mix(c,pig*(1.-rim*.25),wash*dens);}
+  return c+grain()*uGrain;}`,
+  },
+  {
     id: 'ripple-tiles', name: 'Ripple Tiles', style: 'Grid', tier: 'pro',
     summary: 'A tiled floor that lifts as ripples pass.',
     description: 'A perspective floor of square tiles. Rings spread out from shifting points, and each tile brightens and catches a bevel of light as a ring crosses it, then fades into the distance.',
