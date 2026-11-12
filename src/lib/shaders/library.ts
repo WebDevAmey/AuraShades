@@ -702,6 +702,24 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   c*=.95+.08*noise(frag()*vec2(.9,.2));
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'moire', name: 'Moiré', style: 'Texture', tier: 'pro',
+    summary: 'Two fine line screens beating against each other.',
+    description: 'Two screens of fine lines, one turning slowly and bent by noise. Up close you see the lines; from a distance you see the wide, flowing interference bands where the screens fall in and out of step.',
+    palettes: { dark: ['#06070b', '#1b2440', '#7b5cff', '#7df0d4'], light: ['#f5f4f9', '#cfd3e6', '#6b4df2', '#0f9f86'] },
+    defaults: { palette: ['#06070b', '#1b2440', '#7b5cff', '#7df0d4'], speed: .3, scale: 1, grain: .01, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 px=frag()-.5*uRes;float k=TAU/(4.*uScale);
+  float r1=t*.05;vec2 d1=vec2(cos(r1),sin(r1));float r2=r1+.06+.03*sin(t*.2);vec2 d2=vec2(cos(r2),sin(r2));
+  vec2 a=px/uRes.y;float warp=(fbm(a*1.4+t*.06)-.5)*uRes.y*.05;
+  float p1=dot(px,d1)*k;float p2=(dot(px,d2)+warp)*k;
+  float l1=.5+.5*cos(p1),l2=.5+.5*cos(p2);
+  float beat=.5+.5*cos(p1-p2);
+  vec3 col=mix(uC2,uC3,smoothstep(.2,.8,.5+.5*sin(a.x*1.4-a.y+t*.15)));
+  vec3 c=mix(uC0,uC1,.3);
+  c=mix(c,col,smoothstep(.05,1.,beat)*.75);
+  c=mix(c,mix(c,uC0,.5),(1.-l1*l2)*.25);
+  return c+grain()*uGrain;}`
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
