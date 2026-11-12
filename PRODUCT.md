@@ -6,7 +6,7 @@
 
 **Main action:** Browse the library (free), then upgrade to Pro for the full set and React components.
 
-**Plans (assumed, to confirm):** Free (10 shaders, one per style, GLSL + CSS copy), Pro $12/mo or $96/yr (all shaders, React components, commercial licence), Team $36/mo (5 seats, shared palettes).
+**Plans (assumed, to confirm):** Free (11 shaders, at least one per style, GLSL + CSS copy), Pro $12/mo or $96/yr (all shaders, React components, commercial licence), Team $36/mo (5 seats, shared palettes).
 
 **Surface modes:** Landing and pricing = Persuade. Library = Experience. Editor = Operate. Docs = Read.
 

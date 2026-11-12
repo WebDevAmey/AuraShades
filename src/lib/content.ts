@@ -5,7 +5,7 @@ export const PLANS = [
   {
     id: 'free', name: 'Free', monthly: 0, yearly: 0,
     pitch: 'For side projects and trying the look.',
-    features: [`${freeCount} shaders, one in every style`, 'Live editor with every control', 'Copy as GLSL or CSS palette', 'Personal and commercial use with a credit link'],
+    features: [`${freeCount} shaders, at least one in every style`, 'Live editor with every control', 'Copy as GLSL or CSS palette', 'Personal and commercial use with a credit link'],
     cta: { label: 'Browse free shaders', kind: 'link' as const },
   },
   {

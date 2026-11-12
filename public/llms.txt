@@ -1,6 +1,6 @@
 # AuraShades
 
-> AuraShades is a library of live WebGL shader backgrounds for websites in ten styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light, liquid and texture. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Ten shaders are free; Pro unlocks all 32 and the React component.
+> AuraShades is a library of live WebGL shader backgrounds for websites in ten styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light, liquid and texture. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Eleven shaders are free; Pro unlocks all 38 and the React component.
 
 ## Pages
 
@@ -56,11 +56,17 @@
 - [Linen](https://aurashades.com/library/linen) (Texture, Pro): Woven cloth with dye flowing through it.
 - [Crumpled Paper](https://aurashades.com/library/crumpled-paper) (Texture, Pro): Creased paper under a light that slowly turns.
 - [Moiré](https://aurashades.com/library/moire) (Texture, Pro): Two fine line screens beating against each other.
+- [Thermal](https://aurashades.com/library/thermal) (Gradient, Free): Heat rising off a dark floor in slow plumes.
+- [Holo Foil](https://aurashades.com/library/holo-foil) (Pastel, Pro): Embossed holographic foil that shifts as light moves.
+- [Phosphor](https://aurashades.com/library/phosphor) (Grain, Pro): A warm glow on an old tube screen.
+- [Obsidian](https://aurashades.com/library/obsidian) (Liquid, Pro): Near-black liquid metal with light gliding over it.
+- [Pour](https://aurashades.com/library/pour) (Liquid, Pro): Colour poured into milk, curling as it rises.
+- [Neural](https://aurashades.com/library/neural) (Light, Pro): Glowing filaments branching through fog.
 
 ## Plans
 
-- Free: free. 10 shaders, one in every style; Live editor with every control; Copy as GLSL or CSS palette; Personal and commercial use with a credit link.
-- Pro: $12 per month or $96 per year. All 32 shaders and every new release; Copy as a typed React component; No credit link needed; Commercial licence for unlimited sites.
+- Free: free. 11 shaders, at least one in every style; Live editor with every control; Copy as GLSL or CSS palette; Personal and commercial use with a credit link.
+- Pro: $12 per month or $96 per year. All 38 shaders and every new release; Copy as a typed React component; No credit link needed; Commercial licence for unlimited sites.
 - Team: $36 per month or $288 per year. Everything in Pro for 5 seats; Shared palette library for the team; One invoice, add seats any time; Priority email support.
 
 ## FAQ
