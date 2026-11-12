@@ -1,4 +1,4 @@
-export type Style = 'Gradient' | 'Grain' | 'Pastel' | 'Aurora' | 'Dither' | 'ASCII' | 'Grid' | 'Light' | 'Liquid'
+export type Style = 'Gradient' | 'Grain' | 'Pastel' | 'Aurora' | 'Dither' | 'ASCII' | 'Grid' | 'Light' | 'Liquid' | 'Texture'
 export type Tier = 'free' | 'pro'
 export type ThemeName = 'dark' | 'light'
 
@@ -35,6 +35,7 @@ export const STYLES: { id: Style; blurb: string }[] = [
   { id: 'Grid', blurb: 'Floors, grids and contour maps in perspective.' },
   { id: 'Light', blurb: 'Beams, lines, glass and ribbons that catch the light.' },
   { id: 'Liquid', blurb: 'Water, chrome and soft blobs that flow.' },
+  { id: 'Texture', blurb: 'Stone, cloth, paper and print you can almost touch.' },
 ]
 
 const ASCII_FN = `
@@ -608,6 +609,25 @@ vec3 shade(){float t=T();vec2 p=uvA()/uScale;float e=.002;
   fill=mix(fill,mix(fill,uC0,.25),edge*(1.-rim)*.5);
   return mix(c,fill,inside)+grain()*uGrain;}`,
   },
+  {
+    id: 'marble', name: 'Marble', style: 'Texture', tier: 'free',
+    summary: 'Polished stone with veins that slowly drift.',
+    description: 'Cloudy stone cut through by one heavy vein system and a finer one beneath it. A soft reflection slides across the polished surface, so it never looks like a flat photo.',
+    palettes: { dark: ['#0b0c0f', '#262a33', '#7d8596', '#e9e4da'], light: ['#f4f1ec', '#ddd6cb', '#9c9384', '#3b3833'] },
+    defaults: { palette: ['#0b0c0f', '#262a33', '#7d8596', '#e9e4da'], speed: .2, scale: 1, grain: .015, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA()*uScale*1.4;
+  vec2 q=a+vec2(fbm(a*.9+t*.04),fbm(a*.9+6.2-t*.03))*1.4;
+  float base=fbm(q*1.3);
+  vec3 c=ramp(.12+base*.55);
+  float v1=abs(sin((q.x*.9+q.y*1.4)*2.2+fbm(q*2.1)*5.+t*.1));
+  float v2=abs(sin((q.x*-1.3+q.y*.6)*4.+fbm(q*3.3+9.)*6.-t*.08));
+  float px=2./uRes.y*uScale*8.;
+  float vein=1.-smoothstep(0.,.05+px,v1);float fine=1.-smoothstep(0.,.025+px,v2);
+  c=mix(c,uC3,vein*.85);c=mix(c,mix(uC2,uC3,.5),fine*.45);
+  float gloss=exp(-pow((a.x+a.y*.6)-sin(t*.25)*1.2,2.)*1.6);
+  c=mix(c,uC3,gloss*.1);
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
@@ -632,6 +652,7 @@ const EXTRA: Record<Style, { dark: string[]; light: string[] }> = {
   Grid: { dark: ['#060a0c', '#12302c', '#2fd6a3', '#d8fff1'], light: ['#f1f5f3', '#dbe8e2', '#1fa37a', '#0f4a3a'] },
   Light: { dark: ['#07060c', '#2b1d3f', '#ffb86b', '#fff3e0'], light: ['#f4f1ec', '#e8ddd0', '#ff9f4a', '#ffffff'] },
   Liquid: { dark: ['#04080a', '#103440', '#46b3c4', '#e6fbff'], light: ['#eef5f7', '#7cc2cf', '#bfe6ec', '#ffffff'] },
+  Texture: { dark: ['#0c0a08', '#3a2a1e', '#b07a4f', '#f2e6d6'], light: ['#f5efe6', '#dccab2', '#a5795a', '#3a2a1e'] },
 }
 export function shufflePalettes(style: Style, theme: ThemeName): string[][] {
   return [...SHADERS.filter((x) => x.style === style).map((x) => [...x.palettes[theme]]), EXTRA[style][theme]]
