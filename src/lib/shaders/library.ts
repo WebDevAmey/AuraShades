@@ -680,6 +680,28 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale+vec2(t*.05,t*.02);
   c*=.92+.12*noise(p*vec2(.5,5.)+onTop*13.);
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'crumpled-paper', name: 'Crumpled Paper', style: 'Texture', tier: 'pro',
+    summary: 'Creased paper under a light that slowly turns.',
+    description: 'A sheet crushed into flat facets at two sizes. As the light swings round, each facet turns lighter or darker on its own, the creases pick up a hint of colour and fine fibres show in the paper.',
+    palettes: { dark: ['#0a0b0e', '#22262f', '#5a6378', '#d7dbe6'], light: ['#f6f4ef', '#e2ded5', '#b9b3a6', '#ffffff'] },
+    defaults: { palette: ['#0a0b0e', '#22262f', '#5a6378', '#d7dbe6'], speed: .3, scale: 1, grain: .02, cell: 6 },
+    body: `vec4 facet(vec2 p){vec2 i=floor(p),f=fract(p);float d1=8.,d2=8.;vec2 id=i;
+  for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++){vec2 g=vec2(float(x),float(y));vec2 o=vec2(hash(i+g),hash(i+g+19.7));vec2 r=g+o-f;float d=dot(r,r);
+    if(d<d1){d2=d1;d1=d;id=i+g;}else if(d<d2){d2=d;}}
+  return vec4(id,sqrt(d2)-sqrt(d1),0.);}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale;
+  vec4 A=facet(a*3.5);vec4 B=facet(a*9.+7.);
+  vec2 tilt=(vec2(hash(A.xy),hash(A.xy+4.2))-.5)*.7+(vec2(hash(B.xy),hash(B.xy+8.1))-.5)*.3+(vec2(fbm(a*1.5),fbm(a*1.5+3.))-.5)*.8;
+  vec3 n=normalize(vec3(tilt,1.));
+  vec3 L=normalize(vec3(cos(t*.3),sin(t*.3),.9));
+  float d=clamp(dot(n,L),0.,1.);
+  vec3 c=ramp(.3+d*.65);
+  float crease=(1.-smoothstep(0.,.04,A.z))*.6+(1.-smoothstep(0.,.03,B.z))*.3;
+  c=mix(c,mix(uC1,uC2,.5),crease*.5);
+  c*=.95+.08*noise(frag()*vec2(.9,.2));
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
