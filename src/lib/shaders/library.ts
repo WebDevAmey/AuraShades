@@ -628,6 +628,33 @@ vec3 shade(){float t=T();vec2 p=uvA()/uScale;float e=.002;
   c=mix(c,uC3,gloss*.1);
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'terrazzo', name: 'Terrazzo', style: 'Texture', tier: 'pro',
+    summary: 'Chips of colour set in a speckled floor.',
+    description: 'Broken stone chips of different sizes sit in a speckled binder, each with sharp, angular edges. The whole slab drifts slowly and the chips catch a little light as it passes.',
+    palettes: { dark: ['#141318', '#e2735a', '#4f6fd8', '#efe7d8'], light: ['#f1ece3', '#e98a6f', '#5c7be0', '#2e3a4f'] },
+    defaults: { palette: ['#141318', '#e2735a', '#4f6fd8', '#efe7d8'], speed: .15, scale: 1, grain: .02, cell: 6 },
+    body: `vec4 chips(vec2 p){vec2 i=floor(p),f=fract(p);vec4 r=vec4(0.);
+  for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++){vec2 g=vec2(float(x),float(y));vec2 id=i+g;
+    float h=hash(id);if(h>.55)continue;
+    vec2 o=vec2(hash(id+3.1),hash(id+7.7))*.6+.2;vec2 d=g+o-f;
+    float ang=hash(id+1.3)*6.283;mat2 m=mat2(cos(ang),-sin(ang),sin(ang),cos(ang));vec2 e=m*d;
+    float s=.18+.3*hash(id+9.1);
+    float poly=max(max(abs(e.x)*1.1+e.y*.45,abs(e.y)*1.2-e.x*.3),dot(e,vec2(.6,.8)));
+    if(poly<s){r=vec4(1.,h/.55,(s-poly)/s,hash(id+5.5));}}
+  return r;}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale+vec2(t*.05,t*.02);
+  float sp=hash(floor(frag()/1.5));
+  vec3 c=mix(uC0,mix(uC0,uC3,.18),fbm(a*6.)*.6);
+  c=mix(c,uC3,step(.93,sp)*.35);c=mix(c,uC1,step(.985,sp)*.4);
+  vec4 big=chips(a*5.);vec4 small=chips(a*13.+4.);
+  vec4 k=big.x>0.?big:small;
+  if(k.x>0.){vec3 col=k.y<.33?uC1:(k.y<.66?uC2:uC3);
+    col*=.85+.25*k.w;col=mix(col,uC3,smoothstep(.3,.0,k.z)*.15);
+    float glint=exp(-pow(a.x-a.y*.4-sin(t*.6)*1.5,2.)*3.)*k.z;
+    c=mix(col,uC3,glint*.25);}
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
