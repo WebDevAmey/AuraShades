@@ -758,6 +758,28 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   c+=step(.993,hash(cell+floor(t*5.)))*(.25+sw)*.5*(1.-L0*.5);
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'phosphor', name: 'Phosphor', style: 'Grain', tier: 'pro',
+    summary: 'A warm glow on an old tube screen.',
+    description: 'Slow amber light seen through a CRT: an RGB phosphor mask, fine scanlines, a soft bloom that bleeds past the lines, a gentle bulge toward the edges and a faint bright band rolling down the glass.',
+    palettes: { dark: ['#0a0606', '#4a1410', '#ff6a3d', '#ffd9a0'], light: ['#f3eee8', '#efcfb8', '#e2532e', '#6a2414'] },
+    defaults: { palette: ['#0a0606', '#4a1410', '#ff6a3d', '#ffd9a0'], speed: .3, scale: 1, grain: .05, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 uv=uvN()-.5;
+  vec2 b=uv*(1.+.1*dot(uv,uv));
+  vec2 a=vec2(b.x*uRes.x/uRes.y,b.y)*uScale;
+  vec2 fl=vec2(t*.07,-t*.045);
+  float f=fbm(a*1.5+fl+fbm(a*.8+t*.035)*1.4);
+  vec3 img=ramp(smoothstep(.22,.85,f));
+  vec3 glow=ramp(smoothstep(.15,.9,fbm(a*.75+fl)))*.45;
+  vec2 px=frag();
+  float line=.55+.45*pow(abs(sin(px.y*3.14159/3.)),1.4);
+  float col=mod(floor(px.x),3.);
+  vec3 mask=vec3(col<.5?1.:.7,abs(col-1.)<.5?1.:.7,col>1.5?1.:.7);
+  float roll=exp(-pow(fract(uv.y*.4-t*.04)-.5,2.)*60.)*.12;
+  vec3 c=img*line*mask*(1.+roll)+glow*glow;
+  c=mix(c,uC0,smoothstep(.36,.62,length(b*vec2(1.,1.15)))*.6);
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
