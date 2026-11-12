@@ -817,6 +817,25 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;float e=.015;
   c=mixok(c,uC3,clamp(wisp*.55+ink*ink*.25,0.,1.));
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'neural', name: 'Neural', style: 'Light', tier: 'pro',
+    summary: 'Glowing filaments branching through fog.',
+    description: 'Fine branching threads of light, like nerves or lightning frozen mid-strike, drifting in a low fog. Pulses of brightness travel along them and a soft halo keeps them from looking sharp-edged.',
+    palettes: { dark: ['#05060c', '#141a33', '#4f8dff', '#d9f1ff'], light: ['#f1f3f9', '#dde3f2', '#3b6fe0', '#102c70'] },
+    defaults: { palette: ['#05060c', '#141a33', '#4f8dff', '#d9f1ff'], speed: .35, scale: 1, grain: .025, cell: 6 },
+    body: `float ridge(vec2 p){float v=0.,a=.55;mat2 m=mat2(1.6,1.2,-1.2,1.6);for(int i=0;i<5;i++){float n=1.-abs(noise(p)*2.-1.);v+=a*n*n;p=m*p;a*=.5;}return v;}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale*2.3;
+  vec2 q=a+vec2(fbm(a*.6+t*.05),fbm(a*.6+5.-t*.04))*.8;
+  float r=ridge(q+t*.03);
+  float fil=pow(smoothstep(.5,.95,r),2.6);
+  float pulse=.55+.45*sin(r*22.-t*2.);
+  float fog=fbm(a*.5-t*.02);
+  vec3 c=mixok(uC0,uC1,fog*.7);
+  c=mixok(c,uC2,smoothstep(.4,.9,r)*.18);
+  c=mixok(c,uC2,clamp(fil*1.3,0.,1.));
+  c=mixok(c,uC3,clamp(fil*fil*pulse*1.2,0.,1.)*.75);
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
