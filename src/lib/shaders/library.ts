@@ -48,7 +48,7 @@ export const SHADERS: ShaderDef[] = [
     id: 'silk', name: 'Silk', style: 'Gradient', tier: 'free',
     summary: 'Folded satin bands with a soft sheen.',
     description: 'Domain-warped sine layers make long, slow folds. A narrow highlight rides each crest, so the surface reads as fabric rather than a blur.',
-    palettes: { dark: ['#080c20', '#1c2a7a', '#4a5fd6', '#a9b6ff'], light: ['#f3f5fb', '#c9d4ff', '#8ea2f7', '#ffffff'] },
+    palettes: { dark: ['#080c20', '#1c2a7a', '#4a5fd6', '#a9b6ff'], light: ['#f3f5fb', '#c9d4ff', '#8ea2f7', '#f8f9ff'] },
     defaults: { palette: ['#080c20', '#1c2a7a', '#4a5fd6', '#a9b6ff'], speed: .35, scale: 1, grain: .04, cell: 6 },
     body: `vec3 shade(){float t=T();vec2 uv=uvA()*uScale;
   vec2 w=vec2(fbm(uv*1.1+vec2(0.,t*.12)),fbm(uv*1.1+vec2(5.2,1.3)-t*.1));
@@ -300,7 +300,7 @@ vec3 shade(){float t=T();vec2 px=frag();float s=uScale/uRes.y;
     id: 'frost-aurora', name: 'Frost Aurora', style: 'Aurora', tier: 'pro',
     summary: 'An aurora seen through a frosted window.',
     description: 'Soft aurora bands behind a pane of ice. Each crystal bends the light a little differently, thin frost lines trace the crystal edges, and tiny sparkles come and go.',
-    palettes: { dark: ['#04070f', '#2ee6b0', '#4f7dff', '#e8f6ff'], light: ['#eef4fa', '#6fd8bd', '#8fa8ff', '#ffffff'] },
+    palettes: { dark: ['#04070f', '#2ee6b0', '#4f7dff', '#e8f6ff'], light: ['#eef4fa', '#6fd8bd', '#8fa8ff', '#f8faff'] },
     defaults: { palette: ['#04070f', '#2ee6b0', '#4f7dff', '#e8f6ff'], speed: .35, scale: 1, grain: .02, cell: 6 },
     body: `vec3 vor(vec2 p){vec2 i=floor(p),f=fract(p);float d1=8.,d2=8.;vec2 id=i;
   for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++){vec2 g=vec2(float(x),float(y));vec2 o=vec2(hash(i+g),hash(i+g+19.7));vec2 r=g+o-f;float d=dot(r,r);
@@ -466,7 +466,7 @@ vec3 shade(){float t=T();vec2 a=uvA();float n=11./uScale;
     id: 'twisted-ribbon', name: 'Twisted Ribbon', style: 'Light', tier: 'pro',
     summary: 'A satin ribbon twisting through the frame.',
     description: 'Two ribbons drift across the frame and turn as they go, narrowing to an edge and widening again. Front and back faces carry different colours, with a sheen along the middle and lit edges.',
-    palettes: { dark: ['#07080d', '#4b7bff', '#ff6f98', '#e9ecff'], light: ['#f4f5f9', '#5b7cff', '#ff7aa0', '#ffffff'] },
+    palettes: { dark: ['#07080d', '#4b7bff', '#ff6f98', '#e9ecff'], light: ['#f4f5f9', '#5b7cff', '#ff7aa0', '#fff7f9'] },
     defaults: { palette: ['#07080d', '#4b7bff', '#ff6f98', '#e9ecff'], speed: .45, scale: 1, grain: .02, cell: 6 },
     body: `vec3 shade(){float t=T();vec2 a=uvA();float px=1.5/uRes.y;
   vec3 c=mix(uC0,mix(uC0,uC1,.12),.5-a.y);
@@ -515,8 +515,8 @@ vec3 shade(){float t=T();vec2 a=uvA();float n=11./uScale;
     id: 'light-lines', name: 'Light Lines', style: 'Light', tier: 'pro',
     summary: 'Fine lines with pulses of light running along them.',
     description: 'Twelve hairlines flow across the frame and gather toward one side. Short pulses of light race along each line at its own pace, with a faint glow around the line that carries them.',
-    palettes: { dark: ['#06070c', '#3b67ef', '#19e3a1', '#ffffff'], light: ['#f3f4f8', '#5b7cff', '#18b98a', '#2f4fe0'] },
-    defaults: { palette: ['#06070c', '#3b67ef', '#19e3a1', '#ffffff'], speed: .45, scale: 1, grain: .015, cell: 6 },
+    palettes: { dark: ['#06070c', '#3b67ef', '#19e3a1', '#f1fdf9'], light: ['#f3f4f8', '#5b7cff', '#18b98a', '#2f4fe0'] },
+    defaults: { palette: ['#06070c', '#3b67ef', '#19e3a1', '#f1fdf9'], speed: .45, scale: 1, grain: .015, cell: 6 },
     body: `vec3 shade(){float t=T();vec2 a=uvA();float px=1./uRes.y;
   vec3 c=mix(uC0,mix(uC0,uC1,.08),.5+a.y);
   float asp=uRes.x/uRes.y;float xn=a.x/asp+.5;
@@ -537,8 +537,8 @@ vec3 shade(){float t=T();vec2 a=uvA();float n=11./uScale;
     id: 'liquid-chrome', name: 'Liquid Chrome', style: 'Liquid', tier: 'pro',
     summary: 'Molten metal that reflects a soft sky.',
     description: 'A flowing surface lit like polished chrome. Its slope picks colours from a studio reflection, with a dark horizon band, a pale sky and sharp specular highlights where the metal turns toward the light.',
-    palettes: { dark: ['#05060a', '#2a3550', '#9fb3d9', '#ffffff'], light: ['#7d869c', '#d9dee8', '#a9b6cf', '#ffffff'] },
-    defaults: { palette: ['#05060a', '#2a3550', '#9fb3d9', '#ffffff'], speed: .35, scale: 1, grain: .015, cell: 6 },
+    palettes: { dark: ['#05060a', '#2a3550', '#9fb3d9', '#f9fafd'], light: ['#7d869c', '#d9dee8', '#a9b6cf', '#fafbfc'] },
+    defaults: { palette: ['#05060a', '#2a3550', '#9fb3d9', '#f9fafd'], speed: .35, scale: 1, grain: .015, cell: 6 },
     body: `float n3(vec2 p){return noise(p)*.6+noise(p*2.03+5.2)*.28+noise(p*4.01+1.7)*.12;}
 float H(vec2 p,float t){vec2 q=p+vec2(n3(p*.7+t*.07),n3(p*.7+4.-t*.06))*1.3;return n3(q*.9+t*.04);}
 vec3 shade(){float t=T();vec2 p=uvA()*uScale*1.6;float e=.01;
@@ -559,7 +559,7 @@ vec3 shade(){float t=T();vec2 p=uvA()*uScale*1.6;float e=.01;
     id: 'swell', name: 'Swell', style: 'Liquid', tier: 'free',
     summary: 'Open water rolling under a quiet sky.',
     description: 'A perspective sea built from crossing wave trains and noise. Faces turned to the light brighten, the far water takes on the colour of the sky, and foam gathers on the highest crests.',
-    palettes: { dark: ['#05070d', '#0a2a3a', '#2f7f95', '#cfe9ef'], light: ['#eaf1f5', '#5d9cb0', '#a9d6df', '#ffffff'] },
+    palettes: { dark: ['#05070d', '#0a2a3a', '#2f7f95', '#cfe9ef'], light: ['#eaf1f5', '#5d9cb0', '#a9d6df', '#fafdfd'] },
     defaults: { palette: ['#05070d', '#0a2a3a', '#2f7f95', '#cfe9ef'], speed: .45, scale: 1, grain: .02, cell: 6 },
     body: `float W(vec2 p,float t){float h=sin(dot(p,vec2(.8,.6))*1.2+t*1.1)*.5;
   h+=sin(dot(p,vec2(-.5,.9))*2.1+t*1.6)*.25;h+=sin(dot(p,vec2(.3,-.95))*3.7+t*2.3)*.12;
@@ -587,7 +587,7 @@ vec3 shade(){float t=T();vec2 a=uvA();float hz=.18;
     id: 'morph', name: 'Morph', style: 'Liquid', tier: 'pro',
     summary: 'Soft blobs that merge and split.',
     description: 'Five drops of colour drift on their own paths and melt together when they meet, like oil in water. Edges stay smooth at any size, with a lit rim and a soft glow on the background around them.',
-    palettes: { dark: ['#07080d', '#3b67ef', '#ff8a5b', '#ffe3d1'], light: ['#f2f4f9', '#7f9bff', '#ffb08f', '#ffffff'] },
+    palettes: { dark: ['#07080d', '#3b67ef', '#ff8a5b', '#ffe3d1'], light: ['#f2f4f9', '#7f9bff', '#ffb08f', '#fffaf8'] },
     defaults: { palette: ['#07080d', '#3b67ef', '#ff8a5b', '#ffe3d1'], speed: .4, scale: 1, grain: .02, cell: 6 },
     body: `float F(vec2 p,float t){float s=0.;for(int i=0;i<5;i++){float fi=float(i);
     vec2 c=vec2(.42*sin(t*(.31+fi*.07)+fi*1.9),.24*cos(t*(.27+fi*.05)+fi*2.7));
@@ -684,7 +684,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale+vec2(t*.05,t*.02);
     id: 'crumpled-paper', name: 'Crumpled Paper', style: 'Texture', tier: 'pro',
     summary: 'Creased paper under a light that slowly turns.',
     description: 'A sheet crushed into flat facets at two sizes. As the light swings round, each facet turns lighter or darker on its own, the creases pick up a hint of colour and fine fibres show in the paper.',
-    palettes: { dark: ['#0a0b0e', '#22262f', '#5a6378', '#d7dbe6'], light: ['#f6f4ef', '#e2ded5', '#b9b3a6', '#ffffff'] },
+    palettes: { dark: ['#0a0b0e', '#22262f', '#5a6378', '#d7dbe6'], light: ['#f6f4ef', '#e2ded5', '#b9b3a6', '#fbfafa'] },
     defaults: { palette: ['#0a0b0e', '#22262f', '#5a6378', '#d7dbe6'], speed: .3, scale: 1, grain: .02, cell: 6 },
     body: `vec4 facet(vec2 p){vec2 i=floor(p),f=fract(p);float d1=8.,d2=8.;vec2 id=i;
   for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++){vec2 g=vec2(float(x),float(y));vec2 o=vec2(hash(i+g),hash(i+g+19.7));vec2 r=g+o-f;float d=dot(r,r);
@@ -735,15 +735,15 @@ export const styleList = () => { const s = STYLES.map((x) => (x.id === 'ASCII' ?
 
 /** Palettes Shuffle can pick, per style and theme: every shader's own palette in that style, plus one extra. */
 const EXTRA: Record<Style, { dark: string[]; light: string[] }> = {
-  Gradient: { dark: ['#06281f', '#1f7a5c', '#9fe3c4', '#f6fbe9'], light: ['#f1f7f2', '#bfe6d2', '#7cc7a8', '#ffffff'] },
+  Gradient: { dark: ['#06281f', '#1f7a5c', '#9fe3c4', '#f6fbe9'], light: ['#f1f7f2', '#bfe6d2', '#7cc7a8', '#f7fcfa'] },
   Grain: { dark: ['#0a0f0d', '#2fbf8f', '#f2d36b', '#ff6f59'], light: ['#f6f4ee', '#9fdcc4', '#f6dc8c', '#ffb3a3'] },
   Pastel: { dark: ['#101820', '#1f4a4a', '#6aa69a', '#e6c79c'], light: ['#fff1e6', '#ffd3c4', '#dde4ff', '#cdf3f0'] },
   Aurora: { dark: ['#03100f', '#6cf2c2', '#2fa4ff', '#ffe16b'], light: ['#f1f6f5', '#58d6b0', '#62a8ff', '#ffd36b'] },
   Dither: { dark: ['#0e1a14', '#2f6b4f', '#c9e27a', '#f7f5e8'], light: ['#f7f5e8', '#c9e27a', '#2f6b4f', '#0e1a14'] },
   ASCII: { dark: ['#080b14', '#1d2a5c', '#5fa8ff', '#e6f2ff'], light: ['#f3f6fb', '#c3cde0', '#2f6fd6', '#0f1a33'] },
   Grid: { dark: ['#060a0c', '#12302c', '#2fd6a3', '#d8fff1'], light: ['#f1f5f3', '#dbe8e2', '#1fa37a', '#0f4a3a'] },
-  Light: { dark: ['#07060c', '#2b1d3f', '#ffb86b', '#fff3e0'], light: ['#f4f1ec', '#e8ddd0', '#ff9f4a', '#ffffff'] },
-  Liquid: { dark: ['#04080a', '#103440', '#46b3c4', '#e6fbff'], light: ['#eef5f7', '#7cc2cf', '#bfe6ec', '#ffffff'] },
+  Light: { dark: ['#07060c', '#2b1d3f', '#ffb86b', '#fff3e0'], light: ['#f4f1ec', '#e8ddd0', '#ff9f4a', '#fff9f4'] },
+  Liquid: { dark: ['#04080a', '#103440', '#46b3c4', '#e6fbff'], light: ['#eef5f7', '#7cc2cf', '#bfe6ec', '#fbfefe'] },
   Texture: { dark: ['#0c0a08', '#3a2a1e', '#b07a4f', '#f2e6d6'], light: ['#f5efe6', '#dccab2', '#a5795a', '#3a2a1e'] },
 }
 export function shufflePalettes(style: Style, theme: ThemeName): string[][] {
