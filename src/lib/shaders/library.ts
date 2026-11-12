@@ -325,6 +325,25 @@ vec3 shade(){float t=T();vec2 a=uvA();
   return c+grain()*uGrain;}`,
   },
   {
+    id: 'crosshatch', name: 'Crosshatch', style: 'Dither', tier: 'pro', cellular: 'pixel',
+    summary: 'A moving field engraved in hatched lines.',
+    description: 'Tone is built from layers of hand-drawn hatching like an old engraving: one direction for light areas, a crossing set for mid tones and a third for the densest parts. Lines wobble slightly, as if drawn with a pen.',
+    palettes: { dark: ['#0e0f12', '#5c6b8a', '#e9b872', '#f6efe2'], light: ['#f5f0e6', '#7a7468', '#2a3d6b', '#141414'] },
+    defaults: { palette: ['#0e0f12', '#5c6b8a', '#e9b872', '#f6efe2'], speed: .35, scale: 1, grain: 0, cell: 4 },
+    body: `float hatch(vec2 p,float ang,float sp,float w){vec2 d=vec2(cos(ang),sin(ang));float v=dot(p,d)/sp;
+  float off=(noise(p*.02+ang*3.)-.5)*.6;float f=abs(fract(v+off)-.5)*sp;return 1.-smoothstep(w-.6,w+.6,f);}
+vec3 shade(){float t=T();vec2 px=frag();vec2 a=uvA()*uScale;
+  float f=.5+.5*sin(a.x*1.8+fbm(a*1.3+t*.12)*4.-t*.5);
+  f=mix(f,1.-length(a-vec2(.35*sin(t*.35),.12*cos(t*.3)))*1.15,.25);f=clamp(.16+f*.82,0.,1.);
+  float sp=uCell*2.;
+  float h1=hatch(px,.785,sp,mix(.3,1.,smoothstep(.15,.5,f)))*step(.1,f);
+  float h2=hatch(px,-.785,sp,mix(.3,1.,smoothstep(.45,.75,f)))*step(.45,f);
+  float h3=hatch(px,0.,sp*.8,mix(.3,.9,smoothstep(.72,.95,f)))*step(.72,f);
+  vec3 ink=mix(uC1,uC2,smoothstep(.3,.8,f));
+  vec3 c=mix(uC0,ink,max(h1,h2));
+  return mix(c,uC3,h3);}`,
+  },
+  {
     id: 'ripple-tiles', name: 'Ripple Tiles', style: 'Grid', tier: 'pro',
     summary: 'A tiled floor that lifts as ripples pass.',
     description: 'A perspective floor of square tiles. Rings spread out from shifting points, and each tile brightens and catches a bevel of light as a ring crosses it, then fades into the distance.',
