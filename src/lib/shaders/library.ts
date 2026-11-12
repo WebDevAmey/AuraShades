@@ -233,6 +233,28 @@ export const SHADERS: ShaderDef[] = [
   return mix(uC0,ramp(.34+f*.66),m);}`,
   },
   {
+    id: 'velvet', name: 'Velvet', style: 'Gradient', tier: 'pro',
+    summary: 'Deep folds with a pile that catches light at the edges.',
+    description: 'Slow folds like Silk, but shaded like velvet: the faces turned away from you glow, the faces turned toward you sink, and a fine fibre pile runs along each fold.',
+    palettes: { dark: ['#0a0612', '#3a0f3d', '#8c2a6b', '#ffb3d9'], light: ['#f7eff4', '#e7b8d0', '#c0679a', '#fff6fb'] },
+    defaults: { palette: ['#0a0612', '#3a0f3d', '#8c2a6b', '#ffb3d9'], speed: .3, scale: 1, grain: .03, cell: 6 },
+    body: `float VH(vec2 q,float t){return fbm(q*1.3+vec2(t*.05,-t*.04));}
+vec3 shade(){float t=T();vec2 uv=uvA()*uScale;
+  vec2 w=vec2(fbm(uv*.8+vec2(0.,t*.09)),fbm(uv*.8+vec2(3.1,7.4)-t*.07));
+  vec2 q=uv+(w-.5)*1.1;
+  float e=.008;float h=VH(q,t);
+  vec2 g=vec2(VH(q+vec2(e,0.),t)-h,VH(q+vec2(0.,e),t)-h)/e;
+  vec3 n=normalize(vec3(-g*.6,1.));
+  float sheen=pow(1.-n.z,1.2);
+  vec2 dir=normalize(vec2(-g.y,g.x)+1e-4);
+  vec2 r=mat2(dir.x,-dir.y,dir.y,dir.x)*frag();
+  float pile=noise(r*vec2(.08,1.3))*.6+noise(r*vec2(.2,2.7))*.4;
+  vec3 c=ramp(h*1.2-.15)*(.55+.45*n.z);
+  c=mix(c,mix(uC2,uC3,sheen),clamp(sheen*1.6,0.,1.)*.75);
+  c*=.86+.26*pile;
+  return c+grain()*uGrain;}`,
+  },
+  {
     id: 'ripple-tiles', name: 'Ripple Tiles', style: 'Grid', tier: 'pro',
     summary: 'A tiled floor that lifts as ripples pass.',
     description: 'A perspective floor of square tiles. Rings spread out from shifting points, and each tile brightens and catches a bevel of light as a ring crosses it, then fades into the distance.',
