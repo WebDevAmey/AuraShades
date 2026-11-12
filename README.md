@@ -13,7 +13,7 @@ npm run build      # static prerender of every page into dist/client
 npm run typecheck
 ```
 
-Node 22+ is recommended. `npm run build` prerenders all routes (home, library, every shader page, pricing, docs), so `dist/client` can be hosted on any static host.
+Node 22+ is recommended. `npm run build` prerenders all routes (home, library, every shader page, pricing, docs) and builds a Nitro server into `.output` (`npm start` runs it). On Vercel, Nitro picks the Vercel preset by itself, so no extra config is needed. `.output/public` is plain static files if you'd rather use a static host.
 
 ## SEO and answer engines
 
