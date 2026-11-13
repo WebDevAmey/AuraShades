@@ -1162,6 +1162,17 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
     c=mixok(c,uC3,clamp(exp(-abs(d)*30.)*.3*(1.-body*.5),0.,1.));}
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'violet-horizon', name: 'Violet Horizon', style: 'Orbit', tier: 'pro',
+    summary: 'A grainy violet sunrise over a dark world.',
+    description: 'A vast planet fills the lower corner, its edge lit violet by a sun just out of view. Heavy film grain and a faint haze above the limb make it feel like a long exposure.',
+    palettes: { dark: ['#06051a', '#1d1450', '#8a4dff', '#f0d9ff'], light: ['#f1eefb', '#d8ccf6', '#8f5cff', '#fbf7ff'] },
+    defaults: { palette: ['#06051a', '#1d1450', '#8a4dff', '#f0d9ff'], speed: .3, scale: 1, grain: .09, cell: 6 },
+    body: ORB_FN + `vec3 shade(){float t=T();vec2 a=uvA()/uScale;
+  vec3 c=mixok(uC0,uC1,smoothstep(.8,-.7,a.y)*.5);
+  c=orb(c,a,vec2(.55+.03*sin(t*.2),-1.35),1.25,vec2(-.5+.15*sin(t*.15),1.),mixok(uC0,uC1,.15),uC2,uC3);
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
