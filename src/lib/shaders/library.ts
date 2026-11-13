@@ -1,4 +1,4 @@
-export type Style = 'Gradient' | 'Grain' | 'Pastel' | 'Aurora' | 'Dither' | 'ASCII' | 'Grid' | 'Light' | 'Liquid' | 'Texture'
+export type Style = 'Gradient' | 'Grain' | 'Pastel' | 'Aurora' | 'Dither' | 'ASCII' | 'Grid' | 'Light' | 'Liquid' | 'Texture' | 'Orbit'
 export type Tier = 'free' | 'pro'
 export type ThemeName = 'dark' | 'light'
 
@@ -36,11 +36,23 @@ export const STYLES: { id: Style; blurb: string }[] = [
   { id: 'Light', blurb: 'Beams, lines, glass and ribbons that catch the light.' },
   { id: 'Liquid', blurb: 'Water, chrome and soft blobs that flow.' },
   { id: 'Texture', blurb: 'Stone, cloth, paper and print you can almost touch.' },
+  { id: 'Orbit', blurb: 'Planet edges, eclipses and orbits glowing in the dark.' },
 ]
 
 const ASCII_FN = `
 vec2 cellSize(){return vec2(uCell,uCell*1.6);}
 float glyph(vec2 l,float v){float idx=floor(clamp(v,0.,.999)*10.);return texture2D(uAtlas,vec2((idx+l.x)/10.,l.y)).r;}
+`
+
+/** A lit sphere: dark body, atmosphere outside the limb, a thin hot rim facing the light. */
+const ORB_FN = `
+vec3 orb(vec3 c,vec2 a,vec2 o,float R,vec2 L,vec3 body,vec3 glow,vec3 hot){
+  float d=length(a-o)-R;vec2 n=normalize(a-o);float lit=pow(clamp(dot(n,normalize(L))*.5+.5,0.,1.),3.);
+  if(d>0.){c=mixok(c,glow,clamp(exp(-d*5.)*lit*.8,0.,1.));}
+  else{c=mixok(body,glow,clamp(exp(d*10.)*lit*.6,0.,1.));}
+  float px=1.5/uRes.y;
+  c=mixok(c,glow,clamp(exp(-abs(d)*40.)*lit*.7,0.,1.));
+  return mixok(c,hot,clamp(exp(-pow(d/(px*2.+.004),2.))*lit*1.2,0.,1.));}
 `
 
 export const SHADERS: ShaderDef[] = [
@@ -875,6 +887,48 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*2.3;
   float lv=clamp(f,0.,.999)*9.;
   return ramp((floor(lv)+step(hash(cell),fract(lv)))/9.);}`,
   },
+  {
+    id: 'ecliptic-gradient', name: 'Ecliptic Gradient', style: 'Orbit', tier: 'free',
+    summary: 'An orbital, celestial blend.',
+    description: 'The curved edge of a planet rising out of the dark, lit from above. The rim burns hot and thin, the atmosphere glows softly around it, and the light drifts slowly across the limb.',
+    palettes: { dark: ['#05070f', '#121a3a', '#ff8a4c', '#fff0dc'], light: ['#eef1f8', '#c9d3ee', '#ff8f5a', '#fff3e6'] },
+    defaults: { palette: ['#05070f', '#121a3a', '#ff8a4c', '#fff0dc'], speed: .3, scale: 1, grain: .03, cell: 6 },
+    body: ORB_FN + `vec3 shade(){float t=T();vec2 a=uvA()/uScale;
+  vec3 c=mixok(uC0,uC1,smoothstep(.7,-.6,a.y)*.55);
+  c=orb(c,a,vec2(.15+.03*sin(t*.2),-1.05),1.,vec2(.35+.2*sin(t*.15),1.),mixok(uC0,uC1,.25),uC2,uC3);
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'ecliptic-gradient-v2', name: 'Ecliptic Gradient v2', style: 'Orbit', tier: 'pro',
+    summary: 'Two bodies, each with its own orbital glow.',
+    description: 'Two spheres hang in a violet haze, one large and half out of frame, one smaller below it. Each is lit from a different side, so their rims glow in opposite directions as they drift.',
+    palettes: { dark: ['#07051a', '#26125c', '#9a5cff', '#f1e6ff'], light: ['#f3efff', '#d6c8ff', '#9466ff', '#fcf9ff'] },
+    defaults: { palette: ['#07051a', '#26125c', '#9a5cff', '#f1e6ff'], speed: .3, scale: 1, grain: .03, cell: 6 },
+    body: ORB_FN + `vec3 shade(){float t=T();vec2 a=uvA()/uScale;
+  vec3 c=mixok(uC0,uC1,smoothstep(.6,-.6,a.y)*.45+.15*exp(-length(a-vec2(-.3,.1))*2.));
+  vec3 body=mixok(uC0,uC1,.35);
+  c=orb(c,a,vec2(.1+.03*sin(t*.18),.78+.02*cos(t*.2)),.62,vec2(-.9,-.6),body,uC2,uC3);
+  c=orb(c,a,vec2(.78+.03*cos(t*.16),-.42+.03*sin(t*.21)),.42,vec2(-.7,.75),body,uC2,uC3);
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'ecliptic-gradient-v3', name: 'Ecliptic Gradient v3', style: 'Orbit', tier: 'pro',
+    summary: 'Overlapping orbits with depth.',
+    description: 'Four large translucent orbits overlap like rings of glass, each traced by a fine line of teal or amber light. Where they cross, the colours stack, and the whole system turns very slowly.',
+    palettes: { dark: ['#06080d', '#1d6f73', '#ff9a5c', '#f3fbff'], light: ['#f1f4f6', '#3fa7a4', '#ff9a66', '#fdfcff'] },
+    defaults: { palette: ['#06080d', '#1d6f73', '#ff9a5c', '#f3fbff'], speed: .3, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA()/uScale;
+  vec3 c=mixok(uC0,uC1,smoothstep(.8,-.6,a.y)*.22);
+  for(int i=0;i<4;i++){float fi=float(i);
+    vec2 o=vec2(-.45+fi*.33+.06*sin(t*.2+fi*1.7),-.78-fi*.07+.04*cos(t*.17+fi));float R=.72+fi*.13;
+    float d=length(a-o)-R;vec2 n=normalize(a-o);
+    float lit=pow(clamp(dot(n,normalize(vec2(.2,1.)))*.5+.5,0.,1.),2.);
+    vec3 col=mod(fi,2.)<.5?uC2:uC1;
+    c=mixok(c,col,clamp(smoothstep(0.,-.35,d)*lit*.12,0.,1.));
+    c=mixok(c,col,clamp(exp(-abs(d)*55.)*lit*.75,0.,1.));
+    c=mixok(c,uC3,clamp(exp(-pow(d*uRes.y/2.2,2.))*lit*.55,0.,1.));}
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
@@ -900,6 +954,7 @@ const EXTRA: Record<Style, { dark: string[]; light: string[] }> = {
   Light: { dark: ['#07060c', '#2b1d3f', '#ffb86b', '#fff3e0'], light: ['#f4f1ec', '#e8ddd0', '#ff9f4a', '#fff9f4'] },
   Liquid: { dark: ['#04080a', '#103440', '#46b3c4', '#e6fbff'], light: ['#eef5f7', '#7cc2cf', '#bfe6ec', '#fbfefe'] },
   Texture: { dark: ['#0c0a08', '#3a2a1e', '#b07a4f', '#f2e6d6'], light: ['#f5efe6', '#dccab2', '#a5795a', '#3a2a1e'] },
+  Orbit: { dark: ['#04060d', '#0f1d3a', '#5fb0ff', '#eaf6ff'], light: ['#eef3f9', '#cddcef', '#4f8fe6', '#f9fcff'] },
 }
 export function shufflePalettes(style: Style, theme: ThemeName): string[][] {
   return [...SHADERS.filter((x) => x.style === style).map((x) => [...x.palettes[theme]]), EXTRA[style][theme]]
