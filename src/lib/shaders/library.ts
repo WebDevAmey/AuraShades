@@ -1282,6 +1282,24 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   c=mixok(c,mixok(uC2,uC3,lit),m);
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'chromatic-liquid', name: 'Chromatic Liquid', style: 'Liquid', tier: 'pro',
+    summary: 'Dark glossy liquid with rainbow edges.',
+    description: 'A deep navy liquid surface rolling in slow waves. Where it turns away from you, the edges flare with an oil-slick rainbow, and a crisp highlight slides along the crests.',
+    palettes: { dark: ['#060816', '#1b2550', '#7d8cff', '#f4f0ff'], light: ['#e9ebf7', '#b9c2ea', '#6f7ff0', '#fcfbff'] },
+    defaults: { palette: ['#060816', '#1b2550', '#7d8cff', '#f4f0ff'], speed: .3, scale: 1, grain: .025, cell: 6 },
+    body: `vec3 spec(float h){return .5+.5*cos(TAU*(h+vec3(0.,.33,.67)));}
+float LH(vec2 p,float t){vec2 q=p+.45*vec2(sin(p.y*1.4+t*.2),cos(p.x*1.2-t*.17));return .5+.5*sin(q.x*3.2+q.y*2.+1.8*sin(q.y*2.4+q.x*.8+t*.15));}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale*1.5;float e=.004;
+  float h=LH(a,t);vec2 g=vec2(LH(a+vec2(e,0.),t)-h,LH(a+vec2(0.,e),t)-h)/e;
+  vec3 n=normalize(vec3(-g*.45,1.));
+  float fres=pow(1.-n.z,1.6);
+  vec3 c=mixok(uC0,uC1,smoothstep(.2,1.,h)*.8);
+  c=mixok(c,mixok(spec(h*.9+a.x*.12+a.y*.08+t*.02),uC2,.2),clamp(fres*2.4,0.,1.)*.9);
+  float sp=pow(max(dot(reflect(vec3(0.,0.,-1.),n),normalize(vec3(-.4,.6,.7))),0.),24.);
+  c=mixok(c,uC3,clamp(sp,0.,1.)*.75);
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
