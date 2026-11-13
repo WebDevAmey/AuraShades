@@ -1,6 +1,6 @@
 # AuraShades
 
-> AuraShades is a library of live WebGL shader backgrounds for websites in twelve styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light, liquid, texture, orbit and spectral. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Thirteen shaders are free; Pro unlocks all 59 and the React component.
+> AuraShades is a library of live WebGL shader backgrounds for websites in thirteen styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light, liquid, texture, orbit, spectral and landscape. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Fourteen shaders are free; Pro unlocks all 69 and the React component.
 
 ## Pages
 
@@ -23,6 +23,7 @@
 - Texture: Stone, cloth, paper and print you can almost touch.
 - Orbit: Planet edges, eclipses and orbits glowing in the dark.
 - Spectral: Full-spectrum light: rainbows, prisms and dispersion.
+- Landscape: Dunes, horizons and moons in soft evening light.
 
 ## Shaders
 
@@ -85,11 +86,21 @@
 - [Texture Gradient](https://aurashades.com/library/texture-gradient) (Texture, Pro): Paper, grain and an organic blend.
 - [Texture Gradient v2](https://aurashades.com/library/texture-gradient-v2) (Texture, Pro): Liquid and marbled.
 - [Texture Gradient v3](https://aurashades.com/library/texture-gradient-v3) (Texture, Pro): Fabric with a noisy weave.
+- [Ember Fold](https://aurashades.com/library/ember-fold) (Gradient, Pro): Warm folds of light layered like silk.
+- [Violet Horizon](https://aurashades.com/library/violet-horizon) (Orbit, Pro): A grainy violet sunrise over a dark world.
+- [Prism Flow](https://aurashades.com/library/prism-flow) (Spectral, Pro): Silky ribbons with an iridescent edge.
+- [Dusk Dunes](https://aurashades.com/library/dusk-dunes) (Landscape, Free): Layered dunes under a rose sky and a low moon.
+- [Verdant Veil](https://aurashades.com/library/verdant-veil) (Light, Pro): Green veils of light crossing in the dark.
+- [Grain Dusk](https://aurashades.com/library/grain-dusk) (Grain, Pro): Navy, teal and peach under heavy film grain.
+- [Rose Veil](https://aurashades.com/library/rose-veil) (Light, Pro): Fanned sheets of rose light on deep plum.
+- [Cotton Sky](https://aurashades.com/library/cotton-sky) (Pastel, Pro): Pink clouds drifting through a lavender sky.
+- [Chromatic Liquid](https://aurashades.com/library/chromatic-liquid) (Liquid, Pro): Dark glossy liquid with rainbow edges.
+- [Crescent Dunes](https://aurashades.com/library/crescent-dunes) (Landscape, Pro): A pale dune and a crescent moon at night.
 
 ## Plans
 
-- Free: free. 13 shaders, at least one in every style; Live editor with every control; Copy as GLSL or CSS palette; Personal and commercial use with a credit link.
-- Pro: $12 per month or $96 per year. All 59 shaders and every new release; Copy as a typed React component; No credit link needed; Commercial licence for unlimited sites.
+- Free: free. 14 shaders, at least one in every style; Live editor with every control; Copy as GLSL or CSS palette; Personal and commercial use with a credit link.
+- Pro: $12 per month or $96 per year. All 69 shaders and every new release; Copy as a typed React component; No credit link needed; Commercial licence for unlimited sites.
 - Team: $36 per month or $288 per year. Everything in Pro for 5 seats; Shared palette library for the team; One invoice, add seats any time; Priority email support.
 
 ## FAQ
