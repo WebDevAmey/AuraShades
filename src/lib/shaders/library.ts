@@ -1,4 +1,4 @@
-export type Style = 'Gradient' | 'Grain' | 'Pastel' | 'Aurora' | 'Dither' | 'ASCII' | 'Grid' | 'Light' | 'Liquid' | 'Texture' | 'Orbit' | 'Spectral'
+export type Style = 'Gradient' | 'Grain' | 'Pastel' | 'Aurora' | 'Dither' | 'ASCII' | 'Grid' | 'Light' | 'Liquid' | 'Texture' | 'Orbit' | 'Spectral' | 'Landscape'
 export type Tier = 'free' | 'pro'
 export type ThemeName = 'dark' | 'light'
 
@@ -38,6 +38,7 @@ export const STYLES: { id: Style; blurb: string }[] = [
   { id: 'Texture', blurb: 'Stone, cloth, paper and print you can almost touch.' },
   { id: 'Orbit', blurb: 'Planet edges, eclipses and orbits glowing in the dark.' },
   { id: 'Spectral', blurb: 'Full-spectrum light: rainbows, prisms and dispersion.' },
+  { id: 'Landscape', blurb: 'Dunes, horizons and moons in soft evening light.' },
 ]
 
 const ASCII_FN = `
@@ -1192,6 +1193,29 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   c=mixok(c,uC3,pow(band,5.)*.45);
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'dusk-dunes', name: 'Dusk Dunes', style: 'Landscape', tier: 'free',
+    summary: 'Layered dunes under a rose sky and a low moon.',
+    description: 'Three ridges of sand fade into a rose and peach sky, each further one softer in the haze. A pale moon hangs above, and the dunes shift very slowly, like wind reshaping them.',
+    palettes: { dark: ['#141632', '#6b4466', '#f29a86', '#fde6e0'], light: ['#7c6a8e', '#d99aa8', '#ffc2a6', '#fff6f0'] },
+    defaults: { palette: ['#141632', '#6b4466', '#f29a86', '#fde6e0'], speed: .3, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA()/uScale;vec2 uv=uvN();float px=1.5/uRes.y;
+  vec3 sky=mixok(uC2,mixok(uC1,uC0,.35),smoothstep(.4,1.05,uv.y));
+  vec3 c=sky;
+  vec2 mp=a-vec2(.34,.3);float mr=.04;
+  c=mixok(c,uC3,exp(-length(mp)*12.)*.3);
+  c=mixok(c,uC3,smoothstep(mr+px,mr-px,length(mp)));
+  for(int i=0;i<3;i++){float fi=float(i);
+    float arg=a.x*(1.6+fi*.5)+fi*2.+t*.04;
+    float y0=-.02-fi*.16+.07*sin(arg)+.03*sin(a.x*3.7+fi-t*.03);
+    float d=a.y-y0;float m=smoothstep(px,-px,d);
+    float lit=clamp(.5-.6*cos(arg),0.,1.);
+    vec3 dune=mixok(mixok(uC1,uC0,fi*.38),uC2,(.4-fi*.1)*lit*smoothstep(-.15,0.,d));
+    dune=mixok(dune,sky,.35-fi*.15);
+    c=mix(c,dune,m);
+    c=mixok(c,uC2,exp(-max(d,0.)*30.)*.12*(1.-m));}
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
@@ -1219,6 +1243,7 @@ const EXTRA: Record<Style, { dark: string[]; light: string[] }> = {
   Texture: { dark: ['#0c0a08', '#3a2a1e', '#b07a4f', '#f2e6d6'], light: ['#f5efe6', '#dccab2', '#a5795a', '#3a2a1e'] },
   Orbit: { dark: ['#04060d', '#0f1d3a', '#5fb0ff', '#eaf6ff'], light: ['#eef3f9', '#cddcef', '#4f8fe6', '#f9fcff'] },
   Spectral: { dark: ['#07061a', '#2a1a8a', '#36d1c4', '#ffd166'], light: ['#f5f3ff', '#c2b8ff', '#5fe0d2', '#ffe08a'] },
+  Landscape: { dark: ['#101228', '#4a3a66', '#e8a07a', '#fff0e0'], light: ['#6f6790', '#c9a3b4', '#ffcaa8', '#fff8f1'] },
 }
 export function shufflePalettes(style: Style, theme: ThemeName): string[][] {
   return [...SHADERS.filter((x) => x.style === style).map((x) => [...x.palettes[theme]]), EXTRA[style][theme]]
