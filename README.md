@@ -1,6 +1,6 @@
 # AuraShades
 
-Marketing site, shader library and live editor for AuraShades: 38 live WebGL shader backgrounds in ten styles (gradient, grain, pastel, aurora, dither, ASCII, grid, light, liquid, texture).
+Marketing site, shader library and live editor for AuraShades: 59 live WebGL shader backgrounds in twelve styles (gradient, grain, pastel, aurora, dither, ASCII, grid, light, liquid, texture, orbit, spectral).
 
 Built with TanStack Start, React 19, Tailwind CSS 4, Motion, Radix, Sonner, Lucide and Paper Shaders.
 

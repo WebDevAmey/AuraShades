@@ -1,6 +1,6 @@
 # AuraShades
 
-> AuraShades is a library of live WebGL shader backgrounds for websites in ten styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light, liquid and texture. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Eleven shaders are free; Pro unlocks all 38 and the React component.
+> AuraShades is a library of live WebGL shader backgrounds for websites in twelve styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light, liquid, texture, orbit and spectral. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Thirteen shaders are free; Pro unlocks all 59 and the React component.
 
 ## Pages
 
@@ -21,6 +21,8 @@
 - Light: Beams, lines, glass and ribbons that catch the light.
 - Liquid: Water, chrome and soft blobs that flow.
 - Texture: Stone, cloth, paper and print you can almost touch.
+- Orbit: Planet edges, eclipses and orbits glowing in the dark.
+- Spectral: Full-spectrum light: rainbows, prisms and dispersion.
 
 ## Shaders
 
@@ -62,11 +64,32 @@
 - [Obsidian](https://aurashades.com/library/obsidian) (Liquid, Pro): Near-black liquid metal with light gliding over it.
 - [Pour](https://aurashades.com/library/pour) (Liquid, Pro): Colour poured into milk, curling as it rises.
 - [Neural](https://aurashades.com/library/neural) (Light, Pro): Glowing filaments branching through fog.
+- [Dither Gradient](https://aurashades.com/library/dither-gradient) (Dither, Pro): Smooth and textured, with no banding.
+- [Dither Gradient v2](https://aurashades.com/library/dither-gradient-v2) (Dither, Pro): A retro pixel feel in round dots.
+- [Dither Gradient v3](https://aurashades.com/library/dither-gradient-v3) (Dither, Pro): Subtle grain and a soft blend.
+- [Ecliptic Gradient](https://aurashades.com/library/ecliptic-gradient) (Orbit, Free): An orbital, celestial blend.
+- [Ecliptic Gradient v2](https://aurashades.com/library/ecliptic-gradient-v2) (Orbit, Pro): Two bodies, each with its own orbital glow.
+- [Ecliptic Gradient v3](https://aurashades.com/library/ecliptic-gradient-v3) (Orbit, Pro): Overlapping orbits with depth.
+- [Hero Gradient](https://aurashades.com/library/hero-gradient) (Gradient, Pro): Bold, atmospheric and modern.
+- [Hero Gradient v2](https://aurashades.com/library/hero-gradient-v2) (Gradient, Pro): Layered blobs of soft colour.
+- [Hero Gradient v3](https://aurashades.com/library/hero-gradient-v3) (Gradient, Pro): A glass-like flow of light.
+- [Footer Gradient](https://aurashades.com/library/footer-gradient) (Gradient, Pro): Subtle and minimal, glowing up from below.
+- [Footer Gradient v2](https://aurashades.com/library/footer-gradient-v2) (Gradient, Pro): A brand-coloured wash across the bottom.
+- [Footer Gradient v3](https://aurashades.com/library/footer-gradient-v3) (Gradient, Pro): A soft horizon at dusk.
+- [Spectral Gradient](https://aurashades.com/library/spectral-gradient) (Spectral, Free): A full-spectrum flow of colour.
+- [Spectral Gradient v2](https://aurashades.com/library/spectral-gradient-v2) (Spectral, Pro): A prism-coloured mesh.
+- [Spectral Gradient v3](https://aurashades.com/library/spectral-gradient-v3) (Spectral, Pro): A beam of light splitting into colour.
+- [ASCII Gradient](https://aurashades.com/library/ascii-gradient) (ASCII, Pro): A gradient textured with characters.
+- [ASCII Gradient v2](https://aurashades.com/library/ascii-gradient-v2) (ASCII, Pro): A high-contrast terminal look.
+- [ASCII Gradient v3](https://aurashades.com/library/ascii-gradient-v3) (ASCII, Pro): A minimal matrix style.
+- [Texture Gradient](https://aurashades.com/library/texture-gradient) (Texture, Pro): Paper, grain and an organic blend.
+- [Texture Gradient v2](https://aurashades.com/library/texture-gradient-v2) (Texture, Pro): Liquid and marbled.
+- [Texture Gradient v3](https://aurashades.com/library/texture-gradient-v3) (Texture, Pro): Fabric with a noisy weave.
 
 ## Plans
 
-- Free: free. 11 shaders, at least one in every style; Live editor with every control; Copy as GLSL or CSS palette; Personal and commercial use with a credit link.
-- Pro: $12 per month or $96 per year. All 38 shaders and every new release; Copy as a typed React component; No credit link needed; Commercial licence for unlimited sites.
+- Free: free. 13 shaders, at least one in every style; Live editor with every control; Copy as GLSL or CSS palette; Personal and commercial use with a credit link.
+- Pro: $12 per month or $96 per year. All 59 shaders and every new release; Copy as a typed React component; No credit link needed; Commercial licence for unlimited sites.
 - Team: $36 per month or $288 per year. Everything in Pro for 5 seats; Shared palette library for the team; One invoice, add seats any time; Priority email support.
 
 ## FAQ
