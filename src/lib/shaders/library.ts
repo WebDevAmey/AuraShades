@@ -1264,6 +1264,24 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
     c=veil(c,a.y-y0,px,.7*(.7+.3*sin(a.x*1.5-t*.3+fi*1.7)));}
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'cotton-sky', name: 'Cotton Sky', style: 'Pastel', tier: 'pro',
+    summary: 'Pink clouds drifting through a lavender sky.',
+    description: 'A bank of soft cumulus crossing a lavender sky at golden hour. The tops of the clouds catch peach light, their undersides fall into rose, and wisps break off the edges as they drift.',
+    palettes: { dark: ['#141433', '#3e3a8a', '#c46f95', '#f7c3b0'], light: ['#a8a0ea', '#c9bff5', '#f6a5bf', '#ffe0c9'] },
+    defaults: { palette: ['#141433', '#3e3a8a', '#c46f95', '#f7c3b0'], speed: .25, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
+  vec3 c=mixok(mixok(uC1,uC2,.2),uC0,smoothstep(.1,1.,uv.y)*.7);
+  vec2 p=mat2(.8,-.6,.6,.8)*a*1.3+vec2(t*.025,0.);
+  float bank=exp(-pow(a.y+.3*a.x-.02,2.)*5.)*.6+exp(-pow(a.y+.36,2.)*8.)*.4;
+  float D=bank+(fbm(p)-.5)*.75+(fbm(p*2.6+3.)-.5)*.3;
+  vec2 pu=p+vec2(.03,.04);float Du=bank+(fbm(pu)-.5)*.75+(fbm(pu*2.6+3.)-.5)*.3;
+  float m=smoothstep(.36,.66,D);
+  float lit=clamp((D-Du)*-6.+.55,0.,1.);
+  c=mixok(c,uC2,smoothstep(.25,.5,D)*.2);
+  c=mixok(c,mixok(uC2,uC3,lit),m);
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
