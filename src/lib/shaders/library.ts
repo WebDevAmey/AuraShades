@@ -836,6 +836,45 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*2.3;
   c=mixok(c,uC3,clamp(fil*fil*pulse*1.2,0.,1.)*.75);
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'dither-gradient', name: 'Dither Gradient', style: 'Dither', tier: 'pro', cellular: 'pixel',
+    summary: 'Smooth and textured, with no banding.',
+    description: 'A soft diagonal blend broken into sixteen steps and then dithered back together with an ordered pattern, so it reads as one smooth gradient up close but carries a fine printed texture.',
+    palettes: { dark: ['#0d0716', '#5a1a7a', '#e0457b', '#ffc98f'], light: ['#f6eef4', '#e9b6d6', '#f27d9b', '#ffd2a3'] },
+    defaults: { palette: ['#0d0716', '#5a1a7a', '#e0457b', '#ffc98f'], speed: .3, scale: 1, grain: 0, cell: 2 },
+    body: `vec3 shade(){float t=T();vec2 cell=floor(frag()/uCell);vec2 cp=(cell+.5)*uCell;
+  vec2 a=(cp-.5*uRes)/uRes.y*uScale;
+  float f=.5+.42*(a.x*.8+a.y*.5)+.2*(fbm(a*1.3+vec2(t*.1,-t*.07))-.5)+.06*sin(a.x*2.+t*.4);
+  float lv=clamp(f,0.,.999)*15.;
+  return ramp((floor(lv)+step(bayer8(cell),fract(lv)))/15.);}`,
+  },
+  {
+    id: 'dither-gradient-v2', name: 'Dither Gradient v2', style: 'Dither', tier: 'pro', cellular: 'pixel',
+    summary: 'A retro pixel feel in round dots.',
+    description: 'The same idea pushed toward old screens: four inks, a coarse 4×4 dither and each pixel drawn as a round dot with a little gap around it, so the gradient looks like it is lit from behind a grille.',
+    palettes: { dark: ['#08061a', '#2a1fd0', '#7b5cff', '#e9e2ff'], light: ['#f1efff', '#c7bfff', '#6d54f5', '#2a1fb0'] },
+    defaults: { palette: ['#08061a', '#2a1fd0', '#7b5cff', '#e9e2ff'], speed: .35, scale: 1, grain: 0, cell: 5 },
+    body: `vec3 shade(){float t=T();vec2 cell=floor(frag()/uCell);vec2 l=fract(frag()/uCell)-.5;vec2 cp=(cell+.5)*uCell;
+  vec2 a=(cp-.5*uRes)/uRes.y*uScale;
+  float f=smoothstep(-.75,.9,a.x*.9-a.y*.55+.3*sin(a.y*2.+t*.3)+.35*(fbm(a*1.5+t*.12)-.5));
+  float lv=f*3.999;float idx=floor(lv)+step(bayer4(cell),fract(lv));
+  vec3 ink=idx<.5?uC0:(idx<1.5?uC1:(idx<2.5?uC2:uC3));
+  float dotm=smoothstep(.5,.36,length(l));
+  return mix(mix(uC0,ink,.2),ink,dotm);}`,
+  },
+  {
+    id: 'dither-gradient-v3', name: 'Dither Gradient v3', style: 'Dither', tier: 'pro', cellular: 'pixel',
+    summary: 'Subtle grain and a soft blend.',
+    description: 'A quiet blend from deep teal to warm cream. Instead of an ordered pattern it uses random dither, so the steps dissolve into something that looks like fine film grain rather than a grid.',
+    palettes: { dark: ['#0a1214', '#1f3b42', '#7a9c8e', '#eadfc8'], light: ['#f4f1e8', '#cfe0d6', '#8fb3a5', '#2c4a4f'] },
+    defaults: { palette: ['#0a1214', '#1f3b42', '#7a9c8e', '#eadfc8'], speed: .25, scale: 1, grain: 0, cell: 2 },
+    body: `vec3 shade(){float t=T();vec2 cell=floor(frag()/uCell);vec2 cp=(cell+.5)*uCell;
+  vec2 a=(cp-.5*uRes)/uRes.y*uScale;
+  float f=.45+.4*(a.x*.7+a.y*.6)+.25*(fbm(a*1.1+vec2(t*.06,-t*.05))-.5);
+  f+=.2*exp(-dot(a-vec2(.45,.3),a-vec2(.45,.3))*3.);
+  float lv=clamp(f,0.,.999)*9.;
+  return ramp((floor(lv)+step(hash(cell),fract(lv)))/9.);}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
