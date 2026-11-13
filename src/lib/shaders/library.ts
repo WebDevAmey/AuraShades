@@ -1300,6 +1300,30 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*1.5;float e=.004;
   c=mixok(c,uC3,clamp(sp,0.,1.)*.75);
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'crescent-dunes', name: 'Crescent Dunes', style: 'Landscape', tier: 'pro',
+    summary: 'A pale dune and a crescent moon at night.',
+    description: 'A navy night with a thin crescent moon. One long dune catches the last warm light along its crest while the foreground falls into shadow, with a low mist lying between them.',
+    palettes: { dark: ['#0f1530', '#2c3766', '#cdb9a6', '#fff1dc'], light: ['#5d6a96', '#9aa6cc', '#efd8c2', '#fffaf2'] },
+    defaults: { palette: ['#0f1530', '#2c3766', '#cdb9a6', '#fff1dc'], speed: .3, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA()/uScale;vec2 uv=uvN();float px=1.5/uRes.y;
+  vec3 c=mixok(uC1,uC0,smoothstep(.2,1.,uv.y));
+  vec2 mp=a-vec2(.42,.36);float mr=.035;
+  float moon=smoothstep(mr+px,mr-px,length(mp))*smoothstep(mr*.82-px,mr*.82+px,length(mp-vec2(-.016,.012)));
+  c=mixok(c,uC3,exp(-length(mp)*14.)*.22);
+  c=mixok(c,uC3,moon);
+  float arg=a.x*1.4+.6+t*.03;
+  float d1=a.y-(.12*sin(arg)-.05*a.x);float m1=smoothstep(px,-px,d1);
+  float lit=clamp(.5-.7*cos(arg),0.,1.);
+  c=mixok(c,uC2,exp(-max(d1,0.)*25.)*.2*lit);
+  vec3 dune=mixok(uC1,mixok(uC2,uC3,lit*smoothstep(-.12,0.,d1)),lit*.85);
+  c=mix(c,dune,m1);
+  float y2=-.24+.08*sin(a.x*1.1-1.+t*.02);
+  c=mixok(c,uC2,exp(-abs(a.y-y2-.06)*12.)*.12);
+  float d2=a.y-y2;
+  c=mix(c,mixok(uC0,uC1,.4*smoothstep(-.15,0.,d2)),smoothstep(px,-px,d2));
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
