@@ -1238,6 +1238,19 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
     c=veil(c,(a.y-y0)*k,px,.85*(.6+.4*sin(a.x*2.+t*.4+fi)));}
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'grain-dusk', name: 'Grain Dusk', style: 'Grain', tier: 'pro',
+    summary: 'Navy, teal and peach under heavy film grain.',
+    description: 'A twilight blend with deep navy above, a cold teal edge, an electric blue centre and warm peach rising from one corner, all pressed through coarse film grain so it feels printed.',
+    palettes: { dark: ['#0a1236', '#2b5fd9', '#2fb3a6', '#ffc7a0'], light: ['#cfd8f2', '#7ea2f0', '#7fd6c9', '#ffd9bf'] },
+    defaults: { palette: ['#0a1236', '#2b5fd9', '#2fb3a6', '#ffc7a0'], speed: .3, scale: 1, grain: .2, cell: 6 },
+    body: `vec3 shade(){float t=T()*.6;vec2 uv=uvN();float asp=uRes.x/uRes.y;vec2 p=uv;p.x*=asp;
+  p+=vec2(fbm(uv*2.*uScale+t*.2)-.5,fbm(uv*2.*uScale+7.-t*.2)-.5)*.35;
+  vec2 P[5];P[0]=vec2(.15*asp,.92);P[1]=vec2((.45+.06*sin(t*.5))*asp,.58+.05*cos(t*.4));P[2]=vec2(.95*asp,.85);P[3]=vec2((.12+.05*cos(t*.45))*asp,.06);P[4]=vec2(.88*asp,.2+.05*sin(t*.35));
+  vec3 acc=vec3(0.);float ws=0.;
+  for(int i=0;i<5;i++){float w=1./pow(length(p-P[i])+.05,2.6);vec3 k=i==0?K0:(i==1?K1:(i==2?K2:(i==3?K3:K0)));acc+=k*w;ws+=w;}
+  return srgb(acc/ws)+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
