@@ -1173,6 +1173,25 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   c=orb(c,a,vec2(.55+.03*sin(t*.2),-1.35),1.25,vec2(-.5+.15*sin(t*.15),1.),mixok(uC0,uC1,.15),uC2,uC3);
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'prism-flow', name: 'Prism Flow', style: 'Spectral', tier: 'pro',
+    summary: 'Silky ribbons with an iridescent edge.',
+    description: 'Lavender and blue silk flows through the frame, and wherever it folds the light splits into a soft rainbow. The colour bands follow the folds, so they bend and travel as it moves.',
+    palettes: { dark: ['#151335', '#3b4aa8', '#8f7ff0', '#ffe9f4'], light: ['#e9e8fb', '#9fb4f2', '#b79cf2', '#fff4f8'] },
+    defaults: { palette: ['#151335', '#3b4aa8', '#8f7ff0', '#ffe9f4'], speed: .3, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 spec(float h){return .5+.5*cos(TAU*(h+vec3(0.,.33,.67)));}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale;
+  vec2 q=a+.3*vec2(sin(a.y*1.7+t*.3),cos(a.x*1.3-t*.25));
+  q+=.35*vec2(fbm(q*.8+t*.05),fbm(q*.8+5.-t*.04));
+  float f=q.x*1.3+.45*sin(q.y*2.2+t*.2);
+  float s1=sin(f*2.4);
+  float band=exp(-s1*s1*5.);
+  vec3 c=ramp(.15+.6*(.5+.5*sin(f*1.2+.6)));
+  c=mixok(c,uC1,smoothstep(.2,-.8,s1)*.35);
+  c=mixok(c,spec(s1*.3+f*.08+.15+t*.02),band*.75);
+  c=mixok(c,uC3,pow(band,5.)*.45);
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
