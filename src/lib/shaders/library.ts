@@ -1102,6 +1102,49 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   float f=clamp(wave*(.15+.85*rain),0.,1.);
   return mix(uC0,ramp(.35+f*.65),glyph(l,f));}`,
   },
+  {
+    id: 'texture-gradient', name: 'Texture Gradient', style: 'Texture', tier: 'pro',
+    summary: 'Paper, grain and an organic blend.',
+    description: 'A warm blend from cream to burnt orange printed onto heavy paper. You can see the fibres and the tooth of the sheet, and the colour pools unevenly, the way ink does on real stock.',
+    palettes: { dark: ['#140a06', '#6b260c', '#e5651c', '#f3d7b0'], light: ['#f7efe2', '#f1c79a', '#e2701f', '#7a2a0c'] },
+    defaults: { palette: ['#140a06', '#6b260c', '#e5651c', '#f3d7b0'], speed: .2, scale: 1, grain: .1, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 uv=uvN();vec2 a=uvA()*uScale;
+  float w=fbm(a*1.2+vec2(t*.05,-t*.04));
+  vec3 c=ramp(clamp(uv.x*.75+(1.-uv.y)*.35+(w-.5)*.45-.12,0.,1.));
+  vec2 px=frag();
+  float paper=fbm(px*.045)*.55+noise(px*.35)*.3+noise(px*vec2(.9,.12))*.15;
+  c*=.9+.16*paper;
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'texture-gradient-v2', name: 'Texture Gradient v2', style: 'Texture', tier: 'pro',
+    summary: 'Liquid and marbled.',
+    description: 'Deep blue and cream folded into each other like marbled endpaper. Thin pale lines trace where the colours meet, and a fine paper tooth sits over everything as the swirls slowly drift.',
+    palettes: { dark: ['#070d2a', '#14348f', '#4f7de0', '#efe6d2'], light: ['#f4ecdc', '#d8cdb4', '#3f6ad6', '#0f2a7a'] },
+    defaults: { palette: ['#070d2a', '#14348f', '#4f7de0', '#efe6d2'], speed: .2, scale: 1, grain: .05, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA()*uScale*1.2;
+  vec2 q=a;for(int i=0;i<3;i++){float fi=float(i);q+=.45*vec2(fbm(q*1.1+t*.04+fi),fbm(q*1.1-t*.035+fi*3.))-.22;}
+  float b=.5+.5*sin(q.x*3.2+q.y*1.6);
+  vec3 c=ramp(b);
+  c=mixok(c,uC3,(smoothstep(.45,.5,b)-smoothstep(.5,.6,b))*.35);
+  vec2 px=frag();
+  c*=.9+.14*(noise(px*.6)*.6+noise(px*.17)*.4);
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'texture-gradient-v3', name: 'Texture Gradient v3', style: 'Texture', tier: 'pro',
+    summary: 'Fabric with a noisy weave.',
+    description: 'A violet-to-coral gradient seen through a fine woven mesh. The threads alternate over and under in tiny squares and wander slightly, so it reads as cloth rather than a screen.',
+    palettes: { dark: ['#0b0614', '#3b1f6e', '#c2365a', '#ffb07a'], light: ['#f4eef6', '#c9b6e6', '#e5577a', '#ffb27f'] },
+    defaults: { palette: ['#0b0614', '#3b1f6e', '#c2365a', '#ffb07a'], speed: .25, scale: 1, grain: .04, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 px=frag();
+  vec3 c=ramp(smoothstep(-.6,.9,a.x*.8-a.y*.5+.35*(fbm(a*1.2+vec2(t*.06,0.))-.5)+.15*sin(a.y*2.+t*.3)));
+  float wx=.5+.5*sin(px.x*2.1+noise(px*.05)*2.);float wy=.5+.5*sin(px.y*2.1+noise(px*.05+9.)*2.);
+  float over=step(.5,fract((floor(px.x/3.)+floor(px.y/3.))*.5));
+  c*=.8+.32*mix(wx,wy,over);
+  c*=.94+.1*noise(px*vec2(.04,.6));
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
