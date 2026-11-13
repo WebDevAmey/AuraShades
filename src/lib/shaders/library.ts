@@ -974,6 +974,44 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*2.3;
     c=mixok(c,uC3,clamp(exp(-abs(d)*18.)*.3+exp(-pow(d/(px+.003),2.))*.9,0.,1.));}
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'footer-gradient', name: 'Footer Gradient', style: 'Gradient', tier: 'pro',
+    summary: 'Subtle and minimal, glowing up from below.',
+    description: 'Almost all dark, with a violet glow rising from the bottom edge along a gently moving horizon. Made to sit under a footer or a closing call to action without pulling focus.',
+    palettes: { dark: ['#06070f', '#151a3d', '#5b4de8', '#c4b8ff'], light: ['#f4f4fa', '#dcdaf5', '#8b7ff0', '#5a4ad6'] },
+    defaults: { palette: ['#06070f', '#151a3d', '#5b4de8', '#c4b8ff'], speed: .3, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 uv=uvN();vec2 a=uvA()*uScale;
+  float h=uv.y-.06*sin(a.x*1.3+t*.3)-.04*(fbm(vec2(a.x*.9,t*.1))-.5);
+  vec3 c=ramp(exp(-max(h,0.)*4.2)*.98);
+  c=mixok(c,uC3,exp(-max(h,0.)*22.)*.35);
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'footer-gradient-v2', name: 'Footer Gradient v2', style: 'Gradient', tier: 'pro',
+    summary: 'A brand-coloured wash across the bottom.',
+    description: 'A wider, cloudier wash of colour filling the lower half, with soft noise moving through it like low mist. Swap in your brand colours and it becomes a closing band for the page.',
+    palettes: { dark: ['#050a0c', '#0d2a33', '#1f9e8f', '#8ff0d2'], light: ['#f1f7f6', '#cfe9e4', '#46c2a8', '#127a6a'] },
+    defaults: { palette: ['#050a0c', '#0d2a33', '#1f9e8f', '#8ff0d2'], speed: .3, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 uv=uvN();vec2 a=uvA()*uScale;
+  float h=uv.y+.18*(fbm(a*1.4+vec2(t*.08,-t*.03))-.5)+.04*sin(a.x*1.7+t*.25);
+  float g=smoothstep(.9,-.05,h);
+  vec3 c=ramp(g*g*.95);
+  c=mixok(c,uC3,smoothstep(.25,-.1,h)*.25);
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'footer-gradient-v3', name: 'Footer Gradient v3', style: 'Gradient', tier: 'pro',
+    summary: 'A soft horizon at dusk.',
+    description: 'A low, warm horizon line with light spilling up into the dark above and a rosy glow below it, like the last minute of a sunset seen from very far away.',
+    palettes: { dark: ['#07060c', '#1e1530', '#d9708a', '#ffd3b0'], light: ['#f7f3f2', '#ead9e2', '#f29a9e', '#ffcfa8'] },
+    defaults: { palette: ['#07060c', '#1e1530', '#d9708a', '#ffd3b0'], speed: .3, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 uv=uvN();vec2 a=uvA()*uScale;
+  float h=uv.y-(.14+.02*sin(a.x*1.1+t*.25));
+  vec3 c=ramp(clamp(exp(-max(h,0.)*5.)*.75,0.,1.));
+  if(h<0.)c=mixok(c,uC2,clamp(.45+h*3.,0.,1.)*.6);
+  c=mixok(c,uC3,clamp(exp(-abs(h)*uRes.y*.035)*.9,0.,1.));
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
