@@ -929,6 +929,51 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*2.3;
     c=mixok(c,uC3,clamp(exp(-pow(d*uRes.y/2.2,2.))*lit*.55,0.,1.));}
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'hero-gradient', name: 'Hero Gradient', style: 'Gradient', tier: 'pro',
+    summary: 'Bold, atmospheric and modern.',
+    description: 'Deep blue and violet rolling under a soft crest of light, with a glow sitting high on one side. Strong enough to carry a headline on its own, calm enough not to fight it.',
+    palettes: { dark: ['#05061a', '#3a1fa0', '#2f6bff', '#c6a8ff'], light: ['#eef1ff', '#b9b0ff', '#5b8cff', '#3b2bd6'] },
+    defaults: { palette: ['#05061a', '#3a1fa0', '#2f6bff', '#c6a8ff'], speed: .3, scale: 1, grain: .035, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA()*uScale;
+  float w=.12*sin(a.x*1.6+t*.35)+.08*sin(a.x*3.1-t*.25)+.1*(fbm(a*.9+t*.05)-.5);
+  float y=a.y-w+.1;
+  vec3 c=ramp(smoothstep(.55,-.5,y)*.95);
+  c=mixok(c,uC3,exp(-pow((y-.02)*7.,2.))*(.5+.5*sin(a.x*1.2-t*.2))*.35);
+  c=mixok(c,uC2,exp(-length(a-vec2(.45,.35+.05*sin(t*.3)))*2.5)*.45);
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'hero-gradient-v2', name: 'Hero Gradient v2', style: 'Gradient', tier: 'pro',
+    summary: 'Layered blobs of soft colour.',
+    description: 'Four soft waves stacked like paper cut-outs, each a shade further along the palette and each casting a faint shadow on the one behind it. They slide past each other at different speeds.',
+    palettes: { dark: ['#120a2a', '#5b2a9e', '#ff6fa8', '#ffb3a1'], light: ['#fbeef5', '#c9a6ff', '#ff8fb8', '#ffd0c2'] },
+    defaults: { palette: ['#120a2a', '#5b2a9e', '#ff6fa8', '#ffb3a1'], speed: .3, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();float px=1.5/uRes.y;
+  vec3 c=mixok(uC0,uC1,uv.y*.6);
+  for(int i=0;i<4;i++){float fi=float(i);
+    float y0=.25-fi*.17+.12*sin(a.x*(1.1+fi*.35)+t*(.25+fi*.05)+fi*1.9)+.05*(fbm(vec2(a.x*.8+fi*3.,t*.08))-.5);
+    float d=a.y-y0;
+    float m=smoothstep(px,-px,d);
+    c=mixok(c,uC0,exp(-max(d,0.)*14.)*(1.-m)*.2);
+    vec3 col=ramp(.3+fi*.22+.08*a.x);
+    c=mix(c,mixok(col,uC3,smoothstep(-.25,0.,d)*.25),m);}
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'hero-gradient-v3', name: 'Hero Gradient v3', style: 'Gradient', tier: 'pro',
+    summary: 'A glass-like flow of light.',
+    description: 'Two clear glass ribbons sweep up through a lavender field. Their edges catch a bright, thin highlight, their bodies tint what is behind them, and they sway slowly in place.',
+    palettes: { dark: ['#0c0a24', '#4b3fb0', '#8f86ff', '#f5f3ff'], light: ['#eeedfb', '#c3bff5', '#8d84f0', '#fdfcff'] },
+    defaults: { palette: ['#0c0a24', '#4b3fb0', '#8f86ff', '#f5f3ff'], speed: .3, scale: 1, grain: .025, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();float px=1.5/uRes.y;
+  vec3 c=ramp(clamp(.12+uv.x*.45+uv.y*.25+.1*(fbm(a+t*.05)-.5),0.,1.));
+  for(int i=0;i<2;i++){float fi=float(i);
+    float d=a.y-(.32*sin(a.x*1.5-.4+fi*.8+.25*sin(t*.3+fi*2.))+.05-fi*.3);
+    c=mixok(c,uC2,clamp(smoothstep(0.,-.18,d)*smoothstep(-.42,-.1,d)*.28,0.,1.));
+    c=mixok(c,uC3,clamp(exp(-abs(d)*18.)*.3+exp(-pow(d/(px+.003),2.))*.9,0.,1.));}
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
