@@ -1251,6 +1251,19 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   for(int i=0;i<5;i++){float w=1./pow(length(p-P[i])+.05,2.6);vec3 k=i==0?K0:(i==1?K1:(i==2?K2:(i==3?K3:K0)));acc+=k*w;ws+=w;}
   return srgb(acc/ws)+grain()*uGrain;}`,
   },
+  {
+    id: 'rose-veil', name: 'Rose Veil', style: 'Light', tier: 'pro',
+    summary: 'Fanned sheets of rose light on deep plum.',
+    description: 'Thin pink sheets fan up from one corner like layers of chiffon, each with a lit edge and a soft blush behind it. They breathe open and closed very slowly.',
+    palettes: { dark: ['#0c0710', '#3d1a33', '#e27aa6', '#ffd9e6'], light: ['#f8eef3', '#ecc4d6', '#d9608f', '#7a2448'] },
+    defaults: { palette: ['#0c0710', '#3d1a33', '#e27aa6', '#ffd9e6'], speed: .3, scale: 1, grain: .03, cell: 6 },
+    body: VEIL_FN + `vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();float px=1.5/uRes.y;
+  vec3 c=mixok(uC0,uC1,.35*smoothstep(-.2,1.,uv.x*.6+uv.y*.6));
+  for(int i=0;i<4;i++){float fi=float(i);
+    float y0=(.38+fi*.09)*sin(a.x*(1.25-fi*.14)+fi*.55+.15*sin(t*.22+fi*.8))-.34+fi*.15+.05*sin(a.x*2.6+fi*1.9-t*.18);
+    c=veil(c,a.y-y0,px,.7*(.7+.3*sin(a.x*1.5-t*.3+fi*1.7)));}
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
