@@ -57,6 +57,15 @@ vec3 orb(vec3 c,vec2 a,vec2 o,float R,vec2 L,vec3 body,vec3 glow,vec3 hot){
   return mixok(c,hot,clamp(exp(-pow(d/(px*2.+.004),2.))*lit*1.2,0.,1.));}
 `
 
+/** A translucent sheet of light: a soft body on one side of the curve and a fine lit edge along it. */
+const VEIL_FN = `
+vec3 veil(vec3 c,float d,float px,float glint){
+  float body=smoothstep(-.45,0.,d)*step(d,0.);
+  c=mixok(c,uC2,clamp(body*body*.28,0.,1.));
+  c=mixok(c,uC2,clamp(exp(-abs(d)*16.)*.4,0.,1.));
+  return mixok(c,uC3,clamp(exp(-pow(d/(px+.0025),2.))*glint,0.,1.));}
+`
+
 export const SHADERS: ShaderDef[] = [
   {
     id: 'silk', name: 'Silk', style: 'Gradient', tier: 'free',
@@ -1214,6 +1223,19 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
     dune=mixok(dune,sky,.35-fi*.15);
     c=mix(c,dune,m);
     c=mixok(c,uC2,exp(-max(d,0.)*30.)*.12*(1.-m));}
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'verdant-veil', name: 'Verdant Veil', style: 'Light', tier: 'pro',
+    summary: 'Green veils of light crossing in the dark.',
+    description: 'Three translucent sheets of green light cross each other in a dark forest tone. Each edge carries a thin bright line that flickers along its length, and the veils fade softly behind it.',
+    palettes: { dark: ['#050a06', '#1b3a1f', '#7fbf4d', '#e9ffb8'], light: ['#eff5ea', '#cfe3c2', '#6fa83e', '#2f5a1b'] },
+    defaults: { palette: ['#050a06', '#1b3a1f', '#7fbf4d', '#e9ffb8'], speed: .3, scale: 1, grain: .03, cell: 6 },
+    body: VEIL_FN + `vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();float px=1.5/uRes.y;
+  vec3 c=mixok(uC0,uC1,smoothstep(1.,0.,uv.y)*.25+.2*exp(-length(a-vec2(.15,-.05))*2.5));
+  for(int i=0;i<3;i++){float fi=float(i);float k=i==1?-1.:1.;
+    float y0=k*(.3+fi*.06)*sin(a.x*(1.3+fi*.35)*k+fi*1.3+.3*sin(t*.25+fi))+(fi-1.)*.08+.06*sin(a.x*2.7+fi*2.-t*.2);
+    c=veil(c,(a.y-y0)*k,px,.85*(.6+.4*sin(a.x*2.+t*.4+fi)));}
   return c+grain()*uGrain;}`,
   },
 ]
