@@ -1,4 +1,4 @@
-export type Style = 'Gradient' | 'Grain' | 'Pastel' | 'Aurora' | 'Dither' | 'ASCII' | 'Grid' | 'Light' | 'Liquid' | 'Texture' | 'Orbit'
+export type Style = 'Gradient' | 'Grain' | 'Pastel' | 'Aurora' | 'Dither' | 'ASCII' | 'Grid' | 'Light' | 'Liquid' | 'Texture' | 'Orbit' | 'Spectral'
 export type Tier = 'free' | 'pro'
 export type ThemeName = 'dark' | 'light'
 
@@ -37,6 +37,7 @@ export const STYLES: { id: Style; blurb: string }[] = [
   { id: 'Liquid', blurb: 'Water, chrome and soft blobs that flow.' },
   { id: 'Texture', blurb: 'Stone, cloth, paper and print you can almost touch.' },
   { id: 'Orbit', blurb: 'Planet edges, eclipses and orbits glowing in the dark.' },
+  { id: 'Spectral', blurb: 'Full-spectrum light: rainbows, prisms and dispersion.' },
 ]
 
 const ASCII_FN = `
@@ -1012,6 +1013,57 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*2.3;
   c=mixok(c,uC3,clamp(exp(-abs(h)*uRes.y*.035)*.9,0.,1.));
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'spectral-gradient', name: 'Spectral Gradient', style: 'Spectral', tier: 'free',
+    summary: 'A full-spectrum flow of colour.',
+    description: 'The whole spectrum laid diagonally across the frame and gently warped, so the bands bend and drift. Your palette tints it and sinks one corner into shadow, which keeps it from looking like a test card.',
+    palettes: { dark: ['#0a0620', '#3b1fa8', '#ff5fa2', '#ffe066'], light: ['#f4f0ff', '#b8a6ff', '#ff8fbf', '#ffe58a'] },
+    defaults: { palette: ['#0a0620', '#3b1fa8', '#ff5fa2', '#ffe066'], speed: .3, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 spec(float h){return .5+.5*cos(TAU*(h+vec3(0.,.33,.67)));}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
+  vec2 q=a+.3*vec2(fbm(a*.9+t*.05),fbm(a*.9+4.-t*.04));
+  vec3 c=mixok(spec(.7+(q.x*.35+q.y*.25)*1.4+.03*sin(t*.2)),ramp(uv.x*.6+uv.y*.4),.22);
+  c=mixok(uC0,c,smoothstep(-.35,.75,uv.x*.7+uv.y*.6));
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'spectral-gradient-v2', name: 'Spectral Gradient v2', style: 'Spectral', tier: 'pro',
+    summary: 'A prism-coloured mesh.',
+    description: 'Five soft anchors, each a different hue of the spectrum nudged toward your palette, orbit and melt into each other. The blend runs in perceptual colour, so there are no grey seams between them.',
+    palettes: { dark: ['#0b0a1f', '#6b5cff', '#ff7ad1', '#5ee0ff'], light: ['#f6f4ff', '#a99cff', '#ff9fdc', '#8fe9ff'] },
+    defaults: { palette: ['#0b0a1f', '#6b5cff', '#ff7ad1', '#5ee0ff'], speed: .35, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 spec(float h){return .5+.5*cos(TAU*(h+vec3(0.,.33,.67)));}
+vec3 shade(){float t=T()*.6;vec2 uv=uvN();float asp=uRes.x/uRes.y;vec2 p=uv;p.x*=asp;
+  vec3 acc=vec3(0.);float ws=0.;
+  for(int i=0;i<5;i++){float fi=float(i);
+    vec2 o=vec2((.5+.38*sin(t*(.5+fi*.11)+fi*2.3))*asp,.5+.38*cos(t*(.43+fi*.09)+fi*1.7));
+    float w=1./pow(length(p-o)/uScale+.04,4.);
+    vec3 col=mixok(spec(fi*.2+t*.03),i==0?uC1:(i==1?uC2:uC3),.3);
+    acc+=oklab(col)*w;ws+=w;}
+  vec3 c=srgb(acc/ws);
+  float L0=dot(uC0,vec3(.33));
+  c=mixok(c,uC0,(1.-L0)*.3*smoothstep(.3,.85,length(uv-.5)));
+  return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'spectral-gradient-v3', name: 'Spectral Gradient v3', style: 'Spectral', tier: 'pro',
+    summary: 'A beam of light splitting into colour.',
+    description: 'A single beam crosses the dark and fans out into its spectrum as it travels, red on one edge and violet on the other, with a bright core and a faint haze of stray light around it.',
+    palettes: { dark: ['#06050c', '#1a1530', '#5b4de0', '#fff3e6'], light: ['#f5f4f8', '#dedbea', '#8d7ff0', '#fcfbff'] },
+    defaults: { palette: ['#06050c', '#1a1530', '#5b4de0', '#fff3e6'], speed: .3, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 spec(float h){return .5+.5*cos(TAU*(h+vec3(0.,.33,.67)));}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale;
+  vec2 dir=normalize(vec2(1.,.42));vec2 nrm=vec2(-dir.y,dir.x);
+  float along=dot(a,dir);float across=dot(a-vec2(.1,-.05),nrm)+.04*sin(along*2.+t*.4);
+  float spread=.05+.11*smoothstep(-.8,.9,along);
+  float u=across/spread;
+  float beam=exp(-u*u*.12)*smoothstep(-.95,-.3,along)*(.85+.15*noise(vec2(along*3.,across*20.)-t*.1));
+  vec3 c=mixok(uC0,uC1,smoothstep(.6,-.6,a.y)*.4);
+  c=mixok(c,uC2,exp(-abs(across)*3.)*.22);
+  c=mixok(c,spec(1.-clamp((u+3.)/6.,0.,1.)*.75),clamp(beam*.9,0.,1.));
+  c=mixok(c,uC3,clamp(exp(-u*u*2.)*beam*.3,0.,1.));
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
@@ -1038,6 +1090,7 @@ const EXTRA: Record<Style, { dark: string[]; light: string[] }> = {
   Liquid: { dark: ['#04080a', '#103440', '#46b3c4', '#e6fbff'], light: ['#eef5f7', '#7cc2cf', '#bfe6ec', '#fbfefe'] },
   Texture: { dark: ['#0c0a08', '#3a2a1e', '#b07a4f', '#f2e6d6'], light: ['#f5efe6', '#dccab2', '#a5795a', '#3a2a1e'] },
   Orbit: { dark: ['#04060d', '#0f1d3a', '#5fb0ff', '#eaf6ff'], light: ['#eef3f9', '#cddcef', '#4f8fe6', '#f9fcff'] },
+  Spectral: { dark: ['#07061a', '#2a1a8a', '#36d1c4', '#ffd166'], light: ['#f5f3ff', '#c2b8ff', '#5fe0d2', '#ffe08a'] },
 }
 export function shufflePalettes(style: Style, theme: ThemeName): string[][] {
   return [...SHADERS.filter((x) => x.style === style).map((x) => [...x.palettes[theme]]), EXTRA[style][theme]]
