@@ -1064,6 +1064,44 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   c=mixok(c,uC3,clamp(exp(-u*u*2.)*beam*.3,0.,1.));
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'ascii-gradient', name: 'ASCII Gradient', style: 'ASCII', tier: 'pro', cellular: 'glyph',
+    summary: 'A gradient textured with characters.',
+    description: 'A soft violet glow set entirely in type. Brightness picks the character, so the light fades from @ through dots to empty space, and noise keeps the edges of the glow moving.',
+    palettes: { dark: ['#070818', '#1c1d55', '#7d6cff', '#efeaff'], light: ['#f3f2fb', '#d6d3f2', '#5b4de0', '#1b1660'] },
+    defaults: { palette: ['#070818', '#1c1d55', '#7d6cff', '#efeaff'], speed: .3, scale: 1, grain: 0, cell: 8 },
+    body: ASCII_FN + `vec3 shade(){float t=T();vec2 cs=cellSize();vec2 px=frag();vec2 cell=floor(px/cs);vec2 l=fract(px/cs);
+  vec2 a=((cell+.5)*cs-.5*uRes)/uRes.y*uScale;
+  float f=smoothstep(.95,-.2,length((a-vec2(-.1+.15*sin(t*.3),-.25))*vec2(.8,1.)))*.85+.3*(fbm(a*2.+t*.15)-.35);
+  f=clamp(f,0.,1.);
+  return mix(mix(uC0,uC1,f*.5),ramp(.4+f*.6),glyph(l,f));}`,
+  },
+  {
+    id: 'ascii-gradient-v2', name: 'ASCII Gradient v2', style: 'ASCII', tier: 'pro', cellular: 'glyph',
+    summary: 'A high-contrast terminal look.',
+    description: 'A bright amber band cuts diagonally through black, drawn in dense characters at its core and thinning out at the edges. Noise runs along it so the band flickers like output scrolling past.',
+    palettes: { dark: ['#070504', '#2a1406', '#ff7a1a', '#ffd08a'], light: ['#f5f0e8', '#e8d3bd', '#e0620c', '#3a1a05'] },
+    defaults: { palette: ['#070504', '#2a1406', '#ff7a1a', '#ffd08a'], speed: .35, scale: 1, grain: 0, cell: 8 },
+    body: ASCII_FN + `vec3 shade(){float t=T();vec2 cs=cellSize();vec2 px=frag();vec2 cell=floor(px/cs);vec2 l=fract(px/cs);
+  vec2 a=((cell+.5)*cs-.5*uRes)/uRes.y*uScale;
+  float d=a.y-a.x*.45+.1*sin(a.x*3.+t*.5);
+  float f=clamp(exp(-d*d*10.)*(.55+.6*fbm(a*3.-vec2(t*.25,0.))),0.,1.);
+  return mix(uC0,ramp(.35+f*.65),glyph(l,f));}`,
+  },
+  {
+    id: 'ascii-gradient-v3', name: 'ASCII Gradient v3', style: 'ASCII', tier: 'pro', cellular: 'glyph',
+    summary: 'A minimal matrix style.',
+    description: 'Sparse green characters falling in columns at different speeds, visible only where a slow wave rises from the bottom of the frame. Minimal enough to sit behind text, alive enough to watch.',
+    palettes: { dark: ['#030807', '#0b2a22', '#2fe0a8', '#c9ffe9'], light: ['#eef6f2', '#c9e6da', '#14a37a', '#063d2c'] },
+    defaults: { palette: ['#030807', '#0b2a22', '#2fe0a8', '#c9ffe9'], speed: .35, scale: 1, grain: 0, cell: 8 },
+    body: ASCII_FN + `vec3 shade(){float t=T();vec2 cs=cellSize();vec2 px=frag();vec2 cell=floor(px/cs);vec2 l=fract(px/cs);
+  vec2 a=((cell+.5)*cs-.5*uRes)/uRes.y*uScale;
+  float sp=.5+hash(vec2(cell.x,1.));
+  float rain=pow(fract(cell.y*cs.y/uRes.y*.8+t*.25*sp+hash(vec2(cell.x,7.))),5.);
+  float wave=smoothstep(.3,-.3,a.y-.18*sin(a.x*2.5+t*.4)-.1*sin(a.x*5.-t*.3));
+  float f=clamp(wave*(.15+.85*rain),0.,1.);
+  return mix(uC0,ramp(.35+f*.65),glyph(l,f));}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
