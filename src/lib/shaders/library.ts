@@ -1145,6 +1145,23 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   c*=.94+.1*noise(px*vec2(.04,.6));
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'ember-fold', name: 'Ember Fold', style: 'Gradient', tier: 'pro',
+    summary: 'Warm folds of light layered like silk.',
+    description: 'Four soft sheets fold over each other from cream through orange to ember red, each lighter at its edge and catching a thin rim of light. They sway slowly at different speeds.',
+    palettes: { dark: ['#120b0c', '#4a1d1c', '#e3552c', '#ffc995'], light: ['#dedbdd', '#f6cfae', '#e9552e', '#fff3e3'] },
+    defaults: { palette: ['#120b0c', '#4a1d1c', '#e3552c', '#ffc995'], speed: .3, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();float px=1.5/uRes.y;
+  vec3 c=ramp(clamp(.08+uv.x*.25+(1.-uv.y)*.12,0.,1.));
+  for(int i=0;i<4;i++){float fi=float(i);
+    float y0=.42-fi*.25+.22*sin(a.x*(1.3+fi*.2)+fi*1.1+.3*sin(t*.25+fi))+.06*sin(a.x*3.-t*.2+fi);
+    float d=a.y-y0;
+    float body=smoothstep(px,-px,d);
+    vec3 col=mixok(ramp(.35+fi*.18),uC3,smoothstep(-.35,0.,d)*.35);
+    c=mix(c,mixok(c,col,.8),body);
+    c=mixok(c,uC3,clamp(exp(-abs(d)*30.)*.3*(1.-body*.5),0.,1.));}
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
