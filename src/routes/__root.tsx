@@ -15,7 +15,7 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
-      { name: 'theme-color', content: '#0d0f14' },
+      { name: 'theme-color', content: '#efefec' },
       { property: 'og:site_name', content: SITE.name },
       { property: 'og:locale', content: 'en_US' },
     ],
@@ -49,7 +49,7 @@ function RootDocument({ children }: { children: ReactNode }) {
 export function RootLayout() {
   return (
     <div className="app">
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-ink">
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-[10px] focus:bg-ink focus:px-4 focus:py-3 focus:text-ground">
         Skip to content
       </a>
       <SiteHeader />
@@ -69,10 +69,10 @@ export function RootLayout() {
 
 export function NotFound() {
   return (
-    <section className="wrap section flex min-h-[70vh] flex-col items-start justify-center gap-6">
-      <h1 className="display text-[clamp(48px,8vw,104px)]">This page has no shader</h1>
+    <section className="wrap section page-end flex min-h-[70vh] flex-col items-start justify-center gap-6">
+      <h1 className="display">This page has no shader</h1>
       <p className="lede">The link may be old, or the page moved. The library has every background we ship.</p>
-      <div className="flex flex-wrap gap-3">
+      <div className="mt-2 flex flex-wrap gap-3">
         <Link to="/library" className={button({ variant: 'primary' })}>Browse the library</Link>
         <Link to="/" className={button({ variant: 'secondary' })}>Go to the home page</Link>
       </div>

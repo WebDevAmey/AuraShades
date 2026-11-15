@@ -5,20 +5,20 @@ import { useSyncExternalStore } from 'react'
  *
  * - The resolved theme always lives on <html data-theme="dark|light">, so CSS has
  *   exactly one light block and one dark default, on every page.
- * - A visitor's explicit choice is stored; with no choice, the site follows the
- *   operating system and keeps following it if the system setting changes.
+ * - The gallery (light) is the brand's ground. A visitor's explicit choice is stored;
+ *   with no choice, every page opens light.
  * - Every toggle, shader preset and meta tag reads the same value via useTheme().
  */
 
 export type Theme = 'dark' | 'light'
 
 const KEY = 'aurashades-theme'
-const BAR: Record<Theme, string> = { dark: '#0d0f14', light: '#f2f3f5' }
+const BAR: Record<Theme, string> = { dark: '#0a0e18', light: '#efefec' }
 
 /** Runs inline in <head> before first paint, so no page ever flashes the wrong theme. */
-export const themeInitScript = `(function(){try{var d=document.documentElement,s=localStorage.getItem('${KEY}'),t=s==='light'||s==='dark'?s:(d.dataset.theme==='light'||d.dataset.theme==='dark'?d.dataset.theme:(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));d.dataset.theme=t;d.style.colorScheme=t;}catch(e){}})();`
+export const themeInitScript = `(function(){try{var d=document.documentElement,s=localStorage.getItem('${KEY}'),t=s==='light'||s==='dark'?s:(d.dataset.theme==='light'||d.dataset.theme==='dark'?d.dataset.theme:'light');d.dataset.theme=t;d.style.colorScheme=t;}catch(e){}})();`
 
-const read = (): Theme => (document.documentElement.dataset.theme === 'light' ? 'light' : 'dark')
+const read = (): Theme => (document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light')
 
 function stored(): Theme | null {
   try {
@@ -51,14 +51,11 @@ export function setTheme(t: Theme) {
 }
 
 let started = false
-/** Call once on the client: syncs the meta colour and follows the OS until the visitor picks a theme. */
+/** Call once on the client: syncs the meta colour and keeps tabs in step. */
 export function startThemeSync() {
   if (started || typeof window === 'undefined') return
   started = true
-  apply(stored() ?? read())
-  matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e) => {
-    if (!stored()) apply(e.matches ? 'light' : 'dark')
-  })
+  apply(stored() ?? 'light')
   window.addEventListener('storage', (e) => {
     if (e.key === KEY && (e.newValue === 'light' || e.newValue === 'dark')) apply(e.newValue)
   })
@@ -72,5 +69,5 @@ function subscribe(fn: () => void) {
 
 /** The active theme. Every component that depends on it reads it here. */
 export function useTheme(): Theme {
-  return useSyncExternalStore(subscribe, read, () => 'dark')
+  return useSyncExternalStore(subscribe, read, () => 'light')
 }
