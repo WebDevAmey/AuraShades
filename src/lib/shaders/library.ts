@@ -1569,6 +1569,14 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     body: wave({ ph: 1.6, bg: 0.1, glow: 1, ridge: 0.7, tex: 'halftone' }),
   },
   {
+    id: 'ultraviolet-ember', name: 'Ultraviolet Ember', style: 'Wave', tier: 'pro',
+    summary: 'Violet sky over an ember glow, in film grain.',
+    description: 'A deep violet field with a hot coral and orange glow rising along a curved ridge. Coarse film grain sits over all of it, like a photo pushed two stops.',
+    palettes: { dark: ['#120a3a', '#5a1fb0', '#ff5a7a', '#ffc28a'], light: ['#120a3a', '#5a1fb0', '#ff5a7a', '#ffc28a'] },
+    defaults: { palette: ['#120a3a', '#5a1fb0', '#ff5a7a', '#ffc28a'], speed: .3, scale: 1, grain: .18, cell: 6 },
+    body: wave({ ph: 2.6, bg: 0.35, glow: 0.9, ridge: 0.6, tex: 'grain' }),
+  },
+  {
     id: 'moss-ridge', name: 'Moss Ridge', style: 'Wave', tier: 'pro',
     summary: 'A sage glow along a dark green ridge.',
     description: 'A dark forest-green field with pale sage light catching the crest of a long ridge. The embossed surface makes it read like painted stucco in low light.',
