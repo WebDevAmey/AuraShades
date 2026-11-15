@@ -5,7 +5,7 @@ import { ease } from '~/lib/motion'
 
 type Opt<T extends string> = { value: T; label: React.ReactNode }
 
-/** Pill segmented control with a sliding thumb. Arrow keys move between options. */
+/** Segmented control with a sliding thumb: 12px frame, 4px inset, 8px thumb. Arrow keys move between options. */
 export function Segmented<T extends string>({
   options, value, onChange, label, size = 'md', className,
 }: {
@@ -21,7 +21,7 @@ export function Segmented<T extends string>({
     el?.focus()
   }
   return (
-    <div role="radiogroup" aria-label={label} className={cx('relative inline-flex rounded-full border border-line bg-panel p-1', className)}>
+    <div role="radiogroup" aria-label={label} className={cx('relative inline-flex rounded-[12px] border border-line bg-panel-2 p-1', className)}>
       {options.map((o, i) => {
         const on = o.value === value
         return (
@@ -34,7 +34,7 @@ export function Segmented<T extends string>({
             onClick={() => onChange(o.value)}
             onKeyDown={(e) => onKey(e, i)}
             className={cx(
-              'relative flex items-center justify-center whitespace-nowrap rounded-full font-medium transition-colors duration-300 ease-[cubic-bezier(0.23,1,0.32,1)]',
+              'relative flex items-center justify-center whitespace-nowrap rounded-[8px] font-[560] transition-colors duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]',
               size === 'sm' ? 'h-8 px-3 text-[13px]' : 'h-10 px-4 text-[14px]',
               on ? 'text-ground' : 'text-muted hover:text-ink',
             )}
@@ -42,7 +42,7 @@ export function Segmented<T extends string>({
             {on && (
               <motion.span
                 layoutId={`seg-${id}`}
-                className="absolute inset-0 rounded-full bg-ink"
+                className="absolute inset-0 rounded-[8px] bg-ink"
                 transition={ease}
                 aria-hidden="true"
               />

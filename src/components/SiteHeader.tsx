@@ -57,12 +57,12 @@ export function SiteHeader() {
     <header
       className={cx(
         'sticky top-0 z-50 transition-[border-color,background-color] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)]',
-        scrolled ? 'border-b border-line bg-ground' : 'border-b border-transparent bg-ground',
+        scrolled ? 'border-b border-line bg-ground/92 backdrop-blur-md' : 'border-b border-transparent bg-ground',
       )}
       style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
     >
-      <div className="wrap flex h-[68px] items-center justify-between gap-6">
-        <Link to="/" aria-label="AuraShades home" className="rounded-lg">
+      <div className="wrap grid h-16 grid-cols-[1fr_auto] items-center gap-6 md:grid-cols-[1fr_auto_1fr]">
+        <Link to="/" aria-label="AuraShades home" className="justify-self-start rounded-lg">
           <Wordmark />
         </Link>
 
@@ -75,18 +75,18 @@ export function SiteHeader() {
                   onMouseEnter={() => setHover(n.to)}
                   onFocus={() => setHover(n.to)}
                   className={cx(
-                    'relative z-10 flex h-10 items-center rounded-full px-4 text-[15px] transition-colors duration-300 ease-[cubic-bezier(0.23,1,0.32,1)]',
+                    'relative z-10 flex h-10 items-center rounded-[10px] px-4 text-[14.5px] font-[520] transition-colors duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]',
                     active(n.to) ? 'text-ink' : 'text-muted hover:text-ink',
                   )}
                   aria-current={active(n.to) ? 'page' : undefined}
                 >
                   {n.label}
-                  {active(n.to) && <span className="absolute inset-x-4 -bottom-[13px] h-px bg-ink" aria-hidden="true" />}
+                  {active(n.to) && <span className="absolute inset-x-4 -bottom-[12px] h-[2px] rounded-full bg-hot" aria-hidden="true" />}
                 </Link>
                 {hover === n.to && (
                   <motion.span
                     layoutId="nav-hover"
-                    className="absolute inset-0 rounded-full bg-panel"
+                    className="absolute inset-0 rounded-[10px] bg-panel-2"
                     transition={ease}
                     aria-hidden="true"
                   />
@@ -96,13 +96,13 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <div className="hidden items-center gap-2 md:flex">
+        <div className="hidden items-center justify-self-end gap-2 md:flex">
           <ThemeToggle />
           <Link to="/library" className={button({ variant: 'secondary', size: 'sm' })}>Browse free shaders</Link>
           <Link to="/pricing" className={button({ variant: 'primary', size: 'sm' })}>Get Pro</Link>
         </div>
 
-        <div className="flex items-center gap-1 md:hidden">
+        <div className="flex items-center justify-self-end gap-1 md:hidden">
           <ThemeToggle />
           <button
             type="button"
@@ -125,11 +125,11 @@ export function SiteHeader() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={ease}
-            className="fixed inset-x-0 bottom-0 top-[68px] z-40 bg-ground md:hidden"
+            className="fixed inset-x-0 bottom-0 top-16 z-40 bg-ground md:hidden"
           >
-            <nav aria-label="Mobile" className="wrap flex h-full flex-col gap-2 pt-6 pb-10">
+            <nav aria-label="Mobile" className="wrap flex h-full flex-col gap-2 pt-6 pb-8">
               {NAV.map((n) => (
-                <Link key={n.to} to={n.to} className="flex min-h-14 items-center border-b border-line font-display text-[32px] font-semibold tracking-[-0.02em]">
+                <Link key={n.to} to={n.to} className="flex min-h-16 items-center border-b border-line font-display text-[34px] font-[650] tracking-[-0.03em]">
                   {n.label}
                 </Link>
               ))}
