@@ -1480,6 +1480,22 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*3.4;
   c=mixok(c,mixok(uC2,uC3,band),clamp(line*band*1.1,0.,1.));
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'plum-satin', name: 'Plum Satin', style: 'Gradient', tier: 'pro',
+    summary: 'Plum satin folds with a rose glow on the edges.',
+    description: 'Deep plum fabric folds up from the lower corner in four layers. The edge of each fold catches a warm rose light, and the hollows between them fall into shadow.',
+    palettes: { dark: ['#140a12', '#4a1f3a', '#d06a96', '#ffd0dc'], light: ['#f6eef2', '#e5bdd0', '#d6719c', '#fff2f6'] },
+    defaults: { palette: ['#140a12', '#4a1f3a', '#d06a96', '#ffd0dc'], speed: .3, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();float px=1.5/uRes.y;
+  vec3 c=mixok(uC0,uC1,smoothstep(-.2,1.,uv.x*.5+uv.y*.7)*.5);
+  for(int i=0;i<4;i++){float fi=float(i);
+    float y0=.45*a.x+.35-fi*.24+.12*sin(a.x*(1.6+fi*.3)+fi*1.7+.3*sin(t*.22+fi))+.04*sin(a.x*3.4-t*.18+fi);
+    float d=a.y-y0;float body=smoothstep(px,-px,d);
+    vec3 col=mixok(mixok(uC1,uC0,fi*.18),uC2,smoothstep(-.3,0.,d)*.55);
+    c=mix(c,col,body);
+    c=mixok(c,uC3,clamp(exp(-pow(d/(px+.003),2.))*.75+exp(-abs(d)*22.)*.25*(1.-body),0.,1.));}
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
