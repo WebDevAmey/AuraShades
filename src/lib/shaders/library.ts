@@ -1543,6 +1543,14 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
   c=mixok(c,mixok(uC2,uC3,lit),m);
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'halftone-tide', name: 'Halftone Tide', style: 'Dither', tier: 'pro', cellular: 'pixel',
+    summary: 'A cyan wave printed in halftone dots.',
+    description: 'A glowing wave of cyan light rendered as a halftone screen: dots swell where the light is strongest and shrink to pinpoints in the deep blue around it.',
+    palettes: { dark: ['#020818', '#0a2f8a', '#1fb8ff', '#d6fbff'], light: ['#e8eef8', '#9fb8ef', '#1f9fe8', '#0a2f8a'] },
+    defaults: { palette: ['#020818', '#0a2f8a', '#1fb8ff', '#d6fbff'], speed: .3, scale: 1, grain: 0, cell: 6 },
+    body: wave({ ph: 2.2, bg: 0.15, glow: 1, ridge: 0.7, tex: 'halftone' }),
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
