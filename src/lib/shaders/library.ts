@@ -1561,6 +1561,14 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     body: wave({ ph: 0.9, bg: 1, glow: 0.35, ridge: 0.6, tex: 'emboss' }),
   },
   {
+    id: 'cobalt-halftone', name: 'Cobalt Halftone', style: 'Wave', tier: 'pro', cellular: 'pixel',
+    summary: 'A blue wave of light in halftone dots.',
+    description: 'A bright wave of cobalt light crossing deep navy, printed as a halftone screen. The dots are largest along the crest and fade to specks in the dark.',
+    palettes: { dark: ['#030714', '#0b2a7a', '#2f7dff', '#bfe6ff'], light: ['#030714', '#0b2a7a', '#2f7dff', '#bfe6ff'] },
+    defaults: { palette: ['#030714', '#0b2a7a', '#2f7dff', '#bfe6ff'], speed: .3, scale: 1, grain: 0, cell: 6 },
+    body: wave({ ph: 1.6, bg: 0.1, glow: 1, ridge: 0.7, tex: 'halftone' }),
+  },
+  {
     id: 'moss-ridge', name: 'Moss Ridge', style: 'Wave', tier: 'pro',
     summary: 'A sage glow along a dark green ridge.',
     description: 'A dark forest-green field with pale sage light catching the crest of a long ridge. The embossed surface makes it read like painted stucco in low light.',
@@ -1601,12 +1609,28 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     body: wave({ ph: 2.9, bg: 1, glow: 0.5, ridge: 0.6, tex: 'emboss' }),
   },
   {
+    id: 'arctic-halftone', name: 'Arctic Halftone', style: 'Wave', tier: 'pro', cellular: 'pixel',
+    summary: 'Icy light on navy, printed in dots.',
+    description: 'A diagonal sheet of icy blue light falling across navy, reproduced as a halftone. Bright areas become dense dots and the darkness thins to a fine grid.',
+    palettes: { dark: ['#030a18', '#123a6e', '#5ab8ff', '#e8f8ff'], light: ['#030a18', '#123a6e', '#5ab8ff', '#e8f8ff'] },
+    defaults: { palette: ['#030a18', '#123a6e', '#5ab8ff', '#e8f8ff'], speed: .3, scale: 1, grain: 0, cell: 6 },
+    body: wave({ ph: 3.8, bg: 0.25, glow: 0.9, ridge: 0.7, tex: 'halftone' }),
+  },
+  {
     id: 'amber-ridge', name: 'Amber Ridge', style: 'Wave', tier: 'pro',
     summary: 'Amber light catching the top of a dark hill.',
     description: 'Near-black olive with a band of golden amber light lying along the crest of a hill, as if the last of the sun is hitting it. The textured surface catches every bit of the glow.',
     palettes: { dark: ['#070806', '#2a2e14', '#f0a828', '#ffe3a0'], light: ['#070806', '#2a2e14', '#f0a828', '#ffe3a0'] },
     defaults: { palette: ['#070806', '#2a2e14', '#f0a828', '#ffe3a0'], speed: .3, scale: 1, grain: .05, cell: 6 },
     body: wave({ ph: 0.7, bg: 0.1, glow: 1, ridge: 0.8, tex: 'emboss' }),
+  },
+  {
+    id: 'violet-halftone', name: 'Violet Halftone', style: 'Wave', tier: 'pro', cellular: 'pixel',
+    summary: 'Indigo to violet in a halftone glow.',
+    description: 'A glow of violet and magenta rising over an indigo ridge, rendered in halftone dots that swell toward the light and shrink in the shadows.',
+    palettes: { dark: ['#08061e', '#2a1fa8', '#9a5cff', '#f0dcff'], light: ['#08061e', '#2a1fa8', '#9a5cff', '#f0dcff'] },
+    defaults: { palette: ['#08061e', '#2a1fa8', '#9a5cff', '#f0dcff'], speed: .3, scale: 1, grain: 0, cell: 6 },
+    body: wave({ ph: 1.4, bg: 0.2, glow: 1, ridge: 0.7, tex: 'halftone' }),
   },
 ]
 
