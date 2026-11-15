@@ -1324,6 +1324,24 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*1.5;float e=.004;
   c=mix(c,mixok(uC0,uC1,.4*smoothstep(-.15,0.,d2)),smoothstep(px,-px,d2));
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'gilded-chrome', name: 'Gilded Chrome', style: 'Liquid', tier: 'pro',
+    summary: 'A ribbon of molten silver and gold.',
+    description: 'A single liquid-metal ribbon winds across a dark stage. Its surface ripples as it moves, reflecting warm gold in the folds and sharp white highlights on the crests.',
+    palettes: { dark: ['#0b0a0a', '#3a332c', '#c9935a', '#fff5e6'], light: ['#e9e6e1', '#9c948a', '#c08a52', '#fffaf3'] },
+    defaults: { palette: ['#0b0a0a', '#3a332c', '#c9935a', '#fff5e6'], speed: .3, scale: 1, grain: .025, cell: 6 },
+    body: `float H(vec2 a,float t){float y=.14*sin(a.x*1.7+t*.2)+.05*sin(a.x*3.6-t*.17);float w=.28+.08*sin(a.x*2.1-t*.13);float v=(a.y-y)/w;return (1.-v*v)*(1.+.3*sin(a.x*5.+v*2.+t*.3));}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale;float e=.003;
+  float h=H(a,t);vec2 g=vec2(H(a+vec2(e,0.),t)-h,H(a+vec2(0.,e),t)-h)/e;
+  vec3 n=normalize(vec3(-g*.08,1.));vec3 r=reflect(vec3(0.,0.,-1.),n);
+  float env=.5+.5*sin(r.x*2.6+r.y*3.8+a.x*.8+t*.2);
+  vec3 metal=mixok(uC1,uC2,smoothstep(.2,.85,env));
+  metal=mixok(metal,uC3,clamp(pow(env,14.)+pow(1.-n.z,3.)*.4,0.,1.));
+  metal=mixok(metal,uC0,smoothstep(.35,0.,h)*.5);
+  vec3 c=mixok(uC0,uC1,exp(-abs(h)*2.)*.25);
+  c=mix(c,metal,smoothstep(0.,.06,h));
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
