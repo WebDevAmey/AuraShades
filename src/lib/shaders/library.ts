@@ -1496,6 +1496,17 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*3.4;
     c=mixok(c,uC3,clamp(exp(-pow(d/(px+.003),2.))*.75+exp(-abs(d)*22.)*.25*(1.-body),0.,1.));}
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'solar-eclipse', name: 'Solar Eclipse', style: 'Orbit', tier: 'pro',
+    summary: 'A burning orange limb in total darkness.',
+    description: 'A dark planet passes in front of its star. Only the edge is left burning, a thin orange crescent with a corona bleeding into the black around it.',
+    palettes: { dark: ['#060508', '#140f12', '#ff7a22', '#ffe0b0'], light: ['#f3efec', '#d9cfc8', '#ff8a3a', '#fff4e6'] },
+    defaults: { palette: ['#060508', '#140f12', '#ff7a22', '#ffe0b0'], speed: .3, scale: 1, grain: .03, cell: 6 },
+    body: ORB_FN + `vec3 shade(){float t=T();vec2 a=uvA()/uScale;
+  vec3 c=mixok(uC0,uC1,smoothstep(.8,-.6,a.y)*.4);
+  c=orb(c,a,vec2(.42+.02*sin(t*.2),-.78),.95,vec2(-.75+.1*sin(t*.15),1.),uC0,uC2,uC3);
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
