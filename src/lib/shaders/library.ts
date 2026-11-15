@@ -1425,6 +1425,28 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;float e=.003;
     defaults: { palette: ['#2a0c06', '#a8360f', '#e9a06a', '#f7e2c8'], speed: .25, scale: 1, grain: .06, cell: 6 },
     body: wave({ ph: 0.4, bg: 1, glow: 0.25, ridge: 0.55, tex: 'emboss' }),
   },
+  {
+    id: 'prism-flare', name: 'Prism Flare', style: 'Spectral', tier: 'pro',
+    summary: 'A lens flare splitting light across glass planes.',
+    description: 'Two violet planes meet along a bright seam. A flare burns where light hits the edge, and a thin rainbow streak breaks off it at an angle, the way light does through the side of a prism.',
+    palettes: { dark: ['#06061a', '#2a1f8a', '#6b4dff', '#f2eeff'], light: ['#efeefc', '#c3bdf5', '#7a5cff', '#fdfcff'] },
+    defaults: { palette: ['#06061a', '#2a1f8a', '#6b4dff', '#f2eeff'], speed: .3, scale: 1, grain: .025, cell: 6 },
+    body: `vec3 spec(float h){return .5+.5*cos(TAU*(h+vec3(0.,.33,.67)));}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale;
+  vec3 c=mixok(uC0,uC1,smoothstep(-.9,.9,a.x*.4+a.y*.7)*.6);
+  vec2 F=vec2(-.18+.05*sin(t*.2),-.02+.02*cos(t*.25));
+  float l=dot(a-F,normalize(vec2(.42,1.)));
+  c=mixok(c,uC2,smoothstep(0.,-.7,l)*.4);
+  float fd=length(a-F);
+  c=mixok(c,uC3,clamp(exp(-abs(l)*55.)*exp(-fd*1.6),0.,1.));
+  c=mixok(c,uC2,clamp(exp(-fd*3.)*.6,0.,1.));
+  c=mixok(c,uC3,clamp(exp(-fd*14.)+exp(-abs((a-F).y)*90.)*exp(-abs((a-F).x)*5.)*.5,0.,1.));
+  vec2 dir=normalize(vec2(.55,.85));vec2 nr=vec2(-dir.y,dir.x);
+  float al=dot(a-F,dir);float u=dot(a-F-vec2(.3,0.),nr)/.035;
+  float beam=exp(-u*u*.25)*smoothstep(-.1,.4,al)*smoothstep(1.2,.3,al);
+  c=mixok(c,spec(1.-clamp((u+3.)/6.,0.,1.)*.75),clamp(beam*.55,0.,1.));
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
