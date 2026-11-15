@@ -1464,6 +1464,22 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*3.4;
   c=mixok(c,uC3,clamp(pow(k,2.)*band*1.2,0.,1.));
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'silver-strands', name: 'Silver Strands', style: 'Light', tier: 'pro',
+    summary: 'Fine silver strands curling in a spiral.',
+    description: 'Dozens of thin silver threads spiral around an unseen centre, bright where they bunch together and fading into the dark at either end. The spiral turns slowly, like a sweep of fibres caught in light.',
+    palettes: { dark: ['#08090c', '#1f232c', '#9aa3b5', '#f2f4f8'], light: ['#eef0f3', '#cfd3db', '#6b7487', '#1e2230'] },
+    defaults: { palette: ['#08090c', '#1f232c', '#9aa3b5', '#f2f4f8'], speed: .3, scale: 1, grain: .02, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA()*uScale;
+  vec2 p=a-vec2(.2,-.25);float r=length(p);float an=atan(p.y,p.x);
+  float s=an*40./TAU+log(r+.001)*16.-t*.25;
+  float w=.06+r*.5*uScale*.0;
+  float line=1.-smoothstep(.04,.2,abs(fract(s)-.5));
+  float band=exp(-pow((r-.45-.08*sin(an*2.+t*.2))*4.5,2.))*smoothstep(-.9,.6,sin(an-.4));
+  vec3 c=mixok(uC0,uC1,band*.3);
+  c=mixok(c,mixok(uC2,uC3,band),clamp(line*band*1.1,0.,1.));
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
