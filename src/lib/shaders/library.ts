@@ -1,4 +1,4 @@
-export type Style = 'Gradient' | 'Grain' | 'Pastel' | 'Aurora' | 'Dither' | 'ASCII' | 'Grid' | 'Light' | 'Liquid' | 'Texture' | 'Orbit' | 'Spectral' | 'Landscape'
+export type Style = 'Gradient' | 'Grain' | 'Pastel' | 'Aurora' | 'Dither' | 'ASCII' | 'Grid' | 'Light' | 'Liquid' | 'Texture' | 'Orbit' | 'Spectral' | 'Landscape' | 'Wave'
 export type Tier = 'free' | 'pro'
 export type ThemeName = 'dark' | 'light'
 
@@ -39,6 +39,7 @@ export const STYLES: { id: Style; blurb: string }[] = [
   { id: 'Orbit', blurb: 'Planet edges, eclipses and orbits glowing in the dark.' },
   { id: 'Spectral', blurb: 'Full-spectrum light: rainbows, prisms and dispersion.' },
   { id: 'Landscape', blurb: 'Dunes, horizons and moons in soft evening light.' },
+  { id: 'Wave', blurb: 'Waves of light finished in plaster, halftone, grain or mesh.' },
 ]
 
 const ASCII_FN = `
@@ -1551,6 +1552,62 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     defaults: { palette: ['#020818', '#0a2f8a', '#1fb8ff', '#d6fbff'], speed: .3, scale: 1, grain: 0, cell: 6 },
     body: wave({ ph: 2.2, bg: 0.15, glow: 1, ridge: 0.7, tex: 'halftone' }),
   },
+  {
+    id: 'terracotta-drift', name: 'Terracotta Drift', style: 'Wave', tier: 'free',
+    summary: 'Cream to rust on embossed plaster.',
+    description: 'A warm plaster wall that fades from cream into deep rust, with a soft wave of shadow rolling through it and a raised, hand-finished texture over everything.',
+    palettes: { dark: ['#2a0c06', '#a8360f', '#e8682a', '#f6dcc0'], light: ['#5f4944', '#b55433', '#e8682a', '#f9e6d3'] },
+    defaults: { palette: ['#2a0c06', '#a8360f', '#e8682a', '#f6dcc0'], speed: .3, scale: 1, grain: .05, cell: 6 },
+    body: wave({ ph: 0.9, bg: 1, glow: 0.35, ridge: 0.6, tex: 'emboss' }),
+  },
+  {
+    id: 'moss-ridge', name: 'Moss Ridge', style: 'Wave', tier: 'pro',
+    summary: 'A sage glow along a dark green ridge.',
+    description: 'A dark forest-green field with pale sage light catching the crest of a long ridge. The embossed surface makes it read like painted stucco in low light.',
+    palettes: { dark: ['#060d08', '#1f3a26', '#7fa77a', '#dfeccf'], light: ['#060d08', '#1f3a26', '#7fa77a', '#dfeccf'] },
+    defaults: { palette: ['#060d08', '#1f3a26', '#7fa77a', '#dfeccf'], speed: .3, scale: 1, grain: .05, cell: 6 },
+    body: wave({ ph: 3.4, bg: 0.15, glow: 0.7, ridge: 0.8, tex: 'emboss' }),
+  },
+  {
+    id: 'frost-drift', name: 'Frost Drift', style: 'Wave', tier: 'pro',
+    summary: 'Cream fading into cold blue, embossed.',
+    description: 'A pale cream wall turning into icy blue and then deep navy along a curving shadow. The raised texture gives it the feel of snow-dusted plaster.',
+    palettes: { dark: ['#0a1430', '#3a5d9a', '#a9c1e6', '#f6efe2'], light: ['#474f64', '#5875a9', '#a9c1e6', '#f9f4eb'] },
+    defaults: { palette: ['#0a1430', '#3a5d9a', '#a9c1e6', '#f6efe2'], speed: .3, scale: 1, grain: .05, cell: 6 },
+    body: wave({ ph: 0.2, bg: 1, glow: 0.3, ridge: 0.7, tex: 'emboss' }),
+  },
+  {
+    id: 'tidal-sunset', name: 'Tidal Sunset', style: 'Wave', tier: 'pro',
+    summary: 'Teal sky meeting an orange shore.',
+    description: 'Teal and sky blue above, a bright orange glow along the curve of a dune below, and a dark ridge in the foreground, all with a raised, sandy texture.',
+    palettes: { dark: ['#140806', '#2a6f8f', '#ff8a3a', '#5fc8e6'], light: ['#4f4644', '#4a85a0', '#ff8a3a', '#8fd8ee'] },
+    defaults: { palette: ['#140806', '#2a6f8f', '#ff8a3a', '#5fc8e6'], speed: .3, scale: 1, grain: .05, cell: 6 },
+    body: wave({ ph: 1.1, bg: 1, glow: 0.85, ridge: 0.7, tex: 'emboss' }),
+  },
+  {
+    id: 'crimson-drift', name: 'Crimson Drift', style: 'Wave', tier: 'pro',
+    summary: 'A crimson glow burning through the dark.',
+    description: 'Deep maroon darkness with a crimson and orange glow burning along a sweeping ridge, softened by an embossed, almost velvet surface.',
+    palettes: { dark: ['#0e0408', '#4a0c1a', '#ff3d2a', '#ffb07a'], light: ['#0e0408', '#4a0c1a', '#ff3d2a', '#ffb07a'] },
+    defaults: { palette: ['#0e0408', '#4a0c1a', '#ff3d2a', '#ffb07a'], speed: .3, scale: 1, grain: .05, cell: 6 },
+    body: wave({ ph: 2.0, bg: 0.25, glow: 0.9, ridge: 0.75, tex: 'emboss' }),
+  },
+  {
+    id: 'mauve-drift', name: 'Mauve Drift', style: 'Wave', tier: 'pro',
+    summary: 'Cream into plum, with a peach-lit ridge.',
+    description: 'A soft cream sky dropping into dusky plum, with peach light sitting on the ridge between them and a gentle plaster texture across the frame.',
+    palettes: { dark: ['#1a0c22', '#6a3a6e', '#e38a6a', '#fbe6d2'], light: ['#534959', '#805884', '#e38a6a', '#fceee0'] },
+    defaults: { palette: ['#1a0c22', '#6a3a6e', '#e38a6a', '#fbe6d2'], speed: .3, scale: 1, grain: .05, cell: 6 },
+    body: wave({ ph: 2.9, bg: 1, glow: 0.5, ridge: 0.6, tex: 'emboss' }),
+  },
+  {
+    id: 'amber-ridge', name: 'Amber Ridge', style: 'Wave', tier: 'pro',
+    summary: 'Amber light catching the top of a dark hill.',
+    description: 'Near-black olive with a band of golden amber light lying along the crest of a hill, as if the last of the sun is hitting it. The textured surface catches every bit of the glow.',
+    palettes: { dark: ['#070806', '#2a2e14', '#f0a828', '#ffe3a0'], light: ['#070806', '#2a2e14', '#f0a828', '#ffe3a0'] },
+    defaults: { palette: ['#070806', '#2a2e14', '#f0a828', '#ffe3a0'], speed: .3, scale: 1, grain: .05, cell: 6 },
+    body: wave({ ph: 0.7, bg: 0.1, glow: 1, ridge: 0.8, tex: 'emboss' }),
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
@@ -1579,6 +1636,7 @@ const EXTRA: Record<Style, { dark: string[]; light: string[] }> = {
   Orbit: { dark: ['#04060d', '#0f1d3a', '#5fb0ff', '#eaf6ff'], light: ['#eef3f9', '#cddcef', '#4f8fe6', '#f9fcff'] },
   Spectral: { dark: ['#07061a', '#2a1a8a', '#36d1c4', '#ffd166'], light: ['#f5f3ff', '#c2b8ff', '#5fe0d2', '#ffe08a'] },
   Landscape: { dark: ['#101228', '#4a3a66', '#e8a07a', '#fff0e0'], light: ['#6f6790', '#c9a3b4', '#ffcaa8', '#fff8f1'] },
+  Wave: { dark: ['#0a0612', '#3a1a5e', '#ff8a4a', '#ffe2c2'], light: ['#f5efea', '#d9c4d8', '#f08a5a', '#fff4ea'] },
 }
 export function shufflePalettes(style: Style, theme: ThemeName): string[][] {
   return [...SHADERS.filter((x) => x.style === style).map((x) => [...x.palettes[theme]]), EXTRA[style][theme]]
