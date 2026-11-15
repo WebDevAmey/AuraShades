@@ -1524,6 +1524,25 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*3.4;
   c=mixok(c,uC3,clamp(seam,0.,1.));
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'sunset-cloud', name: 'Sunset Cloud', style: 'Pastel', tier: 'pro',
+    summary: 'A blue sky with peach clouds rising from below.',
+    description: 'Clear blue overhead, fading toward the horizon, and a bank of cloud rising from one corner lit peach and gold by a low sun. The clouds roll slowly as they drift.',
+    palettes: { dark: ['#1a2a6b', '#5d6fd6', '#f29a7a', '#ffd9a8'], light: ['#6f86e6', '#a9b6f2', '#ffb38f', '#ffe3c2'] },
+    defaults: { palette: ['#1a2a6b', '#5d6fd6', '#f29a7a', '#ffd9a8'], speed: .25, scale: 1, grain: .03, cell: 6 },
+    body: `float CL(vec2 p){return fbm(p)+.5*fbm(p*2.3+3.);}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
+  vec3 c=mixok(uC1,uC0,smoothstep(0.,1.,uv.y-uv.x*.3+.2));
+  vec2 p=mat2(.8,-.6,.6,.8)*a*1.3+vec2(t*.025,0.);
+  float bank=smoothstep(.1,-.5,a.y-a.x*.45)*.8;
+  float D=bank+(fbm(p)-.5)*.7+(fbm(p*2.6+3.)-.5)*.3;
+  vec2 pu=p+vec2(.03,.04);float Du=bank+(fbm(pu)-.5)*.7+(fbm(pu*2.6+3.)-.5)*.3;
+  float m=smoothstep(.3,.62,D);
+  float lit=clamp((D-Du)*-6.+.55,0.,1.);
+  c=mixok(c,uC2,smoothstep(.15,.45,D)*.25);
+  c=mixok(c,mixok(uC2,uC3,lit),m);
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
