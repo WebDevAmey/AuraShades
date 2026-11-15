@@ -10,4 +10,4 @@
 
 **Surface modes:** Landing and pricing = Persuade. Library = Experience. Editor = Operate. Docs = Read.
 
-**Look:** dark-first (shaders glow on a dark stage), light mode supported. No violet in the brand chrome; the shaders themselves carry colour.
+**Look:** an identity book on a gallery wall: light-first (pale gallery ground, boards, hairlines), dark theme as the alternate. The brand's signature material is a live grainy field in hot orange #ff5e3a, cobalt #3443d4 and navy #0c1322. One grotesque family (Schibsted Grotesk). The mark is a disc whose lower half breaks into scanline bands. No violet in the brand chrome; the shaders themselves carry colour.

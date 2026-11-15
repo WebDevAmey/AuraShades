@@ -5,3 +5,6 @@ dist
 .vinxi
 dist-preview
 .vercel
+.impeccable/review
+.impeccable/build
+.impeccable/mocks
