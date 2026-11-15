@@ -1507,6 +1507,23 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*3.4;
   c=orb(c,a,vec2(.42+.02*sin(t*.2),-.78),.95,vec2(-.75+.1*sin(t*.15),1.),uC0,uC2,uC3);
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'jade-marble', name: 'Jade Marble', style: 'Texture', tier: 'pro',
+    summary: 'Green and cream marble with gold seams.',
+    description: 'Bands of jade, sage and cream run diagonally through polished stone, with thin seams of gold where the bands meet and fine cloudy veining inside each one.',
+    palettes: { dark: ['#0e1f17', '#4f7a62', '#ece6d6', '#d4a548'], light: ['#2c4a3a', '#8fb09c', '#f4efe3', '#c9982f'] },
+    defaults: { palette: ['#0e1f17', '#4f7a62', '#ece6d6', '#d4a548'], speed: .15, scale: 1, grain: .02, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA()*uScale;
+  vec2 q=a+vec2(fbm(a*1.2+t*.03),fbm(a*1.2+5.-t*.025))*.5;
+  float b=.5+.5*sin((q.x+q.y)*3.2+fbm(q*2.5)*1.6);
+  vec3 c=mixok(uC0,uC1,smoothstep(.1,.45,b));
+  c=mixok(c,uC2,smoothstep(.5,.85,b));
+  c=mixok(c,mixok(c,uC1,.4),fbm(q*6.)*.35);
+  float px=1.5/uRes.y*uScale*4.;
+  float seam=exp(-pow((b-.45)/(.012+px),2.))+exp(-pow((b-.85)/(.01+px),2.))*.8+exp(-pow((b-.2)/(.01+px),2.))*.6;
+  c=mixok(c,uC3,clamp(seam,0.,1.));
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
