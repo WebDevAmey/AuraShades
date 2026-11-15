@@ -10,10 +10,12 @@ type Props = {
   className?: string
   label?: string
   dprCap?: number
+  /** Cross-fade when the params change (e.g. a palette picked by the visitor). */
+  crossfade?: boolean
 }
 
 /** A live shader background. Every instance shares one WebGL context. */
-export function AuraShade({ shader, params, className, label, dprCap = 1.5 }: Props) {
+export function AuraShade({ shader, params, className, label, dprCap = 1.5, crossfade = false }: Props) {
   const ref = useRef<HTMLCanvasElement>(null)
   const def = byId(shader)
   const theme = useTheme()
@@ -35,7 +37,7 @@ export function AuraShade({ shader, params, className, label, dprCap = 1.5 }: Pr
     // Cross-fade on a real theme switch, not on the hydration catch-up right after load.
     const themeChanged = lastTheme.current !== theme && performance.now() - mountedAt.current > 800
     lastTheme.current = theme
-    if (ref.current) getEngine().update(ref.current, { id: shader, params: merged }, themeChanged)
+    if (ref.current) getEngine().update(ref.current, { id: shader, params: merged }, themeChanged || (crossfade && performance.now() - mountedAt.current > 800))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shader, key])
 

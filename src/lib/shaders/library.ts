@@ -1687,14 +1687,23 @@ export function defaultsFor(def: ShaderDef, theme: ThemeName): ShaderParams {
   return { ...def.defaults, palette: [...def.palettes[theme]] as ShaderParams['palette'] }
 }
 
+/**
+ * The brand field: AuraShades' signature material, a grainy orange and cobalt colour field.
+ * It stays the same in both themes; the specimen board on the home page re-tints it.
+ */
+export const BRAND_FIELDS = [
+  { id: 'ember', name: 'Ember', palette: ['#ff5e3a', '#3443d4', '#0c1322', '#ffc7a8'] },
+  { id: 'cobalt', name: 'Cobalt', palette: ['#3443d4', '#ff5e3a', '#0c1322', '#ffd0b5'] },
+  { id: 'night', name: 'Night', palette: ['#0c1322', '#3443d4', '#ff5e3a', '#ffc7a8'] },
+] as const
+export type BrandField = (typeof BRAND_FIELDS)[number]
+export const BRAND_SHADER = 'mesh-drift'
+export const brandParams = (f: BrandField = BRAND_FIELDS[0]): Partial<ShaderParams> => ({ palette: [...f.palette] as ShaderParams['palette'], speed: 0.25, scale: 0.8, grain: 0.28 })
+
 /** Shader presets used for page atmosphere (hero and closing band), per theme. */
 export const ATMOSPHERE = {
   hero: {
-    dark: { shader: 'grain-bloom', params: { palette: ['#07080d', '#3b67ef', '#ff9d70', '#7aa2ff'], speed: 0.22, scale: 0.85, grain: 0.08 } },
-    light: { shader: 'mesh-drift', params: { palette: ['#c9d8ff', '#ffe1d1', '#dfe7ff', '#f4f6fb'], speed: 0.28, scale: 1, grain: 0.025 } },
-  },
-  close: {
-    dark: { back: '#0b0d14', colors: ['#3b67ef', '#ff9d70', '#7aa2ff', '#0b0d14'] },
-    light: { back: '#eef1f8', colors: ['#9db6ff', '#ffc9ae', '#c9d8ff', '#eef1f8'] },
+    dark: { shader: BRAND_SHADER, params: brandParams() },
+    light: { shader: BRAND_SHADER, params: brandParams() },
   },
 } as const
