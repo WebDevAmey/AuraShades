@@ -1360,6 +1360,19 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;float e=.003;
   c=mixok(c,uC3,line*pow(band,4.)*.6);
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'lavender-arcs', name: 'Lavender Arcs', style: 'Light', tier: 'pro',
+    summary: 'Great arcs of lavender light crossing on navy.',
+    description: 'Three huge translucent arcs sweep across a navy field and cross over each other. Each has a crisp lit edge and a soft lavender body, and they drift apart and together very slowly.',
+    palettes: { dark: ['#0a0a22', '#1c1f55', '#8f86ff', '#e8e6ff'], light: ['#efeffb', '#cfd0f3', '#7f74f0', '#3a33a8'] },
+    defaults: { palette: ['#0a0a22', '#1c1f55', '#8f86ff', '#e8e6ff'], speed: .3, scale: 1, grain: .025, cell: 6 },
+    body: VEIL_FN + `vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();float px=1.5/uRes.y;
+  vec3 c=mixok(uC0,uC1,smoothstep(1.,0.,uv.y)*.4);
+  c=veil(c,length(a-vec2(1.15,-.95+.04*sin(t*.2)))-1.25,px,.8);
+  c=veil(c,-(length(a-vec2(-1.25+.04*cos(t*.17),.95))-1.4),px,.7);
+  c=veil(c,length(a-vec2(.25+.05*sin(t*.15),1.65))-1.5,px,.6);
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
