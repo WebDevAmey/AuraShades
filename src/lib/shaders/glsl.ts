@@ -86,8 +86,8 @@ ${LIVE_MAIN}
 }
 
 export function exportReact(def: ShaderDef, p: ShaderParams) {
-  const pal = p.palette.map((c) => `'${c}'`).join(', ')
-  const extra = def.cellular ? `\n  cell={${p.cell}}` : `\n  grain={${p.grain}}`
+  const pal = p.palette.map((c) => `\n        '${c}',`).join('') + '\n      '
+  const extra = def.cellular ? `\n      cell={${p.cell}}` : `\n      grain={${p.grain}}`
   return `import { AuraShade } from 'aurashades/react'
 
 export function HeroBackground() {

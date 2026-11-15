@@ -68,10 +68,10 @@ export function ShaderEditor({ id, params, setParams, layout = 'full' }: {
     <div className="flex flex-col gap-7">
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
-          <span className="text-[14px] font-medium text-ink-2">Palette</span>
+          <span className="text-[14px] font-[560] text-ink">Palette</span>
           <div className="flex gap-1">
-            <button type="button" onClick={shuffle} className={button({ variant: 'ghost', size: 'sm', className: '!h-8 !px-2.5 !text-[13px]' })}><Shuffle size={14} />Shuffle</button>
-            <button type="button" onClick={() => setParams(defaultsFor(def, theme))} className={button({ variant: 'ghost', size: 'sm', className: '!h-8 !px-2.5 !text-[13px]' })}><RotateCcw size={14} />Reset</button>
+            <button type="button" onClick={shuffle} className={button({ variant: 'ghost', size: 'xs' })}><Shuffle size={14} />Shuffle</button>
+            <button type="button" onClick={() => setParams(defaultsFor(def, theme))} className={button({ variant: 'ghost', size: 'xs' })}><RotateCcw size={14} />Reset</button>
           </div>
         </div>
         <div className="grid grid-cols-4 gap-2">
@@ -85,21 +85,21 @@ export function ShaderEditor({ id, params, setParams, layout = 'full' }: {
                   onChange={(e) => setParams((p) => { const pal = [...p.palette] as ShaderParams['palette']; pal[i] = e.target.value; return { ...p, palette: pal } })}
                 />
               </label>
-              <span className="truncate text-center font-mono text-[11px] uppercase text-muted">{c}</span>
+              <span className="spec truncate text-center uppercase text-muted">{c}</span>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-5">
         {sliders.map((s) => {
           const v = params[s.k] as number
           const fill = ((v - s.min) / (s.max - s.min)) * 100
           return (
-            <div key={s.k} className="flex flex-col gap-1.5">
+            <div key={s.k} className="flex flex-col gap-2">
               <div className="flex justify-between text-[14px]">
-                <label htmlFor={`${layout}-${s.k}`} className="text-ink-2">{s.label}</label>
-                <output htmlFor={`${layout}-${s.k}`} className="tnum font-mono text-[12.5px] text-muted">{s.fmt(v)}</output>
+                <label htmlFor={`${layout}-${s.k}`} className="font-[560] text-ink">{s.label}</label>
+                <output htmlFor={`${layout}-${s.k}`} className="spec text-muted">{s.fmt(v)}</output>
               </div>
               <input
                 id={`${layout}-${s.k}`}
@@ -130,20 +130,20 @@ export function ShaderEditor({ id, params, setParams, layout = 'full' }: {
           options={[{ value: 'react', label: 'React' }, { value: 'glsl', label: 'GLSL' }, { value: 'css', label: 'CSS' }]}
         />
         {locked ? (
-          <Link to="/pricing" className={button({ variant: 'secondary', size: 'sm', className: '!h-9' })}><Lock size={14} />Unlock with Pro</Link>
+          <Link to="/pricing" className={button({ variant: 'secondary', size: 'sm' })}><Lock size={14} />Unlock with Pro</Link>
         ) : (
-          <button type="button" onClick={copy} className={button({ variant: 'primary', size: 'sm', className: '!h-9 min-w-[104px]' })}>
+          <button type="button" onClick={copy} className={button({ variant: 'primary', size: 'sm', className: 'min-w-[120px]' })}>
             {copied ? <Check size={15} /> : <Copy size={15} />}
             {copied ? 'Copied' : 'Copy code'}
           </button>
         )}
       </div>
       <div className="relative">
-        <pre className={cx('code', layout === 'frame' ? 'h-[210px]' : 'h-[300px]')} tabIndex={0} aria-label={`${format} code`}>
+        <pre className={cx('code', layout === 'frame' ? 'h-[210px]' : 'max-h-[460px]')} tabIndex={0} aria-label={`${format} code`}>
           <code>{code}</code>
         </pre>
         {locked && (
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 rounded-b-[14px] bg-gradient-to-t from-[var(--code-bg)] to-transparent" aria-hidden="true" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 rounded-b-[10px] bg-gradient-to-t from-[var(--code-bg)] to-transparent" aria-hidden="true" />
         )}
       </div>
       <p className="small">
@@ -156,11 +156,11 @@ export function ShaderEditor({ id, params, setParams, layout = 'full' }: {
 
   if (layout === 'frame') {
     return (
-      <div className="grid min-w-0 gap-5 p-4 md:p-5 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
-        <div className="relative aspect-[16/11] min-w-0 overflow-hidden rounded-[14px] border border-line">
+      <div className="grid min-w-0 gap-6 p-4 md:p-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:gap-8">
+        <div className="relative aspect-[4/3] min-w-0 overflow-hidden rounded-[12px] lg:aspect-auto lg:min-h-[420px]">
           <div className="absolute inset-0"><AuraShade shader={id} params={params} /></div>
         </div>
-        <div className="flex min-w-0 flex-col gap-6">
+        <div className="flex min-w-0 flex-col gap-8">
           {controls}
           {codePanel}
         </div>
@@ -169,14 +169,14 @@ export function ShaderEditor({ id, params, setParams, layout = 'full' }: {
   }
 
   return (
-    <div className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
-      <div className="flex min-w-0 flex-col gap-6">
-        <div className="relative aspect-[16/10] min-w-0 overflow-hidden rounded-[22px] border border-line">
-          <div className="absolute inset-0"><AuraShade shader={id} params={params} dprCap={1.75} /></div>
-        </div>
-        {codePanel}
+    <div className="boards min-w-0 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="field aspect-[16/10] min-w-0 lg:sticky lg:top-[88px]">
+        <div className="absolute inset-0"><AuraShade shader={id} params={params} dprCap={1.75} /></div>
       </div>
-      <aside className="panel h-max p-6 lg:sticky lg:top-[92px]">{controls}</aside>
+      <div className="flex min-w-0 flex-col gap-4">
+        <aside className="board">{controls}</aside>
+        <div className="board">{codePanel}</div>
+      </div>
     </div>
   )
 }

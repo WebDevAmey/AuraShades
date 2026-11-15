@@ -33,8 +33,8 @@ function ShaderPage() {
   const next = SHADERS[(i + 1) % SHADERS.length]
 
   return (
-    <section className="wrap pt-8 pb-24 md:pt-10" aria-labelledby="shader-title">
-      <nav aria-label="Breadcrumb" className="mb-8 flex items-center justify-between gap-4">
+    <section className="wrap page-end pt-6 md:pt-8" aria-labelledby="shader-title">
+      <nav aria-label="Breadcrumb" className="mb-10 flex items-center justify-between gap-4">
         <Link to="/library" className={button({ variant: 'ghost', size: 'sm', className: '-ml-3' })}><ArrowLeft size={16} />All shaders</Link>
         <div className="flex gap-2">
           <Link to="/library/$shaderId" params={{ shaderId: prev.id }} className={button({ variant: 'secondary', size: 'sm' })} aria-label={`Previous shader: ${prev.name}`}>
@@ -46,15 +46,15 @@ function ShaderPage() {
         </div>
       </nav>
 
-      <div className="mb-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-end">
-        <div className="flex flex-col gap-4">
+      <div className="mb-10 grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-end lg:gap-4">
+        <div className="stack-4">
           <div className="flex items-center gap-2">
             <Link to="/library" search={{ style: def.style }} className="chip hover:border-line-strong">{def.style}</Link>
-            {def.tier === 'pro' ? <span className="chip chip-pro">Pro</span> : <span className="chip">Free</span>}
+            {def.tier === 'pro' ? <span className="chip chip-pro">Pro</span> : <span className="chip chip-free">Free</span>}
           </div>
-          <h1 id="shader-title" className="display text-[clamp(44px,6vw,84px)]">{def.name}</h1>
+          <h1 id="shader-title" className="display">{def.name}</h1>
         </div>
-        <p className="text-[16px] text-ink-2">{def.description}</p>
+        <p className="body lg:px-1">{def.description}</p>
       </div>
 
       <ShaderEditor id={id} params={params} setParams={setParams} />
