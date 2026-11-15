@@ -66,6 +66,50 @@ vec3 veil(vec3 c,float d,float px,float glint){
   return mixok(c,uC3,clamp(exp(-pow(d/(px+.0025),2.))*glint,0.,1.));}
 `
 
+/**
+ * Textured waves: a lit S-curve of light over a darker ridge, finished with one of four surfaces.
+ * bg: how much the top-left lifts toward the light colours (0 = dark field, 1 = pale field)
+ * glow: strength of the light along the crest; ridge: how dark the ridges below fall; ph: shape of the curve.
+ */
+const WAVE_SCENE = `
+float wY(float x,float t){return -.04+.2*sin(x*1.45+PH+t*.16)+.07*sin(x*3.1-t*.12+PH*2.)+.14*x;}
+vec3 scene(vec2 a,float t){
+  float d=a.y-wY(a.x,t);
+  float diag=clamp(.55-a.x*.35+a.y*.6,0.,1.);
+  vec3 c=ramp(mix(.06,.08+.88*diag,BG));
+  float above=exp(-max(d,0.)*3.5)*step(0.,d);
+  c=mixok(c,uC2,clamp((above*.55+exp(-abs(d)*7.)*.35)*GLOW,0.,1.));
+  c=mixok(c,mixok(uC2,uC3,.65),clamp(exp(-d*d*120.)*GLOW*.9,0.,1.));
+  float px=1.5/uRes.y;
+  vec3 ridge=mixok(uC0,uC1,clamp(.35+d*1.5,0.,1.)*.8);
+  ridge=mixok(ridge,uC2,exp(min(d,0.)*14.)*.35*GLOW);
+  c=mix(c,mixok(c,ridge,RIDGE),smoothstep(px,-px,d));
+  float d2=a.y-(wY(a.x*.8+1.,t*.8)-.3);
+  return mix(c,mixok(c,uC0,RIDGE*.75),smoothstep(px,-px,d2));}
+`
+const WAVE_TEX = {
+  emboss: `float rel(vec2 p){return fbm(p*.07)*.6+noise(p*.45)*.4;}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec3 c=scene(a,t);
+  vec2 p=frag();float h=rel(p);float l=(rel(p+vec2(-1.5,1.5))-h)*3.;
+  c*=1.+clamp(l,-.2,.2)*.6;
+  return c+grain()*uGrain;}`,
+  grain: `vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec3 c=scene(a,t);
+  c*=.95+.1*hash(floor(frag()/1.5)+floor(t*.5));
+  return c+grain()*uGrain;}`,
+  halftone: `vec3 shade(){float t=T();vec2 cell=floor(frag()/uCell);vec2 l=fract(frag()/uCell)-.5;
+  vec2 a=((cell+.5)*uCell-.5*uRes)/uRes.y*uScale;vec3 c=scene(a,t);
+  float k=smoothstep(.04,.55,length(oklab(c)-K0));
+  float r=mix(.06,.62,k);float aa=1./uCell;
+  return mix(mixok(uC0,c,.1),c*1.15,smoothstep(r+aa,r-aa,length(l)));}`,
+  mesh: `vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec3 c=scene(a,t);
+  float sp=5.;vec2 g=vec2(frag().x/sp,(a.y-wY(a.x,t))*uRes.y/uScale/sp);
+  float dotm=smoothstep(.4,.12,length(fract(g)-.5));
+  float k=clamp(length(oklab(c)-K0)*2.5,0.,1.);
+  return mix(mixok(uC0,c,.15),c*1.35,dotm*clamp(k*2.2+.12,0.,1.))+grain()*uGrain;}`,
+}
+const wave = (o: { ph: number; bg: number; glow: number; ridge: number; tex: keyof typeof WAVE_TEX }) =>
+  `#define PH ${o.ph.toFixed(3)}\n#define BG ${o.bg.toFixed(3)}\n#define GLOW ${o.glow.toFixed(3)}\n#define RIDGE ${o.ridge.toFixed(3)}\n` + WAVE_SCENE + WAVE_TEX[o.tex]
+
 export const SHADERS: ShaderDef[] = [
   {
     id: 'silk', name: 'Silk', style: 'Gradient', tier: 'free',
@@ -1372,6 +1416,14 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;float e=.003;
   c=veil(c,-(length(a-vec2(-1.25+.04*cos(t*.17),.95))-1.4),px,.7);
   c=veil(c,length(a-vec2(.25+.05*sin(t*.15),1.65))-1.5,px,.6);
   return c+grain()*uGrain;}`,
+  },
+  {
+    id: 'clay-dune', name: 'Clay Dune', style: 'Texture', tier: 'pro',
+    summary: 'Sun-baked clay with a soft curve of shadow.',
+    description: 'A plastered wall in cream and rust, with a deep curve of shadow rolling across it. The rough relief catches the light, so you can almost feel the grit under your hand.',
+    palettes: { dark: ['#2a0c06', '#a8360f', '#e9a06a', '#f7e2c8'], light: ['#5a1a08', '#c8501e', '#f0b07a', '#fbeedd'] },
+    defaults: { palette: ['#2a0c06', '#a8360f', '#e9a06a', '#f7e2c8'], speed: .25, scale: 1, grain: .06, cell: 6 },
+    body: wave({ ph: 0.4, bg: 1, glow: 0.25, ridge: 0.55, tex: 'emboss' }),
   },
 ]
 
