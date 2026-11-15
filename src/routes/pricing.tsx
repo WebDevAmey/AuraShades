@@ -37,33 +37,33 @@ function Cell({ v }: { v: string | boolean }) {
 function PricingPage() {
   return (
     <>
-      <section className="wrap pt-12 pb-20 md:pt-16" aria-labelledby="pricing-title">
-        <div className="mb-12 flex max-w-3xl flex-col gap-5">
-          <h1 id="pricing-title" className="display text-[clamp(44px,6vw,84px)]">Plans for every kind of page</h1>
+      <section className="wrap pt-10 md:pt-14" aria-labelledby="pricing-title">
+        <div className="stack-6 mb-10 max-w-3xl md:mb-12">
+          <h1 id="pricing-title" className="display">Plans for every kind of page</h1>
           <p className="lede">{Word(freeCount)} shaders stay free for good. Pro adds the full library and the React component; Team shares palettes across a studio.</p>
         </div>
         <PricingPlans />
       </section>
 
-      <section className="wrap pb-20" aria-labelledby="compare-title">
-        <h2 id="compare-title" className="h2 mb-8 !text-[clamp(28px,3vw,40px)]">Compare every feature</h2>
-        <div className="overflow-x-auto rounded-[20px] border border-line">
+      <section className="wrap section" aria-labelledby="compare-title">
+        <h2 id="compare-title" className="h2 mb-8 md:mb-10">Compare every feature</h2>
+        <div className="board board-flush overflow-x-auto">
           <table className="w-full min-w-[640px] border-collapse text-left text-[15px]">
             <thead>
-              <tr className="border-b border-line bg-panel">
-                <th scope="col" className="p-4 font-medium text-muted">Feature</th>
-                <th scope="col" className="p-4 font-display text-[17px] font-semibold">Free</th>
-                <th scope="col" className="p-4 font-display text-[17px] font-semibold">Pro</th>
-                <th scope="col" className="p-4 font-display text-[17px] font-semibold">Team</th>
+              <tr className="border-b border-line bg-panel-2">
+                <th scope="col" className="px-6 py-4 font-[560] text-muted">Feature</th>
+                <th scope="col" className="px-6 py-4 font-display text-[17px] font-[640]">Free</th>
+                <th scope="col" className="px-6 py-4 font-display text-[17px] font-[640]">Pro</th>
+                <th scope="col" className="px-6 py-4 font-display text-[17px] font-[640]">Team</th>
               </tr>
             </thead>
             <tbody>
               {ROWS.map((r) => (
                 <tr key={r.label} className="border-b border-line last:border-0">
-                  <th scope="row" className="p-4 font-normal text-ink-2">{r.label}</th>
-                  <td className="p-4"><Cell v={r.free} /></td>
-                  <td className="p-4"><Cell v={r.pro} /></td>
-                  <td className="p-4"><Cell v={r.team} /></td>
+                  <th scope="row" className="px-6 py-4 font-normal text-ink-2">{r.label}</th>
+                  <td className="px-6 py-4"><Cell v={r.free} /></td>
+                  <td className="px-6 py-4"><Cell v={r.pro} /></td>
+                  <td className="px-6 py-4"><Cell v={r.team} /></td>
                 </tr>
               ))}
             </tbody>
@@ -71,10 +71,10 @@ function PricingPage() {
         </div>
       </section>
 
-      <section id="licence" className="wrap scroll-mt-24 pb-20" aria-labelledby="licence-title">
-        <div className="grid gap-8 border-t border-line pt-14 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
-          <h2 id="licence-title" className="h2 !text-[clamp(28px,3vw,40px)]">The licence in plain words</h2>
-          <div className="flex max-w-[64ch] flex-col gap-4 text-[16px] text-ink-2">
+      <section id="licence" className="wrap section scroll-mt-20" aria-labelledby="licence-title">
+        <div className="board grid gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
+          <h2 id="licence-title" className="h2">The licence in plain words</h2>
+          <div className="body flex max-w-[64ch] flex-col gap-4">
             <p>You can use any shader you are entitled to on as many websites as you like, including client work and products you sell.</p>
             <p>On the Free plan, the site must show a visible link to AuraShades, in the footer or a credits page. Pro and Team remove that requirement.</p>
             <p>You may change the code and palettes freely. You may not resell or redistribute the shaders as a shader pack, template kit or competing library.</p>
@@ -83,9 +83,9 @@ function PricingPage() {
         </div>
       </section>
 
-      <section className="wrap pb-24" aria-labelledby="pfaq-title">
-        <div className="grid gap-10 border-t border-line pt-14 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
-          <h2 id="pfaq-title" className="h2 !text-[clamp(28px,3vw,40px)]">Common questions</h2>
+      <section className="wrap section page-end" aria-labelledby="pfaq-title">
+        <div className="board grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
+          <h2 id="pfaq-title" className="h2">Common questions</h2>
           <Faq />
         </div>
       </section>

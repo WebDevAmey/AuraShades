@@ -55,21 +55,21 @@ function Docs() {
   }, [])
 
   return (
-    <div className="wrap grid gap-12 pt-12 pb-24 md:pt-16 lg:grid-cols-[220px_minmax(0,1fr)]">
+    <div className="wrap page-end grid gap-12 pt-10 md:pt-14 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-16">
       <aside className="hidden lg:block">
-        <nav aria-label="On this page" className="sticky top-[100px] flex flex-col gap-1">
-          <span className="mb-2 text-[14px] font-medium text-muted">On this page</span>
+        <nav aria-label="On this page" className="board sticky top-[88px] flex flex-col gap-1 !p-3">
+          <span className="micro px-3 pt-1 pb-2">On this page</span>
           {TOC.map((t) => (
-            <a key={t.id} href={`#${t.id}`} className={cx('rounded-lg px-3 py-1.5 text-[15px] transition-colors duration-300 ease-[cubic-bezier(0.23,1,0.32,1)]', active === t.id ? 'bg-panel text-ink' : 'text-muted hover:text-ink')}>
+            <a key={t.id} href={`#${t.id}`} className={cx('flex min-h-10 items-center rounded-[10px] px-3 text-[14.5px] transition-colors duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]', active === t.id ? 'bg-panel-2 font-[560] text-ink shadow-[0_0_0_1px_var(--line)]' : 'text-muted hover:text-ink')}>
               {t.label}
             </a>
           ))}
         </nav>
       </aside>
 
-      <article className="min-w-0 max-w-[72ch] text-[16.5px] leading-[1.7] text-ink-2 [&_h2]:scroll-mt-24 [&_h2]:font-display [&_h2]:text-[30px] [&_h2]:font-semibold [&_h2]:tracking-[-0.02em] [&_h2]:text-ink [&_h2]:mt-16 [&_h2]:mb-4 [&_p]:my-4 [&_code:not(pre_code)]:rounded-md [&_code:not(pre_code)]:bg-panel [&_code:not(pre_code)]:px-1.5 [&_code:not(pre_code)]:py-0.5 [&_code:not(pre_code)]:font-mono [&_code:not(pre_code)]:text-[0.88em] [&_code:not(pre_code)]:text-ink">
-        <h1 className="display text-[clamp(44px,5.5vw,76px)] text-ink">Docs</h1>
-        <p className="lede mt-5">Add a live shader background to a React page in three steps, then tune it with props.</p>
+      <article className="min-w-0 max-w-[72ch] text-[16.5px] leading-[1.7] text-ink-2 [&_h2]:scroll-mt-24 [&_h2]:font-display [&_h2]:text-[30px] [&_h2]:font-[650] [&_h2]:tracking-[-0.025em] [&_h2]:leading-[1.15] [&_h2]:text-ink [&_h2]:mt-16 [&_h2]:mb-4 [&_p]:my-4 [&_code:not(pre_code)]:rounded-[6px] [&_code:not(pre_code)]:border [&_code:not(pre_code)]:border-line [&_code:not(pre_code)]:bg-panel-2 [&_code:not(pre_code)]:px-1.5 [&_code:not(pre_code)]:py-0.5 [&_code:not(pre_code)]:font-mono [&_code:not(pre_code)]:text-[0.88em] [&_code:not(pre_code)]:text-ink">
+        <h1 className="display">Docs</h1>
+        <p className="lede mt-6">Add a live shader background to a React page in three steps, then tune it with props.</p>
         <p><strong className="font-medium text-ink">AuraShades</strong> is a library of live WebGL shader backgrounds for websites. Each background is a small fragment shader that the GPU draws every frame, so it stays sharp at any size and weighs far less than a video. You pick a shader, set four colours and a few dials, and render it with one React component.</p>
 
         <h2 id="install">Install</h2>
@@ -92,27 +92,27 @@ export function Hero() {
     </section>
   )
 }`}</Code>
-        <div className="my-6 h-40 overflow-hidden rounded-[16px] border border-line">
+        <div className="field my-6 h-48">
           <AuraShade shader="aurora-veil" label="Aurora Veil, the shader used in the example" />
         </div>
         <p>Every shader you open in the <Link to="/library" className="link text-ink">library</Link> can export this snippet with your palette and dials already filled in.</p>
 
         <h2 id="props">Component props</h2>
-        <div className="my-5 overflow-x-auto rounded-[14px] border border-line">
+        <div className="board board-flush my-6 overflow-x-auto !rounded-[16px]">
           <table className="w-full min-w-[620px] border-collapse text-left text-[14.5px] leading-[1.5]">
-            <thead><tr className="border-b border-line bg-panel">
-              <th scope="col" className="p-3 font-medium text-ink">Prop</th>
-              <th scope="col" className="p-3 font-medium text-ink">Type</th>
-              <th scope="col" className="p-3 font-medium text-ink">Default</th>
-              <th scope="col" className="p-3 font-medium text-ink">What it does</th>
+            <thead><tr className="border-b border-line bg-panel-2">
+              <th scope="col" className="px-4 py-3 font-medium text-ink">Prop</th>
+              <th scope="col" className="px-4 py-3 font-medium text-ink">Type</th>
+              <th scope="col" className="px-4 py-3 font-medium text-ink">Default</th>
+              <th scope="col" className="px-4 py-3 font-medium text-ink">What it does</th>
             </tr></thead>
             <tbody>
               {PROPS.map((p) => (
                 <tr key={p.name} className="border-b border-line last:border-0 align-top">
-                  <td className="p-3"><code>{p.name}</code></td>
-                  <td className="p-3 font-mono text-[13px] text-muted">{p.type}</td>
-                  <td className="p-3 text-muted">{p.def}</td>
-                  <td className="p-3">{p.desc}</td>
+                  <td className="px-4 py-3"><code>{p.name}</code></td>
+                  <td className="px-4 py-3 font-mono text-[13px] text-muted">{p.type}</td>
+                  <td className="px-4 py-3 text-muted">{p.def}</td>
+                  <td className="px-4 py-3">{p.desc}</td>
                 </tr>
               ))}
             </tbody>
@@ -120,19 +120,19 @@ export function Hero() {
         </div>
 
         <h2 id="shaders">Shader IDs</h2>
-        <div className="my-5 overflow-x-auto rounded-[14px] border border-line">
+        <div className="board board-flush my-6 overflow-x-auto !rounded-[16px]">
           <table className="w-full min-w-[520px] border-collapse text-left text-[14.5px] leading-[1.5]">
-            <thead><tr className="border-b border-line bg-panel">
-              <th scope="col" className="p-3 font-medium text-ink">ID</th>
-              <th scope="col" className="p-3 font-medium text-ink">Style</th>
-              <th scope="col" className="p-3 font-medium text-ink">Plan</th>
+            <thead><tr className="border-b border-line bg-panel-2">
+              <th scope="col" className="px-4 py-3 font-medium text-ink">ID</th>
+              <th scope="col" className="px-4 py-3 font-medium text-ink">Style</th>
+              <th scope="col" className="px-4 py-3 font-medium text-ink">Plan</th>
             </tr></thead>
             <tbody>
               {SHADERS.map((s) => (
                 <tr key={s.id} className="border-b border-line last:border-0">
-                  <td className="p-3"><Link to="/library/$shaderId" params={{ shaderId: s.id }} className="link font-mono text-[13.5px] text-ink">{s.id}</Link></td>
-                  <td className="p-3">{s.style}</td>
-                  <td className="p-3">{s.tier === 'pro' ? 'Pro' : 'Free'}</td>
+                  <td className="px-4 py-3"><Link to="/library/$shaderId" params={{ shaderId: s.id }} className="link font-mono text-[13.5px] text-ink">{s.id}</Link></td>
+                  <td className="px-4 py-3">{s.style}</td>
+                  <td className="px-4 py-3">{s.tier === 'pro' ? 'Pro' : 'Free'}</td>
                 </tr>
               ))}
             </tbody>

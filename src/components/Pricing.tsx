@@ -8,8 +8,10 @@ import { AuraShade } from './AuraShade'
 import { cx } from '~/lib/cx'
 import { ease } from '~/lib/motion'
 import { FAQS, PLANS } from '~/lib/content'
-import { useTheme } from '~/lib/theme'
-import { ATMOSPHERE, type ShaderParams } from '~/lib/shaders/library'
+import { BRAND_FIELDS, BRAND_SHADER, brandParams } from '~/lib/shaders/library'
+
+/** Each plan wears one field; Pro gets Ember, the brand's own. */
+const STRIP = { free: BRAND_FIELDS[2], pro: BRAND_FIELDS[0], team: BRAND_FIELDS[1] }
 import { button } from '~/lib/button'
 
 type Billing = 'monthly' | 'yearly'
@@ -17,7 +19,7 @@ type Billing = 'monthly' | 'yearly'
 function Price({ value, billing }: { value: number; billing: Billing }) {
   return (
     <div className="flex items-baseline gap-1.5">
-      <span className="relative inline-flex h-[56px] overflow-hidden font-display text-[52px] font-semibold leading-[56px] tracking-[-0.03em] tnum">
+      <span className="relative inline-flex h-[56px] overflow-hidden font-display text-[52px] font-[680] leading-[56px] tracking-[-0.035em] tnum">
         <span>$</span>
         <AnimatePresence mode="popLayout" initial={false}>
           <motion.span
@@ -38,7 +40,6 @@ function Price({ value, billing }: { value: number; billing: Billing }) {
 
 export function PricingPlans() {
   const [billing, setBilling] = useState<Billing>('yearly')
-  const atmo = ATMOSPHERE.hero[useTheme()]
   return (
     <div className="flex flex-col gap-8">
       <Segmented
@@ -48,22 +49,20 @@ export function PricingPlans() {
         options={[{ value: 'monthly', label: 'Monthly' }, { value: 'yearly', label: 'Yearly, save 33%' }]}
         className="self-start"
       />
-      <div className="grid gap-4 lg:grid-cols-3">
+      <div className="boards lg:grid-cols-3">
         {PLANS.map((p) => {
           const pro = p.id === 'pro'
           const value = billing === 'monthly' ? p.monthly : Math.round(p.yearly / 12)
           return (
-            <div key={p.id} className={cx('panel relative flex flex-col overflow-hidden', pro && 'border-line-strong')}>
-              {pro && (
-                <div className="h-20 border-b border-line">
-                  <AuraShade shader={atmo.shader} params={atmo.params as unknown as Partial<ShaderParams>} label="Pro plan shader preview" />
-                </div>
-              )}
-              <div className="flex flex-1 flex-col gap-6 p-7">
+            <div key={p.id} className={cx('board board-flush flex flex-col', pro && '!border-ink')}>
+              <div className="h-24 border-b border-line">
+                <AuraShade shader={BRAND_SHADER} params={brandParams(STRIP[p.id as keyof typeof STRIP])} label={`${p.name} plan colour strip`} />
+              </div>
+              <div className="flex flex-1 flex-col gap-6 p-6 md:p-8">
                 <div className="flex flex-col gap-1.5">
                   <div className="flex items-center gap-2">
                     <h3 className="h3">{p.name}</h3>
-                    {pro && <span className="chip chip-pro">Most picked</span>}
+                    {pro && <span className="chip chip-pro">Full library</span>}
                   </div>
                   <p className="text-[15px] text-ink-2">{p.pitch}</p>
                 </div>
@@ -103,13 +102,13 @@ export function Faq() {
       {FAQS.map((f, i) => (
         <Accordion.Item key={i} value={`q${i}`} className="border-b border-line">
           <Accordion.Header>
-            <Accordion.Trigger className="acc-trigger flex w-full items-center justify-between gap-6 py-5 text-left font-display text-[19px] font-medium tracking-[-0.01em] md:text-[21px]">
+            <Accordion.Trigger className="acc-trigger flex min-h-16 w-full items-center justify-between gap-6 py-4 text-left font-display text-[18px] font-[600] tracking-[-0.015em] md:text-[20px]">
               {f.q}
               <Plus size={20} className="shrink-0 text-muted" aria-hidden="true" />
             </Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Content className="acc-content">
-            <p className="max-w-[64ch] pb-6 text-[16px] text-ink-2">{f.a}</p>
+            <p className="body max-w-[64ch] pb-6">{f.a}</p>
           </Accordion.Content>
         </Accordion.Item>
       ))}
