@@ -1342,6 +1342,24 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;float e=.003;
   c=mix(c,metal,smoothstep(0.,.06,h));
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'lime-contours', name: 'Lime Contours', style: 'Grid', tier: 'pro',
+    summary: 'Dense contour lines lit by a lime wave.',
+    description: 'Hundreds of fine contour lines follow a wave as it bends through the frame. Lines far from the crest stay a quiet green, and the ones along it glow acid lime.',
+    palettes: { dark: ['#060a06', '#1f3a1a', '#9fd33a', '#efffb0'], light: ['#f1f5ea', '#b9cfa0', '#6aa61c', '#2c4a10'] },
+    defaults: { palette: ['#060a06', '#1f3a1a', '#9fd33a', '#efffb0'], speed: .3, scale: 1, grain: .02, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA()*uScale;
+  float y=.18*sin(a.x*1.6+t*.2)+.07*sin(a.x*3.3-t*.15)+.2*a.x;
+  float h=a.y-y+.06*(fbm(a*1.5+t*.05)-.5);
+  float N=34.;float pd=abs(fract(h*N+.5)-.5)/(N*1.3*uScale/uRes.y);
+  float line=1.-smoothstep(.5,1.5,pd);
+  float band=exp(-h*h*28.);
+  vec3 c=mixok(uC0,uC1,band*.35);
+  c=mixok(c,uC2,band*band*.45);
+  c=mixok(c,mixok(uC1,uC2,band),line*(.35+.65*band));
+  c=mixok(c,uC3,line*pow(band,4.)*.6);
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
