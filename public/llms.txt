@@ -1,6 +1,6 @@
 # AuraShades
 
-> AuraShades is a library of live WebGL shader backgrounds for websites in thirteen styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light, liquid, texture, orbit, spectral and landscape. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Fourteen shaders are free; Pro unlocks all 69 and the React component.
+> AuraShades is a library of live WebGL shader backgrounds for websites in fourteen styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light, liquid, texture, orbit, spectral, landscape and wave. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Fifteen shaders are free; Pro unlocks all 93 and the React component.
 
 ## Pages
 
@@ -24,6 +24,7 @@
 - Orbit: Planet edges, eclipses and orbits glowing in the dark.
 - Spectral: Full-spectrum light: rainbows, prisms and dispersion.
 - Landscape: Dunes, horizons and moons in soft evening light.
+- Wave: Waves of light finished in plaster, halftone, grain or mesh.
 
 ## Shaders
 
@@ -96,11 +97,35 @@
 - [Cotton Sky](https://aurashades.com/library/cotton-sky) (Pastel, Pro): Pink clouds drifting through a lavender sky.
 - [Chromatic Liquid](https://aurashades.com/library/chromatic-liquid) (Liquid, Pro): Dark glossy liquid with rainbow edges.
 - [Crescent Dunes](https://aurashades.com/library/crescent-dunes) (Landscape, Pro): A pale dune and a crescent moon at night.
+- [Gilded Chrome](https://aurashades.com/library/gilded-chrome) (Liquid, Pro): A ribbon of molten silver and gold.
+- [Lime Contours](https://aurashades.com/library/lime-contours) (Grid, Pro): Dense contour lines lit by a lime wave.
+- [Lavender Arcs](https://aurashades.com/library/lavender-arcs) (Light, Pro): Great arcs of lavender light crossing on navy.
+- [Clay Dune](https://aurashades.com/library/clay-dune) (Texture, Pro): Sun-baked clay with a soft curve of shadow.
+- [Prism Flare](https://aurashades.com/library/prism-flare) (Spectral, Pro): A lens flare splitting light across glass planes.
+- [Caustic Deep](https://aurashades.com/library/caustic-deep) (Liquid, Pro): Underwater light rippling in teal.
+- [Silver Strands](https://aurashades.com/library/silver-strands) (Light, Pro): Fine silver strands curling in a spiral.
+- [Plum Satin](https://aurashades.com/library/plum-satin) (Gradient, Pro): Plum satin folds with a rose glow on the edges.
+- [Solar Eclipse](https://aurashades.com/library/solar-eclipse) (Orbit, Pro): A burning orange limb in total darkness.
+- [Jade Marble](https://aurashades.com/library/jade-marble) (Texture, Pro): Green and cream marble with gold seams.
+- [Sunset Cloud](https://aurashades.com/library/sunset-cloud) (Pastel, Pro): A blue sky with peach clouds rising from below.
+- [Halftone Tide](https://aurashades.com/library/halftone-tide) (Dither, Pro): A cyan wave printed in halftone dots.
+- [Terracotta Drift](https://aurashades.com/library/terracotta-drift) (Wave, Free): Cream to rust on embossed plaster.
+- [Cobalt Halftone](https://aurashades.com/library/cobalt-halftone) (Wave, Pro): A blue wave of light in halftone dots.
+- [Ultraviolet Ember](https://aurashades.com/library/ultraviolet-ember) (Wave, Pro): Violet sky over an ember glow, in film grain.
+- [Moss Ridge](https://aurashades.com/library/moss-ridge) (Wave, Pro): A sage glow along a dark green ridge.
+- [Violet Mesh](https://aurashades.com/library/violet-mesh) (Wave, Pro): A wave drawn in rows of violet dots.
+- [Frost Drift](https://aurashades.com/library/frost-drift) (Wave, Pro): Cream fading into cold blue, embossed.
+- [Tidal Sunset](https://aurashades.com/library/tidal-sunset) (Wave, Pro): Teal sky meeting an orange shore.
+- [Crimson Drift](https://aurashades.com/library/crimson-drift) (Wave, Pro): A crimson glow burning through the dark.
+- [Mauve Drift](https://aurashades.com/library/mauve-drift) (Wave, Pro): Cream into plum, with a peach-lit ridge.
+- [Arctic Halftone](https://aurashades.com/library/arctic-halftone) (Wave, Pro): Icy light on navy, printed in dots.
+- [Amber Ridge](https://aurashades.com/library/amber-ridge) (Wave, Pro): Amber light catching the top of a dark hill.
+- [Violet Halftone](https://aurashades.com/library/violet-halftone) (Wave, Pro): Indigo to violet in a halftone glow.
 
 ## Plans
 
-- Free: free. 14 shaders, at least one in every style; Live editor with every control; Copy as GLSL or CSS palette; Personal and commercial use with a credit link.
-- Pro: $12 per month or $96 per year. All 69 shaders and every new release; Copy as a typed React component; No credit link needed; Commercial licence for unlimited sites.
+- Free: free. 15 shaders, at least one in every style; Live editor with every control; Copy as GLSL or CSS palette; Personal and commercial use with a credit link.
+- Pro: $12 per month or $96 per year. All 93 shaders and every new release; Copy as a typed React component; No credit link needed; Commercial licence for unlimited sites.
 - Team: $36 per month or $288 per year. Everything in Pro for 5 seats; Shared palette library for the team; One invoice, add seats any time; Priority email support.
 
 ## FAQ
