@@ -1585,6 +1585,14 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     body: wave({ ph: 3.4, bg: 0.15, glow: 0.7, ridge: 0.8, tex: 'emboss' }),
   },
   {
+    id: 'violet-mesh', name: 'Violet Mesh', style: 'Wave', tier: 'pro',
+    summary: 'A wave drawn in rows of violet dots.',
+    description: 'Rows of tiny dots follow the curve of a wave, so the surface reads as a mesh. The dots light up violet along the crest and dissolve into the dark everywhere else.',
+    palettes: { dark: ['#05040f', '#1d1550', '#8a6cff', '#e6dcff'], light: ['#05040f', '#1d1550', '#8a6cff', '#e6dcff'] },
+    defaults: { palette: ['#05040f', '#1d1550', '#8a6cff', '#e6dcff'], speed: .3, scale: 1, grain: .02, cell: 6 },
+    body: wave({ ph: 4.1, bg: 0.05, glow: 1, ridge: 0.6, tex: 'mesh' }),
+  },
+  {
     id: 'frost-drift', name: 'Frost Drift', style: 'Wave', tier: 'pro',
     summary: 'Cream fading into cold blue, embossed.',
     description: 'A pale cream wall turning into icy blue and then deep navy along a curving shadow. The raised texture gives it the feel of snow-dusted plaster.',
