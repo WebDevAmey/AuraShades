@@ -1,26 +1,33 @@
 import { useId } from 'react'
 
-export function LogoMark({ size = 26 }: { size?: number }) {
+/**
+ * The AuraShades mark: a disc whose lower half breaks into scanline bands,
+ * light passing through a shader. Drawn on a 32 grid; inherits currentColor.
+ */
+export function LogoMark({ size = 24, className }: { size?: number; className?: string }) {
   const id = useId()
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
+    <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true" className={className}>
       <defs>
-        <radialGradient id={id} cx="38%" cy="34%" r="70%">
-          <stop offset="0" stopColor="var(--brand-1)" />
-          <stop offset="1" stopColor="var(--brand-2)" />
-        </radialGradient>
+        <clipPath id={id}>
+          <circle cx="16" cy="16" r="13" />
+        </clipPath>
       </defs>
-      <circle cx="32" cy="32" r="28" fill={`url(#${id})`} />
-      <circle cx="39" cy="39" r="12" fill="var(--ground)" />
+      <g clipPath={`url(#${id})`} fill="currentColor">
+        <rect x="0" y="0" width="32" height="16" />
+        <rect x="0" y="17.75" width="32" height="3.25" />
+        <rect x="0" y="22.75" width="32" height="2.25" />
+        <rect x="0" y="26.75" width="32" height="1.5" />
+      </g>
     </svg>
   )
 }
 
 export function Wordmark() {
   return (
-    <span className="flex items-center gap-2.5">
-      <LogoMark />
-      <span className="font-display text-[19px] font-semibold tracking-[-0.02em]">AuraShades</span>
+    <span className="flex items-center gap-2">
+      <LogoMark size={24} className="text-hot" />
+      <span className="font-display text-[18px] font-[680] tracking-[-0.03em]">AuraShades</span>
     </span>
   )
 }
