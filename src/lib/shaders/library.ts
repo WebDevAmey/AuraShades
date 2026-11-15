@@ -1447,6 +1447,23 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   c=mixok(c,spec(1.-clamp((u+3.)/6.,0.,1.)*.75),clamp(beam*.55,0.,1.));
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'caustic-deep', name: 'Caustic Deep', style: 'Liquid', tier: 'pro',
+    summary: 'Underwater light rippling in teal.',
+    description: 'The network of light that sunlight throws through moving water, seen from below. Bright threads gather in a band across the frame and fade into deep teal at the edges.',
+    palettes: { dark: ['#03101a', '#0b3a4a', '#2fd6b0', '#d8fff0'], light: ['#eaf6f6', '#a9dcdc', '#1fae96', '#0b4a52'] },
+    defaults: { palette: ['#03101a', '#0b3a4a', '#2fd6b0', '#d8fff0'], speed: .3, scale: 1, grain: .025, cell: 6 },
+    body: `float rg(vec2 p){float n=1.-abs(noise(p)*2.-1.);n*=n;n*=n;return n*n;}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale*3.4;
+  vec2 q=a+.9*vec2(fbm(a*.45+t*.06),fbm(a*.45+4.-t*.05));
+  float k=rg(mat2(.8,-.6,.6,.8)*q*1.1+t*.08)*.6+rg(mat2(.5,.87,-.87,.5)*q*2.1-t*.06+3.)*.4;
+  k=pow(k,1.2)*1.4;
+  float band=exp(-pow(a.y/2.2+.25*a.x/2.2-.05*sin(a.x*.8+t*.2),2.)*7.);
+  vec3 c=mixok(uC0,uC1,.25+band*.5);
+  c=mixok(c,uC2,clamp(k*(.35+band),0.,1.));
+  c=mixok(c,uC3,clamp(pow(k,2.)*band*1.2,0.,1.));
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
