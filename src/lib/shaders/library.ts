@@ -1674,6 +1674,40 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     c=mixok(c,mixok(col,vec3(1.),.35),clamp(on*line*depth*(.6+.4*pulse),0.,1.));}
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'digit-rain', name: 'Digit Rain', style: 'ASCII', tier: 'pro', cellular: 'glyph',
+    summary: 'Columns of warm digits falling through the dark.',
+    description: 'Seven-segment digits drawn by the shader itself rain down in columns at their own speeds. The head of each stream burns bright gold, the tail cools as it falls, and every digit keeps changing as it passes.',
+    palettes: { dark: ['#050403', '#2a1d0c', '#c98a3a', '#ffe2b0'], light: ['#050403', '#2a1d0c', '#c98a3a', '#ffe2b0'] },
+    defaults: { palette: ['#050403', '#2a1d0c', '#c98a3a', '#ffe2b0'], speed: .35, scale: 1, grain: 0, cell: 14 },
+    body: `float sg(vec2 p,vec2 a,vec2 b){vec2 pa=p-a,ba=b-a;float h=clamp(dot(pa,ba)/dot(ba,ba),0.,1.);return length(pa-ba*h);}
+float bit(float code,float k){return mod(floor(code/pow(2.,k)),2.);}
+float digit(vec2 l,float n){
+  float code=n<.5?63.:n<1.5?6.:n<2.5?91.:n<3.5?79.:n<4.5?102.:n<5.5?109.:n<6.5?125.:n<7.5?7.:n<8.5?127.:111.;
+  vec2 p=vec2(l.x,1.-l.y);float x0=.3,x1=.7,y0=.18,y1=.5,y2=.82;float d=9.;
+  if(bit(code,0.)>.5)d=min(d,sg(p,vec2(x0,y0),vec2(x1,y0)));
+  if(bit(code,1.)>.5)d=min(d,sg(p,vec2(x1,y0),vec2(x1,y1)));
+  if(bit(code,2.)>.5)d=min(d,sg(p,vec2(x1,y1),vec2(x1,y2)));
+  if(bit(code,3.)>.5)d=min(d,sg(p,vec2(x0,y2),vec2(x1,y2)));
+  if(bit(code,4.)>.5)d=min(d,sg(p,vec2(x0,y1),vec2(x0,y2)));
+  if(bit(code,5.)>.5)d=min(d,sg(p,vec2(x0,y0),vec2(x0,y1)));
+  if(bit(code,6.)>.5)d=min(d,sg(p,vec2(x0,y1),vec2(x1,y1)));
+  return d;}
+vec3 shade(){float t=T();vec2 cs=vec2(uCell,uCell*1.6);vec2 px=frag();vec2 cell=floor(px/cs);vec2 l=fract(px/cs);
+  float rows=uRes.y/cs.y;
+  float sp=.35+.65*hash(vec2(cell.x,3.1));
+  float v=fract(-cell.y/rows*1.3+t*.22*sp+hash(vec2(cell.x,9.7)));
+  float trail=pow(v,7.);float head=smoothstep(.985,1.,v);
+  float live=step(.25,hash(vec2(cell.x,1.7)));
+  float n=floor(hash(cell+floor(t*(1.5+3.*hash(cell+.5))))*10.);
+  float d=digit(l,n);
+  float stroke=smoothstep(.075,.035,d);float glow=exp(-d*16.);
+  float k=live*(trail+head)+.06;
+  vec3 col=mixok(uC1,uC2,clamp(k*1.3,0.,1.));col=mixok(col,uC3,head+trail*trail*.6);
+  vec3 c=mixok(uC0,uC1,.12);
+  c=mixok(c,col,clamp(stroke*min(k*1.4,1.)+glow*k*.35,0.,1.));
+  return c;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
