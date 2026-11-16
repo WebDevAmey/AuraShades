@@ -14,6 +14,7 @@ const pages = [
   { path: '/library', priority: '0.9' },
   { path: '/pricing', priority: '0.8' },
   { path: '/docs', priority: '0.8' },
+  { path: '/changelog', priority: '0.6' },
   ...SHADERS.map((s) => ({ path: `/library/${s.id}`, priority: '0.7' })),
 ]
 
@@ -47,6 +48,7 @@ writeFileSync(
 - [Library](${SITE}/library): every shader, filterable by style and plan
 - [Pricing](${SITE}/pricing): Free, Pro and Team plans with a feature comparison and licence terms
 - [Docs](${SITE}/docs): install, the <AuraShade /> component props, performance and browser support
+- [Changelog](${SITE}/changelog): new shaders, engine changes and site updates, newest first
 
 ## Styles
 

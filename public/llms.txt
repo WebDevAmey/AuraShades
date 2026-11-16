@@ -1,6 +1,6 @@
 # AuraShades
 
-> AuraShades is a library of live WebGL shader backgrounds for websites in fourteen styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light, liquid, texture, orbit, spectral, landscape and wave. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Eighteen shaders are free; Pro unlocks all 101 and the React component.
+> AuraShades is a library of live WebGL shader backgrounds for websites in fourteen styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light, liquid, texture, orbit, spectral, landscape and wave. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Eighteen shaders are free; Pro unlocks all 100 and the React component.
 
 ## Pages
 
@@ -8,6 +8,7 @@
 - [Library](https://aurashades.com/library): every shader, filterable by style and plan
 - [Pricing](https://aurashades.com/pricing): Free, Pro and Team plans with a feature comparison and licence terms
 - [Docs](https://aurashades.com/docs): install, the <AuraShade /> component props, performance and browser support
+- [Changelog](https://aurashades.com/changelog): new shaders, engine changes and site updates, newest first
 
 ## Styles
 
@@ -31,7 +32,7 @@
 - [Silk](https://aurashades.com/library/silk) (Gradient, Free): Folded satin bands with a soft sheen.
 - [Mesh Drift](https://aurashades.com/library/mesh-drift) (Gradient, Pro): Four colour anchors orbiting and blending by distance.
 - [Grain Bloom](https://aurashades.com/library/grain-bloom) (Grain, Free): Soft light leaks exposed through film grain.
-- [Dune](https://aurashades.com/library/dune) (Grain, Pro): Sunset strata pressed into layers.
+- [Dune](https://aurashades.com/library/dune) (Grain, Free): Sunset strata pressed into layers.
 - [Pastel Haze](https://aurashades.com/library/pastel-haze) (Pastel, Free): Pastel clouds drifting into one another.
 - [Iridescent](https://aurashades.com/library/iridescent) (Pastel, Pro): Thin-film colour, like foil or a soap bubble.
 - [Aurora Veil](https://aurashades.com/library/aurora-veil) (Aurora, Free): Curtains of light that fray into rays.
@@ -127,13 +128,12 @@
 - [Flow Field](https://aurashades.com/library/flow-field) (Light, Free): Thousands of fine streamlines swirling through the dark.
 - [Pixel Trail](https://aurashades.com/library/pixel-trail) (Grid, Pro): A path of lit cells wandering across a dark grid.
 - [Ring Cascade](https://aurashades.com/library/ring-cascade) (Orbit, Pro): Broken bronze rings turning at their own speeds.
-- [Signal Mosaic](https://aurashades.com/library/signal-mosaic) (Grid, Free): A band of electric colour breaking into square pixels.
 - [Signal Flow](https://aurashades.com/library/signal-flow) (Light, Free): A twisting ribbon of fine electric lines.
 
 ## Plans
 
 - Free: free. 18 shaders, at least one in every style; Live editor with every control; Copy as GLSL or CSS palette; Personal and commercial use with a credit link.
-- Pro: $12 per month or $96 per year. All 101 shaders and every new release; Copy as a typed React component; No credit link needed; Commercial licence for unlimited sites.
+- Pro: $12 per month or $96 per year. All 100 shaders and every new release; Copy as a typed React component; No credit link needed; Commercial licence for unlimited sites.
 - Team: $36 per month or $288 per year. Everything in Pro for 5 seats; Shared palette library for the team; One invoice, add seats any time; Priority email support.
 
 ## FAQ
