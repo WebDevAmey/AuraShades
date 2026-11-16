@@ -1648,6 +1648,32 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     defaults: { palette: ['#08061e', '#2a1fa8', '#9a5cff', '#f0dcff'], speed: .3, scale: 1, grain: 0, cell: 6 },
     body: wave({ ph: 1.4, bg: 0.2, glow: 1, ridge: 0.7, tex: 'halftone' }),
   },
+  {
+    id: 'prism-tiles', name: 'Prism Tiles', style: 'Grid', tier: 'pro',
+    summary: 'Glass slabs stacked in isometric layers, edges lit.',
+    description: 'Three layers of glass tiles drift past each other at different depths. Each slab glows along its edges, fills with a soft violet-to-amber light, and pulses on its own clock, so the stack never repeats.',
+    palettes: { dark: ['#07051a', '#1b1240', '#7b4dff', '#ff8a4c'], light: ['#07051a', '#1b1240', '#7b4dff', '#ff8a4c'] },
+    defaults: { palette: ['#07051a', '#1b1240', '#7b4dff', '#ff8a4c'], speed: .35, scale: 1, grain: .02, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA()*uScale;
+  vec3 c=mixok(uC0,uC1,smoothstep(.9,-.7,a.y)*.45);
+  for(int i=2;i>=0;i--){float fi=float(i);
+    float s=1.6+fi*1.05;
+    vec2 p=mat2(.7071,-.7071,.7071,.7071)*a;p.y*=1.7;
+    p=p*s+vec2(t*.07*(1.+fi*.6),t*.045)+fi*7.3;
+    vec2 id=floor(p);vec2 f=fract(p);
+    float on=step(.58,hash(id+fi*13.1));
+    float pulse=.55+.45*sin(t*.7+hash(id+3.3)*6.283);
+    float e=min(min(f.x,1.-f.x),min(f.y,1.-f.y));
+    float w=s*2.4/uRes.y;
+    float line=smoothstep(w*1.6,0.,e)+exp(-e*18.)*.6;
+    float depth=1.-fi*.27;
+    vec3 col=mixok(uC2,uC3,clamp(.5+.5*sin(id.x*.9-id.y*.5+t*.25+fi),0.,1.));
+    float face=(.18+.32*(1.-f.y)*f.x)*pulse;
+    c=mixok(c,mixok(uC0,col,.22),on*.6*depth);
+    c=mixok(c,col,clamp(on*face*depth,0.,1.));
+    c=mixok(c,mixok(col,vec3(1.),.35),clamp(on*line*depth*(.6+.4*pulse),0.,1.));}
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
