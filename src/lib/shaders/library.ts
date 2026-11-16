@@ -1754,6 +1754,31 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   c=mixok(c,mixok(uC2,uC3,dash*band),clamp(line*vis*(.15+.85*dash)*(.25+.75*band),0.,1.));
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'pixel-trail', name: 'Pixel Trail', style: 'Grid', tier: 'pro', cellular: 'pixel',
+    summary: 'A path of lit cells wandering across a dark grid.',
+    description: 'A field of hollow squares, mostly asleep. A trail of light winds through them, waking each cell it touches, letting it glow, then fade, while a few stray cells flicker on their own.',
+    palettes: { dark: ['#07061a', '#1a1540', '#7b5cff', '#e6dcff'], light: ['#07061a', '#1a1540', '#7b5cff', '#e6dcff'] },
+    defaults: { palette: ['#07061a', '#1a1540', '#7b5cff', '#e6dcff'], speed: .4, scale: 1, grain: 0, cell: 6 },
+    body: `vec3 shade(){float t=T();float cs=uCell*3.2;vec2 px=frag();vec2 id=floor(px/cs);vec2 f=fract(px/cs)-.5;
+  vec2 a=((id+.5)*cs-.5*uRes)/uRes.y*uScale;
+  float y0=.22*sin(a.x*2.1+t*.35)+.12*sin(a.x*4.3-t*.5)-.08*a.x;
+  float y1=-.2+.18*sin(a.x*1.7-t*.28+2.)+.1*sin(a.x*3.7+t*.4);
+  float w=1.6*cs/uRes.y;
+  float p0=exp(-pow((a.y-y0)/w,2.));float p1=exp(-pow((a.y-y1)/w,2.))*.7;
+  float sweep=.35+.65*smoothstep(.0,1.,fract(a.x*.35-t*.18));
+  float spark=step(.985,hash(id+floor(t*1.5)))*.8;
+  float on=clamp(max(p0,p1)*sweep+spark,0.,1.);
+  float m=max(abs(f.x),abs(f.y));float aa=1./cs;
+  float outline=smoothstep(.47,.47-aa*1.5,m)-smoothstep(.41,.41-aa*1.5,m);
+  float fill=smoothstep(.41,.41-aa*1.5,m);
+  vec3 c=uC0;
+  c=mix(c,uC1,outline*(.55+.45*on));
+  vec3 lit=mixok(uC2,uC3,on*on);
+  c=mix(c,lit,fill*on*.95);
+  c=mix(c,mixok(uC2,uC3,.5),outline*on*.8);
+  return c;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
