@@ -1830,6 +1830,35 @@ vec3 shade(){float t=T();vec2 px=frag();float s=uCell*8.;vec2 id=floor(px/s);
   col=mixok(col,vec3(.93,.96,1.),clamp(exp(-y*y*90.)*step(.9,hash(k+19.))*.7,0.,1.));
   return mix(uC0,col,lit);}`,
   },
+  {
+    id: 'signal-flow', name: 'Signal Flow', style: 'Light', tier: 'free',
+    summary: 'A twisting ribbon of fine electric lines.',
+    description: 'A ribbon drawn from eighteen hairlines of light, blue into cyan into pink. It twists slowly as it crosses the frame, so the lines crowd together and flare white where the ribbon turns edge-on, then fan out again.',
+    palettes: { dark: ['#03050c', '#2346ff', '#3fd2ff', '#ff5aa5'], light: ['#03050c', '#2346ff', '#3fd2ff', '#ff5aa5'] },
+    defaults: { palette: ['#03050c', '#2346ff', '#3fd2ff', '#ff5aa5'], speed: .3, scale: 1, grain: .05, cell: 6 },
+    body: `vec3 rib(vec3 c,vec2 a,float t,float o,float k,float N){float px=1./uRes.y;
+  float x=a.x+.08*sin(a.y*2.+t*.2+o);
+  float cy=-.06+o*.22+x*(.26-o*.12)+.1*sin(x*1.3+t*.3+o*2.)+.12*(fbm(vec2(x*.8+t*.05+o,t*.04))-.5);
+  float tw=sin(x*1.15-t*.32+.6+o*2.4);float wd=.06+.24*abs(tw);
+  float v=(a.y-cy)/wd;
+  float m=smoothstep(1.05,.85,abs(v));
+  float f=fract(v*N*.5+.5)-.5;float d=abs(f)*2./N*wd/px/uScale;
+  float line=exp(-d*d*.55)+.22*exp(-d*.25);
+  float face=.35+.65*pow(abs(tw),.6);
+  float edge=1.-abs(v);
+  float h=clamp(.42+x*.46+o*.25+.22*(fbm(vec2(x,t*.05+o))-.5),0.,1.);
+  vec3 col=mixok(uC2,uC1,smoothstep(0.,.48,h));col=mixok(col,uC3,smoothstep(.52,.95,h));
+  c=mixok(c,uC1,clamp(exp(-pow((a.y-cy)/(wd+.25),2.))*.14*k,0.,1.));
+  c=mixok(c,col,clamp(m*(.08+.12*edge)*face*k,0.,1.));
+  c=mixok(c,col,clamp(line*m*face*(.55+.45*edge)*k,0.,1.));
+  float hot=exp(-pow(tw/.12,2.))*m*k;
+  return mixok(c,vec3(.93,.96,1.),clamp(hot*line*.7+hot*.1,0.,1.));}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale;
+  vec3 c=uC0;
+  c=rib(c,a,t*.8,1.7,.38,12.);
+  c=rib(c,a,t,0.,1.,18.);
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
@@ -1870,17 +1899,17 @@ export function defaultsFor(def: ShaderDef, theme: ThemeName): ShaderParams {
 }
 
 /**
- * The brand field: AuraShades' signature material, a band of electric colour breaking into pixels.
+ * The brand field: AuraShades' signature material, a twisting ribbon of electric hairlines.
  * It stays dark in both themes; the specimen board on the home page re-tints it.
  */
 export const BRAND_FIELDS = [
-  { id: 'electric', name: 'Electric', palette: ['#020308', '#1b3dff', '#38cfff', '#ff5aa5'] },
-  { id: 'glacier', name: 'Glacier', palette: ['#020308', '#0a6dff', '#9af0ff', '#5b3dff'] },
-  { id: 'flare', name: 'Flare', palette: ['#020308', '#ff3d77', '#ffb06b', '#5b3dff'] },
+  { id: 'electric', name: 'Electric', palette: ['#03050c', '#2346ff', '#3fd2ff', '#ff5aa5'] },
+  { id: 'glacier', name: 'Glacier', palette: ['#03050c', '#1660ff', '#a6f2ff', '#6a4dff'] },
+  { id: 'flare', name: 'Flare', palette: ['#07040a', '#ff3d77', '#ffb06b', '#8a5bff'] },
 ] as const
 export type BrandField = (typeof BRAND_FIELDS)[number]
-export const BRAND_SHADER = 'signal-mosaic'
-export const brandParams = (f: BrandField = BRAND_FIELDS[0]): Partial<ShaderParams> => ({ palette: [...f.palette] as ShaderParams['palette'], speed: 0.3, scale: 0.9, grain: 0, cell: 6 })
+export const BRAND_SHADER = 'signal-flow'
+export const brandParams = (f: BrandField = BRAND_FIELDS[0]): Partial<ShaderParams> => ({ palette: [...f.palette] as ShaderParams['palette'], speed: 0.3, scale: 1, grain: 0.04, cell: 6 })
 
 /** Shader presets used for page atmosphere (hero and closing band), per theme. */
 export const ATMOSPHERE = {
