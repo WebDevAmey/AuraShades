@@ -15,12 +15,14 @@ import { byId, SHADERS, STYLES, word } from '~/lib/shaders/library'
   Spacing is one 8px unit; shapes move on a long, soft deceleration (560ms open, 320ms close).
 */
 
-const FEATURED = ['signal-mosaic', 'gilded-chrome', 'prism-flow']
+const FEATURED = ['dune', 'gilded-chrome', 'prism-flow']
 const RESOURCES = [
   { to: '/docs', hash: 'install', t: 'Install', s: 'One package, two minutes' },
   { to: '/docs', hash: 'props', t: 'Component props', s: 'Palette, speed, scale, grain' },
   { to: '/docs', hash: 'performance', t: 'Performance', s: 'One WebGL context per page' },
+  { to: '/docs', hash: 'support', t: 'Browser support', s: 'Fallbacks without WebGL' },
   { to: '/pricing', hash: 'licence', t: 'Licence', s: 'What each plan covers' },
+  { to: '/changelog', hash: undefined, t: 'Changelog', s: 'New shaders and fixes' },
 ] as const
 const TRIGGERS = [
   { label: 'Library', match: '/library' },
@@ -262,7 +264,7 @@ function DesktopNav({ path }: { path: string }) {
 
       <div ref={bar} className="mnav-bar">
         <Link to="/" className="mnav-mark" aria-label="AuraShades home">
-          <LogoMark size={22} className="text-[var(--p-cyan)]" />
+          <LogoMark size={22} className="text-[#f7ae8c]" />
           AuraShades
         </Link>
         <div ref={links} className="mnav-links" onPointerLeave={() => { window.clearTimeout(timers.current.open); if (activeRef.current < 0) links.current?.classList.remove('hovering'); else glideTo(activeRef.current) }}>
@@ -357,7 +359,7 @@ function MobileNav({ path }: { path: string }) {
       <motion.div className="mnav-sheet" initial={false} animate={{ height: open ? 'auto' : 56 }} transition={{ duration: open ? 0.56 : 0.32, ease: open ? [0.32, 0.72, 0, 1] : [0.23, 1, 0.32, 1] }}>
         <div className="flex h-14 items-center gap-1 p-2">
           <Link to="/" className="mnav-mark" aria-label="AuraShades home" onClick={close}>
-            <LogoMark size={22} className="text-[var(--p-cyan)]" />
+            <LogoMark size={22} className="text-[#f7ae8c]" />
             AuraShades
           </Link>
           <span className="flex-1" />
@@ -371,6 +373,7 @@ function MobileNav({ path }: { path: string }) {
             { to: '/library' as const, label: 'Library', s: `${SHADERS.length} live shaders` },
             { to: '/pricing' as const, label: 'Pricing', s: 'Free, Pro and Team' },
             { to: '/docs' as const, label: 'Docs', s: 'Install and props' },
+            { to: '/changelog' as const, label: 'Changelog', s: 'What shipped' },
           ].map((n) => (
             <Link key={n.to} to={n.to} onClick={close} className="flex min-h-16 items-center justify-between rounded-[12px] bg-[var(--shell-raise)] px-4">
               <span className="font-display text-[26px] font-[800] uppercase italic tracking-[-0.03em]">{n.label}</span>
