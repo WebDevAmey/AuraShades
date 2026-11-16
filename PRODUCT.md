@@ -10,4 +10,4 @@
 
 **Surface modes:** Landing and pricing = Persuade. Library = Experience. Editor = Operate. Docs = Read.
 
-**Look:** an identity book on a gallery wall: light-first (pale gallery ground, boards, hairlines), dark theme as the alternate. The brand's signature material is a live grainy field in hot orange #ff5e3a, cobalt #3443d4 and navy #0c1322. One grotesque family (Schibsted Grotesk). The mark is a disc whose lower half breaks into scanline bands. No violet in the brand chrome; the shaders themselves carry colour.
+**Look:** signal on black: dark-first (near-black #030407 ground, hairline grids, spec-sheet stats), light theme as the alternate. The brand's signature material is Signal Mosaic, a band of electric blue #3d63ff, cyan #38cfff and pink #ff5aa5 breaking into square pixels. Headlines are Schibsted Grotesk italic caps; reading text is Geist, specs are Geist Mono. The navbar is one dark shell that morphs into its panels (after Amey's Morphing Navbar). The mark is a disc whose lower half breaks into scanline bands.
