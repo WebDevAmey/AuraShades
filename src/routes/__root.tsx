@@ -7,7 +7,7 @@ import { SiteHeader } from '~/components/SiteHeader'
 import { SiteFooter } from '~/components/SiteFooter'
 import { organizationLd, SITE, websiteLd } from '~/lib/seo'
 import { themeInitScript } from '~/lib/theme'
-import { motionInitScript, useSmoothSite } from '~/lib/smooth'
+import { motionInitScript, useReveal } from '~/lib/smooth'
 import { button } from '~/lib/button'
 
 
@@ -16,7 +16,7 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
-      { name: 'theme-color', content: '#04060c' },
+      { name: 'theme-color', content: '#ffffff' },
       { property: 'og:site_name', content: SITE.name },
       { property: 'og:locale', content: 'en_US' },
     ],
@@ -34,7 +34,7 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" data-theme="dark" suppressHydrationWarning>
+    <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript + motionInitScript }} />
         <HeadContent />
@@ -49,7 +49,7 @@ function RootDocument({ children }: { children: ReactNode }) {
 
 export function RootLayout() {
   const path = useRouterState({ select: (s) => s.location.pathname })
-  useSmoothSite(path)
+  useReveal(path)
   return (
     <div className="app">
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-[10px] focus:bg-ink focus:px-4 focus:py-3 focus:text-ground">

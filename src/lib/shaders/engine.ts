@@ -40,6 +40,8 @@ class Engine {
   private ro: ResizeObserver | null = null
   private clock = 14
   private last = 0
+  private tick = 0
+  private scrollAt = 0
   private listeners = new Set<() => void>()
   paused = false
   readonly reduced: boolean
@@ -71,6 +73,7 @@ class Engine {
       for (const e of entries) for (const v of this.views) if (v.canvas === e.target) this.size(v)
     })
     document.addEventListener('visibilitychange', () => { this.last = performance.now() })
+    window.addEventListener('scroll', () => { this.scrollAt = performance.now() }, { passive: true })
     this.last = performance.now()
     requestAnimationFrame(this.frame)
   }
@@ -165,10 +168,19 @@ class Engine {
     this.last = now
     const moving = !this.paused && !this.reduced
     if (moving) this.clock += dt
+    this.tick++
+    // Frame budget: big backgrounds draw every frame; thumbnails at 30fps, and while the page is
+    // scrolling everything steps down (heroes to 30fps, thumbnails to 15fps) so scrolling stays smooth.
+    const scrolling = now - this.scrollAt < 160
     for (const v of this.views) {
       if (!v.visible) continue
       const fading = v.prev && now - v.fadeStart < FADE_MS
       if (!moving && !v.dirty && !fading) continue
+      if (moving && !v.dirty && !fading) {
+        const small = v.w * v.h < 360_000
+        const every = small ? (scrolling ? 4 : 2) : (scrolling ? 2 : 1)
+        if (this.tick % every !== 0) continue
+      }
       if (v.w < 2 || v.h < 2) this.size(v)
       v.ctx.globalAlpha = 1
       if (fading && v.prev) {

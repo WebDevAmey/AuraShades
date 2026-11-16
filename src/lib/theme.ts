@@ -5,20 +5,20 @@ import { useSyncExternalStore } from 'react'
  *
  * - The resolved theme always lives on <html data-theme="dark|light">, so CSS has
  *   exactly one light block and one dark default, on every page.
- * - Black is the brand's ground. A visitor's explicit choice is stored;
- *   with no choice, every page opens dark.
+ * - White is the brand's ground. A visitor's explicit choice is stored;
+ *   with no choice, every page opens light.
  * - Every toggle, shader preset and meta tag reads the same value via useTheme().
  */
 
 export type Theme = 'dark' | 'light'
 
 const KEY = 'aurashades-theme'
-const BAR: Record<Theme, string> = { dark: '#04060c', light: '#f3f4f6' }
+const BAR: Record<Theme, string> = { dark: '#0c0c0e', light: '#ffffff' }
 
 /** Runs inline in <head> before first paint, so no page ever flashes the wrong theme. */
-export const themeInitScript = `(function(){try{var d=document.documentElement,s=localStorage.getItem('${KEY}'),t=s==='light'||s==='dark'?s:(d.dataset.theme==='light'||d.dataset.theme==='dark'?d.dataset.theme:'dark');d.dataset.theme=t;d.style.colorScheme=t;}catch(e){}})();`
+export const themeInitScript = `(function(){try{var d=document.documentElement,s=localStorage.getItem('${KEY}'),t=s==='light'||s==='dark'?s:(d.dataset.theme==='light'||d.dataset.theme==='dark'?d.dataset.theme:'light');d.dataset.theme=t;d.style.colorScheme=t;}catch(e){}})();`
 
-const read = (): Theme => (document.documentElement.dataset.theme === 'light' ? 'light' : 'dark')
+const read = (): Theme => (document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light')
 
 function stored(): Theme | null {
   try {
@@ -55,7 +55,7 @@ let started = false
 export function startThemeSync() {
   if (started || typeof window === 'undefined') return
   started = true
-  apply(stored() ?? 'dark')
+  apply(stored() ?? 'light')
   window.addEventListener('storage', (e) => {
     if (e.key === KEY && (e.newValue === 'light' || e.newValue === 'dark')) apply(e.newValue)
   })
@@ -69,5 +69,5 @@ function subscribe(fn: () => void) {
 
 /** The active theme. Every component that depends on it reads it here. */
 export function useTheme(): Theme {
-  return useSyncExternalStore(subscribe, read, () => 'dark')
+  return useSyncExternalStore(subscribe, read, () => 'light')
 }

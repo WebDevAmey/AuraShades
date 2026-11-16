@@ -15,7 +15,7 @@ type Props = {
 }
 
 /** A live shader background. Every instance shares one WebGL context. */
-export function AuraShade({ shader, params, className, label, dprCap = 1.5, crossfade = false }: Props) {
+export function AuraShade({ shader, params, className, label, dprCap = 1.25, crossfade = false }: Props) {
   const ref = useRef<HTMLCanvasElement>(null)
   const def = byId(shader)
   const theme = useTheme()
