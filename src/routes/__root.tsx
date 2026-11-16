@@ -15,7 +15,7 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
-      { name: 'theme-color', content: '#efefec' },
+      { name: 'theme-color', content: '#030407' },
       { property: 'og:site_name', content: SITE.name },
       { property: 'og:locale', content: 'en_US' },
     ],
@@ -33,7 +33,7 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <HeadContent />
@@ -69,7 +69,7 @@ export function RootLayout() {
 
 export function NotFound() {
   return (
-    <section className="wrap section page-end flex min-h-[70vh] flex-col items-start justify-center gap-6">
+    <section className="wrap page-top flex min-h-[80vh] flex-col items-start justify-center gap-6">
       <h1 className="display">This page has no shader</h1>
       <p className="lede">The link may be old, or the page moved. The library has every background we ship.</p>
       <div className="mt-2 flex flex-wrap gap-3">
