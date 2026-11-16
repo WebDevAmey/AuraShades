@@ -70,18 +70,18 @@ function Library() {
 
   return (
     <section className="wrap page-top" aria-labelledby="lib-title">
-      <div className="sec-head !mb-10 md:!mb-12">
+      <div className="sec-head !mb-12 md:!mb-14">
         <div className="stack-6">
-          <span className="eyebrow"><b>[{String(SHADERS.length).padStart(3, '0')}]</b> Library</span>
-          <h1 id="lib-title" className="display">The library</h1>
+          <span className="eyebrow">Library · {SHADERS.length} shaders</span>
+          <h1 id="lib-title" className="display">Every background, <em>live.</em></h1>
         </div>
         <p className="lede lg:pb-1">{SHADERS.length} live backgrounds across {word(STYLES.length)} styles, {freeCount} of them free. Every one opens in the editor, free or Pro.</p>
       </div>
 
-      {/* Toolbar: search and plan on one line, styles as a row of pills beneath; sticks under the navbar */}
-      <div className="sticky top-[calc(var(--nav-h)+var(--nav-top)*2)] z-30 -mx-3 mb-8 rounded-[var(--r-card)] bg-[color-mix(in_oklab,var(--ground)_82%,transparent)] p-3 shadow-[var(--ring),var(--highlight)] backdrop-blur-xl">
+      {/* Toolbar: search and plan on one line, styles as a row of pills beneath. It stays with the page. */}
+      <div className="mb-10 flex flex-col gap-4 border-y border-line py-5">
         <div className="flex flex-col gap-2 md:flex-row md:items-center">
-          <div className="search h-12 flex-1">
+          <div className="search flex-1 md:max-w-[520px]">
             <Search size={17} aria-hidden="true" />
             <label htmlFor="lib-search" className="sr-only">Search shaders</label>
             <input ref={input} id="lib-search" value={text} onChange={(e) => setText(e.target.value)} placeholder="Search by name, colour or mood" autoComplete="off" />
@@ -91,12 +91,12 @@ function Library() {
               <span className="kbd" aria-hidden="true">/</span>
             )}
           </div>
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center justify-between gap-3 md:ml-auto">
             <Segmented size="sm" label="Filter by plan" value={t} onChange={(v) => set({ tier: v })} options={[{ value: 'all', label: 'Any plan' }, { value: 'free', label: 'Free' }, { value: 'pro', label: 'Pro' }]} />
             <p className="spec shrink-0 px-2 text-muted md:min-w-[88px] md:text-right" aria-live="polite">{String(list.length).padStart(2, '0')} / {SHADERS.length}</p>
           </div>
         </div>
-        <div className="-mx-3 mt-3 overflow-x-auto px-3 py-0.5 [scrollbar-width:none]">
+        <div className="-mx-1 overflow-x-auto px-1 py-0.5 [scrollbar-width:none]">
           <div className="flex gap-1.5" role="group" aria-label="Filter by style">
             {(['All', ...STYLES.map((s) => s.id)] as Filter[]).map((st) => (
               <button key={st} type="button" className="pill" aria-pressed={filter === st} onClick={() => set({ style: st })}>
@@ -115,7 +115,7 @@ function Library() {
           <button type="button" className={button({ variant: 'secondary' })} onClick={reset}>Show every shader</button>
         </div>
       ) : (
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5 xl:grid-cols-4">
           {list.map((s) => (
             <li key={s.id}>
               <ShotCard id={s.id} />
