@@ -1807,6 +1807,29 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   c=mixok(c,uC2,exists*arc*exp(-abs(fr-.5)*8.)*L*.2);
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'signal-mosaic', name: 'Signal Mosaic', style: 'Grid', tier: 'free', cellular: 'pixel',
+    summary: 'A band of electric colour breaking into square pixels.',
+    description: 'A wide band of light, blue into cyan into pink, drawn as a mosaic of square cells. Cells split finer where the band fades, so its edges scatter into loose pixels that flick on and off while the band drifts.',
+    palettes: { dark: ['#020308', '#1b3dff', '#38cfff', '#ff5aa5'], light: ['#020308', '#1b3dff', '#38cfff', '#ff5aa5'] },
+    defaults: { palette: ['#020308', '#1b3dff', '#38cfff', '#ff5aa5'], speed: .35, scale: 1, grain: 0, cell: 6 },
+    body: `vec2 mA(vec2 c){return (c-.5*uRes)/uRes.y*uScale;}
+float mY(vec2 a,float t){return -.06+a.x*.32+.09*sin(a.x*1.4+t*.3)+.16*(fbm(vec2(a.x*.6+t*.04,t*.03))-.5);}
+float mD(vec2 c,float t){vec2 a=mA(c);float w=.3+.07*sin(a.x*.9-t*.2);float d=(a.y-mY(a,t))/w;
+  return clamp(exp(-d*d*1.5)*(.7+.6*fbm(a*2.2+vec2(t*.07,-t*.05))),0.,1.);}
+vec3 shade(){float t=T();vec2 px=frag();float s=uCell*8.;vec2 id=floor(px/s);
+  for(int i=0;i<3;i++){float d=mD((id+.5)*s,t);
+    if(d>.08&&d<.9&&hash(id*s+float(i)*13.7)<.72){s*=.5;id=floor(px/s);}}
+  vec2 c=(id+.5)*s;vec2 a=mA(c);float d=mD(c,t);vec2 k=id*s+s;
+  float r=hash(k+floor(t*.8+hash(k+3.1)*6.));
+  float lit=step(r,d*1.2-.06);
+  float y=(a.y-mY(a,t));
+  float h=clamp(.4+a.x*.38+y*.9+.35*(fbm(a*1.3-t*.05)-.5),0.,1.);
+  vec3 col=mixok(uC2,uC1,smoothstep(.0,.5,h));col=mixok(col,uC3,smoothstep(.55,1.,h));
+  col*=.8+.32*hash(k+7.7);
+  col=mixok(col,vec3(.93,.96,1.),clamp(exp(-y*y*90.)*step(.9,hash(k+19.))*.7,0.,1.));
+  return mix(uC0,col,lit);}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
@@ -1847,17 +1870,17 @@ export function defaultsFor(def: ShaderDef, theme: ThemeName): ShaderParams {
 }
 
 /**
- * The brand field: AuraShades' signature material, a grainy orange and cobalt colour field.
- * It stays the same in both themes; the specimen board on the home page re-tints it.
+ * The brand field: AuraShades' signature material, a band of electric colour breaking into pixels.
+ * It stays dark in both themes; the specimen board on the home page re-tints it.
  */
 export const BRAND_FIELDS = [
-  { id: 'ember', name: 'Ember', palette: ['#ff5e3a', '#3443d4', '#0c1322', '#ffc7a8'] },
-  { id: 'cobalt', name: 'Cobalt', palette: ['#3443d4', '#ff5e3a', '#0c1322', '#ffd0b5'] },
-  { id: 'night', name: 'Night', palette: ['#0c1322', '#3443d4', '#ff5e3a', '#ffc7a8'] },
+  { id: 'electric', name: 'Electric', palette: ['#020308', '#1b3dff', '#38cfff', '#ff5aa5'] },
+  { id: 'glacier', name: 'Glacier', palette: ['#020308', '#0a6dff', '#9af0ff', '#5b3dff'] },
+  { id: 'flare', name: 'Flare', palette: ['#020308', '#ff3d77', '#ffb06b', '#5b3dff'] },
 ] as const
 export type BrandField = (typeof BRAND_FIELDS)[number]
-export const BRAND_SHADER = 'mesh-drift'
-export const brandParams = (f: BrandField = BRAND_FIELDS[0]): Partial<ShaderParams> => ({ palette: [...f.palette] as ShaderParams['palette'], speed: 0.25, scale: 0.8, grain: 0.28 })
+export const BRAND_SHADER = 'signal-mosaic'
+export const brandParams = (f: BrandField = BRAND_FIELDS[0]): Partial<ShaderParams> => ({ palette: [...f.palette] as ShaderParams['palette'], speed: 0.3, scale: 0.9, grain: 0, cell: 6 })
 
 /** Shader presets used for page atmosphere (hero and closing band), per theme. */
 export const ATMOSPHERE = {
