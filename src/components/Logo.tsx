@@ -26,7 +26,7 @@ export function LogoMark({ size = 24, className }: { size?: number; className?: 
 export function Wordmark() {
   return (
     <span className="flex items-center gap-2">
-      <LogoMark size={24} className="text-hot" />
+      <LogoMark size={24} className="text-warm" />
       <span className="font-display text-[18px] font-[680] tracking-[-0.03em]">AuraShades</span>
     </span>
   )

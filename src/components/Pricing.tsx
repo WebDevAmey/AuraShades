@@ -49,11 +49,7 @@ export function PricingPlans() {
           const pro = p.id === 'pro'
           const value = billing === 'monthly' ? p.monthly : Math.round(p.yearly / 12)
           return (
-            <div
-              key={p.id}
-              className={cx('board board-flush flex flex-col', pro && 'spotlight')}
-              onPointerMove={pro ? (e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`); e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`) } : undefined}
-            >
+            <div key={p.id} className={cx('board board-flush flex flex-col', pro && '!shadow-[0_0_0_1.5px_var(--ink),0_24px_48px_-28px_rgba(0,0,0,.35)]')}>
               <div className="flex flex-1 flex-col gap-7 p-7 md:p-9">
                 <div className="flex flex-col gap-1.5">
                   <div className="flex items-center gap-2">
@@ -77,7 +73,7 @@ export function PricingPlans() {
                   ) : (
                     <a
                       href={`mailto:hello@aurashades.example?subject=${encodeURIComponent(`AuraShades ${p.name}, ${billing}`)}`}
-                      className={button({ variant: pro ? 'hot' : 'secondary', className: 'w-full' })}
+                      className={button({ variant: pro ? 'primary' : 'secondary', className: 'w-full' })}
                     >
                       {p.cta.label}
                     </a>

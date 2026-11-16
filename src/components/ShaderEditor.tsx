@@ -170,7 +170,7 @@ export function ShaderEditor({ id, params, setParams, layout = 'full' }: {
 
   return (
     <div className="boards min-w-0 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
-      <div className="field aspect-[16/10] min-w-0 lg:sticky lg:top-[88px]">
+      <div className="field aspect-[16/10] min-w-0 lg:sticky lg:top-[104px]">
         <div className="absolute inset-0"><AuraShade shader={id} params={params} dprCap={1.75} /></div>
       </div>
       <div className="flex min-w-0 flex-col gap-4">
