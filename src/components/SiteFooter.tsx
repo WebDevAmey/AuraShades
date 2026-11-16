@@ -1,31 +1,32 @@
 import { Link } from '@tanstack/react-router'
-import { ArrowUpRight } from 'lucide-react'
-import { BRAND_SHADER, brandParams, SHADERS, STYLES } from '~/lib/shaders/library'
+import { ArrowRight } from 'lucide-react'
+import { BRAND_FIELDS, BRAND_SHADER, brandParams, SHADERS, STYLES } from '~/lib/shaders/library'
 import { AuraShade } from './AuraShade'
 import { LogoMark } from './Logo'
+import { button } from '~/lib/button'
+
+const DUSK = BRAND_FIELDS.find((f) => f.id === 'dusk')!
 
 export function SiteFooter() {
   return (
-    <footer className="wrap pb-4 pt-[var(--section-gap)] md:pb-6">
-      {/* The closing band: the signal field and one large line that takes you into the library */}
-      <Link to="/library" className="group field block min-h-[340px] md:min-h-[440px]" data-reveal aria-label={`Explore AuraShades: ${SHADERS.length} live shaders`}>
-        <span className="absolute inset-0 -z-10"><AuraShade shader={BRAND_SHADER} params={brandParams()} label="The AuraShades signal field" /></span>
-        <span className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,#04060c_0%,transparent_45%)]" aria-hidden="true" />
-        <span className="relative flex min-h-[340px] flex-col justify-between gap-10 p-7 md:min-h-[440px] md:p-12">
-          <span className="eyebrow !text-white/60"><b>●</b> {SHADERS.length} shaders · {STYLES.length} styles · live in one canvas</span>
-          <span className="flex items-end justify-between gap-6">
-            <span className="display-xl max-w-[11ch] !text-[clamp(38px,8.4vw,124px)] !text-white">Explore AuraShades</span>
-            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[14px] bg-white text-[#04060c] transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:-translate-y-1 group-hover:translate-x-1 md:h-20 md:w-20 md:rounded-[18px]">
-              <ArrowUpRight className="h-6 w-6 md:h-9 md:w-9" strokeWidth={1.75} />
-            </span>
-          </span>
-        </span>
-      </Link>
+    <footer className="wrap pb-8 pt-[var(--section-gap)]">
+      {/* The close: Dune at dusk, one line and the way in */}
+      <section className="field min-h-[440px] md:min-h-[520px]" aria-labelledby="close-title" data-reveal>
+        <div className="absolute inset-0 -z-10"><AuraShade shader={BRAND_SHADER} params={brandParams(DUSK)} dprCap={1} label="The Dune gradient at dusk" /></div>
+        <div className="relative flex min-h-[440px] flex-col items-center justify-center gap-7 px-6 py-16 text-center md:min-h-[520px]">
+          <h2 id="close-title" className="display max-w-[14ch] !text-white">Give your next page <em>some light.</em></h2>
+          <p className="max-w-[44ch] text-[17px] leading-[1.6] text-white/75">{SHADERS.length} live backgrounds, free to try in the editor. No account needed.</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link to="/library" className={button({ variant: 'field' })}>Browse the library <ArrowRight size={16} className="arrow" /></Link>
+            <Link to="/pricing" className={button({ variant: 'glass', className: '!bg-white/10 !text-white !shadow-[0_0_0_1px_rgba(255,255,255,.25)]' })}>See pricing</Link>
+          </div>
+        </div>
+      </section>
 
-      <div className="hair mt-4 grid-cols-2 rounded-[var(--r-board)] md:grid-cols-[1.6fr_1fr_1.6fr_1fr] [&>*]:p-7 md:[&>*]:p-10">
-        <div className="col-span-2 flex flex-col gap-4 md:col-span-1">
-          <span className="flex items-center gap-2 text-[17px] font-[600] tracking-[-0.02em]"><LogoMark size={22} className="text-accent-2" />AuraShades</span>
-          <p className="small max-w-[34ch]">Live shader backgrounds for product websites. Tune four colours, copy one component, ship it.</p>
+      <div className="grid gap-12 pt-20 md:grid-cols-[1.5fr_1fr_1.5fr_1fr] md:gap-8 md:pt-24">
+        <div className="flex max-w-[34ch] flex-col gap-4">
+          <span className="flex items-center gap-2.5 text-[17px] font-[600] tracking-[-0.025em]"><LogoMark size={22} className="text-ink" />AuraShades</span>
+          <p className="small">Live shader backgrounds for product websites. Tune four colours, copy one component, ship it.</p>
           <p className="small">Licence requests: <span className="select-all text-ink">hello@aurashades.example</span></p>
         </div>
 
@@ -33,12 +34,13 @@ export function SiteFooter() {
           <FooterLink to="/library">Library</FooterLink>
           <FooterLink to="/pricing">Pricing</FooterLink>
           <FooterLink to="/docs">Docs</FooterLink>
+          <FooterLink to="/changelog">Changelog</FooterLink>
         </FooterCol>
 
-        <FooterCol title="Styles" cols className="order-last col-span-2 md:order-none md:col-span-1">
+        <FooterCol title="Styles" cols>
           {STYLES.map((s) => (
             <li key={s.id}>
-              <Link to="/library" search={{ style: s.id }} className="link inline-flex min-h-8 items-center text-[14px] text-ink-2">{s.id}</Link>
+              <Link to="/library" search={{ style: s.id }} className="navlink inline-flex min-h-8 items-center text-[14px]">{s.id}</Link>
             </li>
           ))}
         </FooterCol>
@@ -51,27 +53,27 @@ export function SiteFooter() {
         </FooterCol>
       </div>
 
-      <div className="flex flex-col justify-between gap-2 px-2 pt-6 font-mono text-[12px] uppercase tracking-[0.06em] text-muted sm:flex-row">
+      <div className="mt-16 flex flex-col justify-between gap-2 border-t border-line pt-6 text-[13px] text-muted sm:flex-row">
         <span>© 2026 AuraShades</span>
-        <span>Every background on this site runs live</span>
+        <span>Every background on this site runs live in one WebGL canvas.</span>
       </div>
     </footer>
   )
 }
 
-function FooterCol({ title, cols, className, children }: { title: string; cols?: boolean; className?: string; children: React.ReactNode }) {
+function FooterCol({ title, cols, children }: { title: string; cols?: boolean; children: React.ReactNode }) {
   return (
-    <div className={`flex flex-col gap-4 ${className ?? ''}`}>
+    <div className="flex flex-col gap-4">
       <h2 className="eyebrow">{title}</h2>
       <ul className={cols ? 'grid grid-cols-2 gap-x-6' : 'flex flex-col'}>{children}</ul>
     </div>
   )
 }
 
-function FooterLink({ to, hash, children }: { to: '/library' | '/pricing' | '/docs'; hash?: string; children: React.ReactNode }) {
+function FooterLink({ to, hash, children }: { to: '/library' | '/pricing' | '/docs' | '/changelog'; hash?: string; children: React.ReactNode }) {
   return (
     <li>
-      <Link to={to} hash={hash} className="link inline-flex min-h-8 items-center text-[14px] text-ink-2">{children}</Link>
+      <Link to={to} hash={hash} className="navlink inline-flex min-h-8 items-center text-[14px]">{children}</Link>
     </li>
   )
 }

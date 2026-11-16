@@ -39,8 +39,8 @@ function PricingPage() {
     <>
       <section className="wrap page-top" aria-labelledby="pricing-title">
         <div className="stack-6 mb-10 max-w-3xl md:mb-14">
-          <span className="eyebrow"><b>[$]</b> Pricing</span>
-          <h1 id="pricing-title" className="display">Plans for every kind of page</h1>
+          <span className="eyebrow">Pricing</span>
+          <h1 id="pricing-title" className="display">Plans for every <em>kind of page.</em></h1>
           <p className="lede">{Word(freeCount)} shaders stay free for good. Pro adds the full library and the React component; Team shares palettes across a studio.</p>
         </div>
         <PricingPlans />
