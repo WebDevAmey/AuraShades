@@ -4,14 +4,9 @@ import { Check, Plus } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useState } from 'react'
 import { Segmented } from './Segmented'
-import { AuraShade } from './AuraShade'
 import { cx } from '~/lib/cx'
 import { ease } from '~/lib/motion'
 import { FAQS, PLANS } from '~/lib/content'
-import { BRAND_FIELDS, BRAND_SHADER, brandParams } from '~/lib/shaders/library'
-
-/** Each plan wears one field; Pro gets Electric, the brand's own. */
-const STRIP = { free: BRAND_FIELDS[2], pro: BRAND_FIELDS[0], team: BRAND_FIELDS[1] }
 import { button } from '~/lib/button'
 
 type Billing = 'monthly' | 'yearly'
@@ -54,11 +49,12 @@ export function PricingPlans() {
           const pro = p.id === 'pro'
           const value = billing === 'monthly' ? p.monthly : Math.round(p.yearly / 12)
           return (
-            <div key={p.id} className={cx('board board-flush flex flex-col', pro && '!border-[color-mix(in_oklab,var(--accent)_60%,transparent)] shadow-[0_0_0_1px_var(--accent-soft),0_30px_60px_-30px_var(--accent)]')}>
-              <div className="h-24 border-b border-line">
-                <AuraShade shader={BRAND_SHADER} params={{ ...brandParams(STRIP[p.id as keyof typeof STRIP]), scale: 2.4, cell: 3 }} label={`${p.name} plan colour strip`} />
-              </div>
-              <div className="flex flex-1 flex-col gap-6 p-6 md:p-8">
+            <div
+              key={p.id}
+              className={cx('board board-flush flex flex-col', pro && 'spotlight')}
+              onPointerMove={pro ? (e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`); e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`) } : undefined}
+            >
+              <div className="flex flex-1 flex-col gap-7 p-7 md:p-9">
                 <div className="flex flex-col gap-1.5">
                   <div className="flex items-center gap-2">
                     <h3 className="h3">{p.name}</h3>

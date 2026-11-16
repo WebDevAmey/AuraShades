@@ -1,8 +1,9 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { ArrowRight, Pause, Play, Search } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { AuraShade, useMotionPaused } from '~/components/AuraShade'
 import { Segmented } from '~/components/Segmented'
+import { Odometer } from '~/components/Odometer'
 import { LogoMark } from '~/components/Logo'
 import { ShotCard } from '~/components/ShotCard'
 import { faqLd, seo, softwareLd } from '~/lib/seo'
@@ -44,7 +45,7 @@ const darkOf = (id: string) => ({ palette: [...byId(id)!.palettes.dark] as [stri
 
 function SecHead({ n, label, title, children, id }: { n: string; label: string; title: React.ReactNode; children?: React.ReactNode; id: string }) {
   return (
-    <div className="sec-head">
+    <div className="sec-head" data-reveal>
       <div className="stack-6">
         <span className="eyebrow"><b>[{n}]</b> {label}</span>
         <h2 id={id} className="h2">{title}</h2>
@@ -74,22 +75,24 @@ const STATS = [
 function Hero() {
   const [field, setField] = useState<BrandField>(BRAND_FIELDS[0])
   return (
-    <section className="relative isolate overflow-hidden bg-[#030407] text-white" aria-labelledby="hero-title">
+    <section className="relative isolate overflow-hidden bg-[#04060c] text-white" aria-labelledby="hero-title">
       <div className="field-develop absolute inset-0 -z-20">
-        <AuraShade shader={BRAND_SHADER} params={brandParams(field)} crossfade dprCap={1.25} label="The AuraShades signal field: a band of electric colour breaking into pixels" />
+        <AuraShade shader={BRAND_SHADER} params={brandParams(field)} crossfade dprCap={1.25} label="The AuraShades signal field: a twisting ribbon of electric hairlines" />
       </div>
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(100deg,#030407_0%,rgba(3,4,7,.86)_34%,rgba(3,4,7,.2)_68%,transparent_100%)] max-md:bg-[linear-gradient(180deg,rgba(3,4,7,.55)_0%,rgba(3,4,7,.9)_60%,#030407_100%)]" aria-hidden="true" />
-      <div className="gridlines absolute inset-0 -z-10 opacity-60 [--line:rgba(255,255,255,.05)]" aria-hidden="true" />
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(100deg,#04060c_0%,rgba(4,6,12,.82)_30%,rgba(4,6,12,.1)_62%,transparent_100%)] max-md:bg-[linear-gradient(180deg,rgba(4,6,12,.4)_0%,rgba(4,6,12,.85)_58%,#04060c_100%)]" aria-hidden="true" />
+      <div className="gridlines absolute inset-0 -z-10 opacity-50 [--line:rgba(255,255,255,.05)]" aria-hidden="true" />
+      <div className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-b from-transparent to-[#04060c]" aria-hidden="true" />
 
       <div className="wrap flex min-h-[100svh] flex-col pt-[var(--page-top)] md:min-h-[min(100svh,980px)]">
-        <div data-enter className="flex max-w-[980px] flex-1 flex-col justify-center gap-7 py-12 md:gap-8">
-          <Link to="/library/$shaderId" params={{ shaderId: BRAND_SHADER }} className="group inline-flex h-9 items-center gap-2.5 self-start rounded-full border border-white/12 bg-white/[.06] pl-1.5 pr-3.5 text-[13px] text-white/80 backdrop-blur-md transition-colors hover:border-white/25">
-            <span className="rounded-full bg-[var(--p-electric)] px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.06em] text-white">New</span>
-            Signal Mosaic is free in the library
+        <div data-enter className="flex max-w-[980px] flex-1 flex-col justify-center gap-8 py-14 md:gap-9">
+          <Link to="/library/$shaderId" params={{ shaderId: BRAND_SHADER }} className="group inline-flex h-10 items-center gap-3 self-start rounded-full bg-white/[.06] pl-1.5 pr-4 text-[13.5px] text-white/80 shadow-[0_0_0_1px_rgba(255,255,255,.12)] backdrop-blur-md transition-shadow duration-200 hover:shadow-[0_0_0_1px_rgba(255,255,255,.28)]">
+            <span className="rounded-full bg-[var(--p-electric)] px-2.5 py-1 font-mono text-[11px] uppercase leading-none tracking-[0.06em] text-white">New</span>
+            Signal Flow is free in the library
             <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5" />
           </Link>
-          <h1 id="hero-title" className="display-xl !text-white">
-            Shaders for<br /><span className="signal-text">the modern web</span>
+          <h1 id="hero-title" className="display-xl !text-white" style={{ animation: 'none' }}>
+            {['Shaders', 'for'].map((w, i) => <span key={w} className="tr-word" style={{ '--w': i } as CSSProperties}>{w}{i === 0 ? '\u00a0' : ''}</span>)}<br />
+            <span className="tr-word signal-text" style={{ '--w': 2 } as CSSProperties}>the modern web</span>
           </h1>
           <p className="max-w-[48ch] text-[17px] leading-[1.6] text-white/70 md:text-[19px]">
             {SHADERS.length} hand-tuned WebGL backgrounds in {word(STYLES.length)} styles. Tune four colours, then drop one React component behind your headline. {Word(freeCount)} are free for good.
@@ -100,21 +103,21 @@ function Hero() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 pb-6 md:pb-8">
+        <div className="flex flex-col gap-4 pb-8 md:pb-10">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <span className="eyebrow !text-white/50">Field</span>
-              <div className="[&>div]:!border-white/12 [&>div]:!bg-white/[.06] [&>div]:backdrop-blur-md [&_button]:!text-white/60 [&_button[aria-checked=true]]:!text-[#030407] [&_span.bg-ink]:!bg-white">
+              <div className="[&>div]:!shadow-[0_0_0_1px_rgba(255,255,255,.12)] [&>div]:!bg-white/[.06] [&>div]:backdrop-blur-md [&_button]:!text-white/60 [&_button[aria-checked=true]]:!text-[#04060c] [&_span.bg-ink]:!bg-white">
                 <Segmented size="sm" label="Field palette" value={field.id} onChange={(v) => setField(BRAND_FIELDS.find((f) => f.id === v)!)} options={BRAND_FIELDS.map((f) => ({ value: f.id, label: <span className="flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full" style={{ background: `linear-gradient(135deg, ${f.palette[1]}, ${f.palette[2]} 60%, ${f.palette[3]})` }} />{f.name}</span> }))} />
               </div>
             </div>
             <PauseButton />
           </div>
-          <dl className="grid grid-cols-2 overflow-hidden rounded-[var(--r-board)] border border-white/10 bg-[#030407]/55 backdrop-blur-md md:grid-cols-4">
+          <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--r-card)] bg-white/10 shadow-[0_0_0_1px_rgba(255,255,255,.1)] backdrop-blur-md md:grid-cols-4">
             {STATS.map((s, i) => (
-              <div key={s.l} className={cx('flex flex-col-reverse gap-3 p-5 md:p-6', i % 2 === 1 && 'border-l border-white/10', i >= 2 && 'max-md:border-t max-md:border-white/10', i >= 1 && 'md:border-l md:border-white/10')}>
-                <dt className="font-mono text-[11.5px] uppercase tracking-[0.08em] text-white/50">{s.l}</dt>
-                <dd className="stat text-[44px] text-white md:text-[56px]">{String(s.v).padStart(2, '0')}</dd>
+              <div key={s.l} className="flex flex-col-reverse gap-4 bg-[#04060c]/70 p-6 md:p-8">
+                <dt className="font-mono text-[11.5px] uppercase tracking-[0.08em] text-white/55">{s.l}</dt>
+                <dd className="stat text-[44px] text-white md:text-[60px]"><Odometer value={s.v} pad={i === 0 ? 3 : 2} /></dd>
               </div>
             ))}
           </dl>
@@ -150,14 +153,14 @@ function Styles() {
           <span className="kbd" aria-hidden="true">/</span>
         </form>
       </SecHead>
-      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
-        {STYLE_TILES.map((t) => (
-          <li key={t.style}>
+      <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
+        {STYLE_TILES.map((t, i) => (
+          <li key={t.style} data-reveal style={{ '--d': `${(i % 7) * 50}ms` } as CSSProperties}>
             <Link to="/library" search={{ style: t.style }} className="tile block aspect-[3/4]" aria-label={`${t.style}: ${t.n} shaders`}>
               <span className="absolute inset-0"><AuraShade shader={t.id} params={darkOf(t.id)} dprCap={1} label={`${t.style} style preview`} /></span>
               <span className="field-scrim absolute inset-0" aria-hidden="true" />
               <span className="tile-label">
-                <span className="text-[15px] font-[560] tracking-[-0.015em]">{t.style}</span>
+                <span className="text-[15.5px] font-[560] tracking-[-0.015em]">{t.style}</span>
                 <span className="font-mono text-[11px] text-white/60">{String(t.n).padStart(2, '0')}</span>
               </span>
             </Link>
@@ -173,13 +176,13 @@ const FEATURED = ['gilded-chrome', 'cobalt-halftone', 'jade-marble', 'prism-flow
 function Featured() {
   return (
     <section className="wrap section" aria-labelledby="featured-title">
-      <SecHead n="02" label="Featured" id="featured-title" title={<>Picked from<br /><span className="signal-text">the Pro set</span></>}>
+      <SecHead n="02" label="Featured" id="featured-title" title={<>Picked from<br /><span className="text-ink-2">the Pro set</span></>}>
         <p className="lede">{Word(proCount)} more backgrounds come with Pro: liquid chrome, polished marble, halftone light and iridescent silk. Every one previews free in the editor.</p>
         <Link to="/library" className={button({ variant: 'secondary', className: 'self-start' })}>See all {SHADERS.length} shaders <ArrowRight size={16} className="arrow" /></Link>
       </SecHead>
-      <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {FEATURED.map((id, i) => (
-          <li key={id} className={cx(i === 0 && 'sm:col-span-2 lg:row-span-2')}>
+          <li key={id} data-reveal style={{ '--d': `${i * 60}ms` } as CSSProperties} className={cx(i === 0 && 'sm:col-span-2 lg:row-span-2')}>
             <ShotCard id={id} feature={i === 0} summary={i === 0} />
           </li>
         ))}
@@ -188,18 +191,18 @@ function Featured() {
   )
 }
 
-const FREE_IDS = ['signal-mosaic', ...SHADERS.filter((s) => s.tier === 'free' && s.id !== 'signal-mosaic').map((s) => s.id)]
+const FREE_IDS = ['signal-flow', 'signal-mosaic', ...SHADERS.filter((s) => s.tier === 'free' && !s.id.startsWith('signal-')).map((s) => s.id)]
 
 function Playground() {
   const [id, setId] = useState('silk')
   const [params, setParams] = useShaderParams(id)
   return (
     <section id="playground" className="wrap section scroll-mt-24" aria-labelledby="editor-title">
-      <SecHead n="03" label="Playground" id="editor-title" title={<>Tune it live.<br /><span className="signal-text">Copy the code.</span></>}>
+      <SecHead n="03" label="Playground" id="editor-title" title={<>Tune it live.<br /><span className="text-ink-2">Copy the code.</span></>}>
         <p className="lede">Four colours and three dials on every shader. Export a typed React component, plain GLSL, or CSS tokens with a still fallback.</p>
       </SecHead>
-      <div className="board board-flush">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line px-4 py-3 md:px-6">
+      <div className="board board-flush" data-reveal>
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line px-5 py-4 md:px-8">
           <div className="flex min-w-0 items-center gap-3">
             <span className="flex gap-1.5" aria-hidden="true"><i className="h-2.5 w-2.5 rounded-full bg-line-strong" /><i className="h-2.5 w-2.5 rounded-full bg-line-strong" /><i className="h-2.5 w-2.5 rounded-full bg-line-strong" /></span>
             <span className="spec uppercase text-muted">editor / {byId(id)!.name.toLowerCase().replace(/\s+/g, '-')}</span>
@@ -224,15 +227,15 @@ function HowItWorks() {
   return (
     <section className="wrap section" aria-labelledby="how-title">
       <SecHead n="04" label="How it works" id="how-title" title={<>From palette<br />to production</>} />
-      <ol className="hair grid-cols-1 overflow-hidden rounded-[var(--r-board)] md:grid-cols-3">
+      <ol className="hair grid-cols-1 rounded-[var(--r-board)] md:grid-cols-3" data-reveal>
         {STEPS.map((s, i) => (
-          <li key={s.t} className="flex flex-col gap-12 bg-panel p-6 md:gap-16 md:p-8">
-            <span className="stat signal-text self-start text-[72px] md:text-[96px]">{String(i + 1).padStart(2, '0')}</span>
+          <li key={s.t} className="group flex flex-col gap-14 p-8 md:gap-20 md:p-10">
+            <span className="stat num-outline self-start text-[80px] md:text-[112px]">{String(i + 1).padStart(2, '0')}</span>
             <div className="stack-4">
               <h3 className="h3">{s.t}</h3>
               <p className="body">{s.d}</p>
               {i === 2 && (
-                <pre className="code !py-3 text-[12px]"><code><span className="text-[var(--p-pink)]">{'<AuraShade'}</span>{' shader='}<span className="text-[var(--p-cyan)]">"signal-mosaic"</span>{' />'}</code></pre>
+                <pre className="code !py-3 text-[12px]"><code><span className="text-[var(--p-pink)]">{'<AuraShade'}</span>{' shader='}<span className="text-[var(--p-cyan)]">"signal-flow"</span>{' />'}</code></pre>
               )}
             </div>
           </li>
@@ -267,10 +270,10 @@ function Engine() {
   const paths = NODES.map((n) => `M150 180 C 260 180, 250 ${(n.y / 100) * 360}, 360 ${(n.y / 100) * 360}`)
   return (
     <section className="wrap section" aria-labelledby="engine-title">
-      <SecHead n="05" label="For developers" id="engine-title" title={<>One canvas.<br /><span className="signal-text">Every background.</span></>}>
+      <SecHead n="05" label="For developers" id="engine-title" title={<>One canvas.<br /><span className="text-ink-2">Every background.</span></>}>
         <p className="lede">Browsers allow a handful of WebGL contexts per tab. AuraShades renders every background through a single one and copies the pixels to each spot, so a page full of shaders stays light.</p>
       </SecHead>
-      <div className="boards lg:grid-cols-12">
+      <div className="boards lg:grid-cols-12" data-reveal>
         <div className="board relative flex items-center justify-center overflow-hidden lg:col-span-7">
           <div className="gridlines absolute inset-0" aria-hidden="true" />
           <div className="relative aspect-[560/360] w-full max-w-[600px]" role="img" aria-label="Diagram: one WebGL context feeding four backgrounds on a page">
@@ -302,9 +305,9 @@ function Engine() {
           </div>
         </div>
 
-        <dl className="hair grid-cols-1 overflow-hidden rounded-[var(--r-board)] sm:grid-cols-2 lg:col-span-5">
+        <dl className="hair grid-cols-1 rounded-[var(--r-board)] sm:grid-cols-2 lg:col-span-5">
           {POINTS.map((p, i) => (
-            <div key={p.t} className="flex flex-col justify-between gap-8 bg-panel p-6">
+            <div key={p.t} className="flex flex-col justify-between gap-10 p-7 md:p-8">
               <span className="spec text-accent-2">0{i + 1}</span>
               <div className="flex flex-col gap-1.5">
                 <dt className="text-[16px] font-[600] tracking-[-0.015em] text-ink">{p.t}</dt>
@@ -324,7 +327,7 @@ function PricingSection() {
       <SecHead n="06" label="Pricing" id="pricing-title" title={<>Start free.<br />Upgrade when<br />a client signs.</>}>
         <p className="lede">The free plan keeps at least one shader in every style. Pro unlocks the full set and the React component.</p>
       </SecHead>
-      <PricingPlans />
+      <div data-reveal><PricingPlans /></div>
     </section>
   )
 }
@@ -332,7 +335,7 @@ function PricingSection() {
 function FaqSection() {
   return (
     <section className="wrap section" aria-labelledby="faq-title">
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16" data-reveal>
         <div className="stack-6 self-start lg:sticky lg:top-28">
           <span className="eyebrow"><b>[07]</b> FAQ</span>
           <h2 id="faq-title" className="h2">Questions before you ship</h2>
