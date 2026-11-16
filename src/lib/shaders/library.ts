@@ -163,7 +163,7 @@ export const SHADERS: ShaderDef[] = [
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'dune', name: 'Dune', style: 'Grain', tier: 'pro',
+    id: 'dune', name: 'Dune', style: 'Grain', tier: 'free',
     summary: 'Sunset strata pressed into layers.',
     description: 'A vertical ramp bent by noise and partly posterised into bands, like coloured sand in glass. Fine grain gives it a printed tooth.',
     palettes: { dark: ['#0c0b1c', '#3a1f45', '#a8484f', '#f08a5d'], light: ['#e3e6f6', '#f1c6d0', '#f7ae8c', '#fff1e2'] },
@@ -1808,29 +1808,6 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'signal-mosaic', name: 'Signal Mosaic', style: 'Grid', tier: 'free', cellular: 'pixel',
-    summary: 'A band of electric colour breaking into square pixels.',
-    description: 'A wide band of light, blue into cyan into pink, drawn as a mosaic of square cells. Cells split finer where the band fades, so its edges scatter into loose pixels that flick on and off while the band drifts.',
-    palettes: { dark: ['#020308', '#1b3dff', '#38cfff', '#ff5aa5'], light: ['#020308', '#1b3dff', '#38cfff', '#ff5aa5'] },
-    defaults: { palette: ['#020308', '#1b3dff', '#38cfff', '#ff5aa5'], speed: .35, scale: 1, grain: 0, cell: 6 },
-    body: `vec2 mA(vec2 c){return (c-.5*uRes)/uRes.y*uScale;}
-float mY(vec2 a,float t){return -.06+a.x*.32+.09*sin(a.x*1.4+t*.3)+.16*(fbm(vec2(a.x*.6+t*.04,t*.03))-.5);}
-float mD(vec2 c,float t){vec2 a=mA(c);float w=.3+.07*sin(a.x*.9-t*.2);float d=(a.y-mY(a,t))/w;
-  return clamp(exp(-d*d*1.5)*(.7+.6*fbm(a*2.2+vec2(t*.07,-t*.05))),0.,1.);}
-vec3 shade(){float t=T();vec2 px=frag();float s=uCell*8.;vec2 id=floor(px/s);
-  for(int i=0;i<3;i++){float d=mD((id+.5)*s,t);
-    if(d>.08&&d<.9&&hash(id*s+float(i)*13.7)<.72){s*=.5;id=floor(px/s);}}
-  vec2 c=(id+.5)*s;vec2 a=mA(c);float d=mD(c,t);vec2 k=id*s+s;
-  float r=hash(k+floor(t*.8+hash(k+3.1)*6.));
-  float lit=step(r,d*1.2-.06);
-  float y=(a.y-mY(a,t));
-  float h=clamp(.4+a.x*.38+y*.9+.35*(fbm(a*1.3-t*.05)-.5),0.,1.);
-  vec3 col=mixok(uC2,uC1,smoothstep(.0,.5,h));col=mixok(col,uC3,smoothstep(.55,1.,h));
-  col*=.8+.32*hash(k+7.7);
-  col=mixok(col,vec3(.93,.96,1.),clamp(exp(-y*y*90.)*step(.9,hash(k+19.))*.7,0.,1.));
-  return mix(uC0,col,lit);}`,
-  },
-  {
     id: 'signal-flow', name: 'Signal Flow', style: 'Light', tier: 'free',
     summary: 'A twisting ribbon of fine electric lines.',
     description: 'A ribbon drawn from eighteen hairlines of light, blue into cyan into pink. It twists slowly as it crosses the frame, so the lines crowd together and flare white where the ribbon turns edge-on, then fan out again.',
@@ -1899,17 +1876,18 @@ export function defaultsFor(def: ShaderDef, theme: ThemeName): ShaderParams {
 }
 
 /**
- * The brand field: AuraShades' signature material, a twisting ribbon of electric hairlines.
- * It stays dark in both themes; the specimen board on the home page re-tints it.
+ * The brand field: the Dune gradient, sunset strata pressed into soft layers under fine grain.
+ * The home page lets visitors re-tint it; the closing band wears the dusk set.
  */
 export const BRAND_FIELDS = [
-  { id: 'electric', name: 'Electric', palette: ['#03050c', '#2346ff', '#3fd2ff', '#ff5aa5'] },
-  { id: 'glacier', name: 'Glacier', palette: ['#03050c', '#1660ff', '#a6f2ff', '#6a4dff'] },
-  { id: 'flare', name: 'Flare', palette: ['#07040a', '#ff3d77', '#ffb06b', '#8a5bff'] },
+  { id: 'dawn', name: 'Dawn', palette: ['#e3e6f6', '#f1c6d0', '#f7ae8c', '#fff1e2'] },
+  { id: 'haze', name: 'Haze', palette: ['#dfe7f3', '#c9d3f2', '#e9c6dc', '#f8f2ea'] },
+  { id: 'sorbet', name: 'Sorbet', palette: ['#f6e3d6', '#f6b9a4', '#f39a7b', '#fff4e8'] },
+  { id: 'dusk', name: 'Dusk', palette: ['#0c0b1c', '#3a1f45', '#a8484f', '#f08a5d'] },
 ] as const
 export type BrandField = (typeof BRAND_FIELDS)[number]
-export const BRAND_SHADER = 'signal-flow'
-export const brandParams = (f: BrandField = BRAND_FIELDS[0]): Partial<ShaderParams> => ({ palette: [...f.palette] as ShaderParams['palette'], speed: 0.3, scale: 1, grain: 0.04, cell: 6 })
+export const BRAND_SHADER = 'dune'
+export const brandParams = (f: BrandField = BRAND_FIELDS[0]): Partial<ShaderParams> => ({ palette: [...f.palette] as ShaderParams['palette'], speed: 0.22, scale: 0.9, grain: 0.1 })
 
 /** Shader presets used for page atmosphere (hero and closing band), per theme. */
 export const ATMOSPHERE = {
