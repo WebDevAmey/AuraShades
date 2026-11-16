@@ -37,8 +37,9 @@ function Cell({ v }: { v: string | boolean }) {
 function PricingPage() {
   return (
     <>
-      <section className="wrap pt-10 md:pt-14" aria-labelledby="pricing-title">
-        <div className="stack-6 mb-10 max-w-3xl md:mb-12">
+      <section className="wrap page-top" aria-labelledby="pricing-title">
+        <div className="stack-6 mb-10 max-w-3xl md:mb-14">
+          <span className="eyebrow"><b>[$]</b> Pricing</span>
           <h1 id="pricing-title" className="display">Plans for every kind of page</h1>
           <p className="lede">{Word(freeCount)} shaders stay free for good. Pro adds the full library and the React component; Team shares palettes across a studio.</p>
         </div>
@@ -52,9 +53,9 @@ function PricingPage() {
             <thead>
               <tr className="border-b border-line bg-panel-2">
                 <th scope="col" className="px-6 py-4 font-[560] text-muted">Feature</th>
-                <th scope="col" className="px-6 py-4 font-display text-[17px] font-[640]">Free</th>
-                <th scope="col" className="px-6 py-4 font-display text-[17px] font-[640]">Pro</th>
-                <th scope="col" className="px-6 py-4 font-display text-[17px] font-[640]">Team</th>
+                <th scope="col" className="px-6 py-4 text-[16px] font-[600]">Free</th>
+                <th scope="col" className="px-6 py-4 text-[16px] font-[600]">Pro</th>
+                <th scope="col" className="px-6 py-4 text-[16px] font-[600]">Team</th>
               </tr>
             </thead>
             <tbody>
@@ -71,7 +72,7 @@ function PricingPage() {
         </div>
       </section>
 
-      <section id="licence" className="wrap section scroll-mt-20" aria-labelledby="licence-title">
+      <section id="licence" className="wrap section scroll-mt-28" aria-labelledby="licence-title">
         <div className="board grid gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
           <h2 id="licence-title" className="h2">The licence in plain words</h2>
           <div className="body flex max-w-[64ch] flex-col gap-4">
@@ -83,7 +84,7 @@ function PricingPage() {
         </div>
       </section>
 
-      <section className="wrap section page-end" aria-labelledby="pfaq-title">
+      <section className="wrap section" aria-labelledby="pfaq-title">
         <div className="board grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
           <h2 id="pfaq-title" className="h2">Common questions</h2>
           <Faq />

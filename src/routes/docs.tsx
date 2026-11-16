@@ -55,9 +55,9 @@ function Docs() {
   }, [])
 
   return (
-    <div className="wrap page-end grid gap-12 pt-10 md:pt-14 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-16">
+    <div className="wrap grid gap-12 page-top lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-16">
       <aside className="hidden lg:block">
-        <nav aria-label="On this page" className="board sticky top-[88px] flex flex-col gap-1 !p-3">
+        <nav aria-label="On this page" className="board sticky top-[104px] flex flex-col gap-1 !p-3">
           <span className="micro px-3 pt-1 pb-2">On this page</span>
           {TOC.map((t) => (
             <a key={t.id} href={`#${t.id}`} className={cx('flex min-h-10 items-center rounded-[10px] px-3 text-[14.5px] transition-colors duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]', active === t.id ? 'bg-panel-2 font-[560] text-ink shadow-[0_0_0_1px_var(--line)]' : 'text-muted hover:text-ink')}>
@@ -67,7 +67,7 @@ function Docs() {
         </nav>
       </aside>
 
-      <article className="min-w-0 max-w-[72ch] text-[16.5px] leading-[1.7] text-ink-2 [&_h2]:scroll-mt-24 [&_h2]:font-display [&_h2]:text-[30px] [&_h2]:font-[650] [&_h2]:tracking-[-0.025em] [&_h2]:leading-[1.15] [&_h2]:text-ink [&_h2]:mt-16 [&_h2]:mb-4 [&_p]:my-4 [&_code:not(pre_code)]:rounded-[6px] [&_code:not(pre_code)]:border [&_code:not(pre_code)]:border-line [&_code:not(pre_code)]:bg-panel-2 [&_code:not(pre_code)]:px-1.5 [&_code:not(pre_code)]:py-0.5 [&_code:not(pre_code)]:font-mono [&_code:not(pre_code)]:text-[0.88em] [&_code:not(pre_code)]:text-ink">
+      <article className="min-w-0 max-w-[72ch] text-[16.5px] leading-[1.7] text-ink-2 [&_h2]:scroll-mt-28 [&_h2]:font-sans [&_h2]:text-[28px] [&_h2]:font-[600] [&_h2]:tracking-[-0.025em] [&_h2]:leading-[1.15] [&_h2]:text-ink [&_h2]:mt-16 [&_h2]:mb-4 [&_p]:my-4 [&_code:not(pre_code)]:rounded-[6px] [&_code:not(pre_code)]:border [&_code:not(pre_code)]:border-line [&_code:not(pre_code)]:bg-panel-2 [&_code:not(pre_code)]:px-1.5 [&_code:not(pre_code)]:py-0.5 [&_code:not(pre_code)]:font-mono [&_code:not(pre_code)]:text-[0.88em] [&_code:not(pre_code)]:text-ink">
         <h1 className="display">Docs</h1>
         <p className="lede mt-6">Add a live shader background to a React page in three steps, then tune it with props.</p>
         <p><strong className="font-medium text-ink">AuraShades</strong> is a library of live WebGL shader backgrounds for websites. Each background is a small fragment shader that the GPU draws every frame, so it stays sharp at any size and weighs far less than a video. You pick a shader, set four colours and a few dials, and render it with one React component.</p>

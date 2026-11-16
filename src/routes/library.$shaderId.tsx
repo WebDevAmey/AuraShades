@@ -33,7 +33,7 @@ function ShaderPage() {
   const next = SHADERS[(i + 1) % SHADERS.length]
 
   return (
-    <section className="wrap page-end pt-6 md:pt-8" aria-labelledby="shader-title">
+    <section className="wrap page-top" aria-labelledby="shader-title">
       <nav aria-label="Breadcrumb" className="mb-10 flex items-center justify-between gap-4">
         <Link to="/library" className={button({ variant: 'ghost', size: 'sm', className: '-ml-3' })}><ArrowLeft size={16} />All shaders</Link>
         <div className="flex gap-2">
