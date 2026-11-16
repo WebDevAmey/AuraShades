@@ -8,9 +8,9 @@ export function ShotCard({ id, summary = false, feature = false }: { id: string;
   const s = byId(id)!
   return (
     <Link to="/library/$shaderId" params={{ shaderId: s.id }} className="shot h-full">
-      <span className={feature ? 'shot-media sm:!aspect-auto sm:min-h-[320px] sm:flex-1' : 'shot-media'}>
+      <span className={feature ? 'shot-media sm:!aspect-auto sm:min-h-[340px] sm:flex-1' : 'shot-media'}>
         <span className="absolute inset-0"><AuraShade shader={s.id} label={`${s.name} preview`} /></span>
-        <span className="absolute left-2.5 top-2.5 flex gap-1.5">
+        <span className="absolute left-3 top-3 flex gap-1.5">
           {s.tier === 'pro' ? <span className="chip chip-on-media">Pro</span> : <span className="chip chip-on-media"><i className="h-1.5 w-1.5 rounded-full bg-[var(--p-cyan)]" />Free</span>}
         </span>
       </span>
@@ -19,7 +19,7 @@ export function ShotCard({ id, summary = false, feature = false }: { id: string;
           <span className="truncate text-[15px] font-[560] tracking-[-0.015em] text-ink">{s.name}</span>
           {summary ? <span className="text-[13.5px] leading-[1.45] text-muted">{s.summary}</span> : <span className="spec uppercase text-muted">{s.style}</span>}
         </span>
-        <span className="go flex h-8 w-8 shrink-0 items-center justify-center rounded-[8px] bg-panel-3 text-ink"><ArrowUpRight size={16} /></span>
+        <span className="go flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--r-chip)] bg-panel-3 text-ink"><ArrowUpRight size={16} /></span>
       </span>
     </Link>
   )

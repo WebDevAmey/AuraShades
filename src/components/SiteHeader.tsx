@@ -141,6 +141,7 @@ function DesktopNav({ path }: { path: string }) {
     panels.current.forEach((p, i) => { if (p) p.style.left = `${boxes[i].l - bounds.l}px` })
     geo.current = { boxes, bounds, barW, barH }
     apply(activeRef.current)
+    nav.current.classList.add('ready')
   }, [apply])
 
   useLayoutEffect(() => {

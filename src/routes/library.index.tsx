@@ -79,9 +79,9 @@ function Library() {
       </div>
 
       {/* Toolbar: search and plan on one line, styles as a row of pills beneath; sticks under the navbar */}
-      <div className="sticky top-[calc(var(--nav-h)+var(--nav-top)*2)] z-30 -mx-2 mb-6 rounded-[var(--r-board)] border border-line bg-[color-mix(in_oklab,var(--ground)_82%,transparent)] p-2 backdrop-blur-xl">
+      <div className="sticky top-[calc(var(--nav-h)+var(--nav-top)*2)] z-30 -mx-3 mb-8 rounded-[var(--r-card)] bg-[color-mix(in_oklab,var(--ground)_82%,transparent)] p-3 shadow-[var(--ring),var(--highlight)] backdrop-blur-xl">
         <div className="flex flex-col gap-2 md:flex-row md:items-center">
-          <div className="search h-11 flex-1">
+          <div className="search h-12 flex-1">
             <Search size={17} aria-hidden="true" />
             <label htmlFor="lib-search" className="sr-only">Search shaders</label>
             <input ref={input} id="lib-search" value={text} onChange={(e) => setText(e.target.value)} placeholder="Search by name, colour or mood" autoComplete="off" />
@@ -96,7 +96,7 @@ function Library() {
             <p className="spec shrink-0 px-2 text-muted md:min-w-[88px] md:text-right" aria-live="polite">{String(list.length).padStart(2, '0')} / {SHADERS.length}</p>
           </div>
         </div>
-        <div className="-mx-2 mt-2 overflow-x-auto px-2 [scrollbar-width:none]">
+        <div className="-mx-3 mt-3 overflow-x-auto px-3 py-0.5 [scrollbar-width:none]">
           <div className="flex gap-1.5" role="group" aria-label="Filter by style">
             {(['All', ...STYLES.map((s) => s.id)] as Filter[]).map((st) => (
               <button key={st} type="button" className="pill" aria-pressed={filter === st} onClick={() => set({ style: st })}>
@@ -109,13 +109,13 @@ function Library() {
       </div>
 
       {list.length === 0 ? (
-        <div className="board flex min-h-[320px] flex-col items-center justify-center gap-4 border-dashed text-center">
+        <div className="board flex min-h-[320px] flex-col items-center justify-center gap-4 text-center">
           <p className="h3">Nothing matches {q ? `“${q}”` : 'these filters'}{filter !== 'All' ? ` in ${filter}` : ''}</p>
           <p className="small max-w-[40ch]">Try a colour like blue or gold, a mood like calm, or clear the filters to see the whole set.</p>
           <button type="button" className={button({ variant: 'secondary' })} onClick={reset}>Show every shader</button>
         </div>
       ) : (
-        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {list.map((s) => (
             <li key={s.id}>
               <ShotCard id={s.id} />

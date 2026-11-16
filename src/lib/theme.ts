@@ -13,7 +13,7 @@ import { useSyncExternalStore } from 'react'
 export type Theme = 'dark' | 'light'
 
 const KEY = 'aurashades-theme'
-const BAR: Record<Theme, string> = { dark: '#030407', light: '#f3f4f6' }
+const BAR: Record<Theme, string> = { dark: '#04060c', light: '#f3f4f6' }
 
 /** Runs inline in <head> before first paint, so no page ever flashes the wrong theme. */
 export const themeInitScript = `(function(){try{var d=document.documentElement,s=localStorage.getItem('${KEY}'),t=s==='light'||s==='dark'?s:(d.dataset.theme==='light'||d.dataset.theme==='dark'?d.dataset.theme:'dark');d.dataset.theme=t;d.style.colorScheme=t;}catch(e){}})();`

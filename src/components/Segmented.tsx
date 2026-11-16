@@ -21,7 +21,7 @@ export function Segmented<T extends string>({
     el?.focus()
   }
   return (
-    <div role="radiogroup" aria-label={label} className={cx('relative inline-flex rounded-[12px] border border-line bg-panel-2 p-1', className)}>
+    <div role="radiogroup" aria-label={label} className={cx('relative inline-flex rounded-[var(--r-control)] bg-panel-2 p-1 shadow-[var(--ring)]', className)}>
       {options.map((o, i) => {
         const on = o.value === value
         return (
@@ -34,15 +34,15 @@ export function Segmented<T extends string>({
             onClick={() => onChange(o.value)}
             onKeyDown={(e) => onKey(e, i)}
             className={cx(
-              'relative flex items-center justify-center whitespace-nowrap rounded-[8px] font-[560] transition-colors duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]',
-              size === 'sm' ? 'h-8 px-3 text-[13px]' : 'h-10 px-4 text-[14px]',
+              'relative flex items-center justify-center whitespace-nowrap rounded-[var(--r-chip)] font-[560] transition-colors duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]',
+              size === 'sm' ? 'h-8 px-3.5 text-[13px]' : 'h-10 px-5 text-[14px]',
               on ? 'text-ground' : 'text-muted hover:text-ink',
             )}
           >
             {on && (
               <motion.span
                 layoutId={`seg-${id}`}
-                className="absolute inset-0 rounded-[8px] bg-ink"
+                className="absolute inset-0 rounded-[var(--r-chip)] bg-ink"
                 transition={ease}
                 aria-hidden="true"
               />
