@@ -10,7 +10,7 @@ import { ease } from '~/lib/motion'
 import { FAQS, PLANS } from '~/lib/content'
 import { BRAND_FIELDS, BRAND_SHADER, brandParams } from '~/lib/shaders/library'
 
-/** Each plan wears one field; Pro gets Ember, the brand's own. */
+/** Each plan wears one field; Pro gets Electric, the brand's own. */
 const STRIP = { free: BRAND_FIELDS[2], pro: BRAND_FIELDS[0], team: BRAND_FIELDS[1] }
 import { button } from '~/lib/button'
 
@@ -19,7 +19,7 @@ type Billing = 'monthly' | 'yearly'
 function Price({ value, billing }: { value: number; billing: Billing }) {
   return (
     <div className="flex items-baseline gap-1.5">
-      <span className="relative inline-flex h-[56px] overflow-hidden font-display text-[52px] font-[680] leading-[56px] tracking-[-0.035em] tnum">
+      <span className="relative inline-flex h-[56px] overflow-hidden stat text-[56px] leading-[56px]">
         <span>$</span>
         <AnimatePresence mode="popLayout" initial={false}>
           <motion.span
@@ -54,9 +54,9 @@ export function PricingPlans() {
           const pro = p.id === 'pro'
           const value = billing === 'monthly' ? p.monthly : Math.round(p.yearly / 12)
           return (
-            <div key={p.id} className={cx('board board-flush flex flex-col', pro && '!border-ink')}>
+            <div key={p.id} className={cx('board board-flush flex flex-col', pro && '!border-[color-mix(in_oklab,var(--accent)_60%,transparent)] shadow-[0_0_0_1px_var(--accent-soft),0_30px_60px_-30px_var(--accent)]')}>
               <div className="h-24 border-b border-line">
-                <AuraShade shader={BRAND_SHADER} params={brandParams(STRIP[p.id as keyof typeof STRIP])} label={`${p.name} plan colour strip`} />
+                <AuraShade shader={BRAND_SHADER} params={{ ...brandParams(STRIP[p.id as keyof typeof STRIP]), scale: 2.4, cell: 3 }} label={`${p.name} plan colour strip`} />
               </div>
               <div className="flex flex-1 flex-col gap-6 p-6 md:p-8">
                 <div className="flex flex-col gap-1.5">
@@ -81,7 +81,7 @@ export function PricingPlans() {
                   ) : (
                     <a
                       href={`mailto:hello@aurashades.example?subject=${encodeURIComponent(`AuraShades ${p.name}, ${billing}`)}`}
-                      className={button({ variant: pro ? 'primary' : 'secondary', className: 'w-full' })}
+                      className={button({ variant: pro ? 'hot' : 'secondary', className: 'w-full' })}
                     >
                       {p.cta.label}
                     </a>
@@ -102,7 +102,7 @@ export function Faq() {
       {FAQS.map((f, i) => (
         <Accordion.Item key={i} value={`q${i}`} className="border-b border-line">
           <Accordion.Header>
-            <Accordion.Trigger className="acc-trigger flex min-h-16 w-full items-center justify-between gap-6 py-4 text-left font-display text-[18px] font-[600] tracking-[-0.015em] md:text-[20px]">
+            <Accordion.Trigger className="acc-trigger flex min-h-16 w-full items-center justify-between gap-6 py-5 text-left text-[17px] font-[560] tracking-[-0.02em] md:text-[19px]">
               {f.q}
               <Plus size={20} className="shrink-0 text-muted" aria-hidden="true" />
             </Accordion.Trigger>
