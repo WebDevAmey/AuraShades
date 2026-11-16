@@ -1708,6 +1708,33 @@ vec3 shade(){float t=T();vec2 cs=vec2(uCell,uCell*1.6);vec2 px=frag();vec2 cell=
   c=mixok(c,col,clamp(stroke*min(k*1.4,1.)+glow*k*.35,0.,1.));
   return c;}`,
   },
+  {
+    id: 'particle-wave', name: 'Particle Wave', style: 'Wave', tier: 'pro',
+    summary: 'A rolling surface made of thousands of dots.',
+    description: 'A sheet of particles seen in perspective, rising and falling like slow water. Dots catch more light on the crests and fade into the distance, so the surface reads as depth without a single drawn line.',
+    palettes: { dark: ['#06051a', '#1d1252', '#9a4dff', '#f0c8ff'], light: ['#06051a', '#1d1252', '#9a4dff', '#f0c8ff'] },
+    defaults: { palette: ['#06051a', '#1d1252', '#9a4dff', '#f0c8ff'], speed: .35, scale: 1, grain: .02, cell: 6 },
+    body: `float WH(float x,float z,float t){return .34*sin(x*.9+z*.6+t*.45)*cos(z*.45-t*.28)+.12*sin(x*2.1-t*.4+z*1.1)+.08*sin(x*.4+z*1.7-t*.2);}
+vec3 shade(){float t=T();vec2 a=uvA();
+  vec3 c=mixok(uC0,uC1,smoothstep(.6,-.5,a.y)*.3);
+  float best=0.;float crest=0.;
+  for(int j=0;j<56;j++){float fj=float(j);
+    float z=.5+fj*.085;float sc=1./z;
+    float wx=a.x*z*uScale+.4*sin(t*.07);
+    float h=WH(wx,z+t*.12,t)*mix(.45,1.,smoothstep(.5,2.2,z));
+    float ys=.12+(h-.5)*sc*.75;
+    float sp=.05;
+    float fx=(fract(wx/sp)-.5)*sp*sc/uScale;
+    float dy=a.y-ys;
+    float r=min(.0038*sc+.0009,.0065);
+    float dd=length(vec2(fx,dy));
+    float dot_=smoothstep(r,r*.3,dd);
+    float k=dot_*(1.-fj/60.)*(.3+.7*smoothstep(-.2,.3,h));
+    if(k>best){best=k;crest=smoothstep(.1,.38,h);}}
+  vec3 col=mixok(uC2,uC3,crest);
+  c=mixok(c,col,clamp(best*1.9,0.,1.));
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
