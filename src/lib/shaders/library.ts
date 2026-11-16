@@ -1735,6 +1735,25 @@ vec3 shade(){float t=T();vec2 a=uvA();
   c=mixok(c,col,clamp(best*1.9,0.,1.));
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'flow-field', name: 'Flow Field', style: 'Light', tier: 'free',
+    summary: 'Thousands of fine streamlines swirling through the dark.',
+    description: 'Hair-thin lines of light follow an invisible current that bends into S-curves. Dashes of brightness travel along each line, the current slowly shifts, and the strands bunch into a glowing ribbon across the frame.',
+    palettes: { dark: ['#040a0c', '#0e2a2c', '#3fb8a0', '#d4fff2'], light: ['#040a0c', '#0e2a2c', '#3fb8a0', '#d4fff2'] },
+    defaults: { palette: ['#040a0c', '#0e2a2c', '#3fb8a0', '#d4fff2'], speed: .35, scale: 1, grain: .02, cell: 6 },
+    body: `float PSI(vec2 p,float t){return p.y+.42*sin(p.x*1.6+.6*sin(p.y*1.3+t*.12)+t*.1)+.18*sin(p.x*3.1-p.y*1.7-t*.08);}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale;
+  float N=26.;float e=1.5/uRes.y;
+  float s=PSI(a,t);float g=length(vec2(PSI(a+vec2(e,0.),t)-s,PSI(a+vec2(0.,e),t)-s))/e;
+  float k=s*N;float lid=floor(k+.5);
+  float line=smoothstep(1.2,.2,abs(fract(k+.5)-.5)/max(g*N*e,1e-4));
+  float dash=smoothstep(.55,1.,fract(hash(vec2(lid,2.))*7.+a.x*(1.2+hash(vec2(lid,5.)))-t*(.25+.3*hash(vec2(lid,8.)))));
+  float band=exp(-pow(s+.05*sin(t*.2),2.)*5.);
+  float vis=step(.3,hash(vec2(lid,11.)));
+  vec3 c=mixok(uC0,uC1,band*.35);
+  c=mixok(c,mixok(uC2,uC3,dash*band),clamp(line*vis*(.15+.85*dash)*(.25+.75*band),0.,1.));
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
