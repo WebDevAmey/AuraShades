@@ -1779,6 +1779,34 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   c=mix(c,mixok(uC2,uC3,.5),outline*on*.8);
   return c;}`,
   },
+  {
+    id: 'ring-cascade', name: 'Ring Cascade', style: 'Orbit', tier: 'pro',
+    summary: 'Broken bronze rings turning at their own speeds.',
+    description: 'Concentric rings, each cut into arcs of different lengths, rotate around a dark centre at their own pace. A low light catches the bronze on one side, so bright arcs sweep past each other and fall back into shadow.',
+    palettes: { dark: ['#08070c', '#2a2220', '#c89a74', '#fff0dc'], light: ['#08070c', '#2a2220', '#c89a74', '#fff0dc'] },
+    defaults: { palette: ['#08070c', '#2a2220', '#c89a74', '#fff0dc'], speed: .35, scale: 1, grain: .02, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA()/uScale;vec2 p=a-vec2(.05,-.02);p.y*=1.08;
+  float r=length(p);float an=atan(p.y,p.x);
+  vec3 c=mixok(uC0,uC1,exp(-r*1.8)*.15);
+  float w=.1;float k=floor(r/w);float fr=fract(r/w);
+  float exists=step(.3,hash(vec2(k,1.)))*step(1.5,k);
+  float segs=1.+floor(hash(vec2(k,2.))*4.);
+  float spd=(hash(vec2(k,3.))-.5)*.9;
+  float duty=.35+.45*hash(vec2(k,4.));
+  float ang=an+t*spd+hash(vec2(k,5.))*6.283;
+  float sf=fract(ang*segs/6.283);
+  float px=1.5/uRes.y/w;
+  float arc=smoothstep(0.,px*1.5/max(r,.05)*w,sf)*smoothstep(duty,duty-px*1.5/max(r,.05)*w,sf);
+  float band=smoothstep(.14,.14+px*1.5,fr)*smoothstep(.86-.3*hash(vec2(k,6.)),.86-.3*hash(vec2(k,6.))-px*1.5,fr);
+  float on=exists*arc*band;
+  float L=pow(max(cos(an-2.3-.25*sin(t*.2)),0.),2.);
+  float edge=smoothstep(.2,0.,abs(fr-.5)-.25);
+  vec3 col=mixok(uC1,uC2,.25+.75*L);
+  col=mixok(col,uC3,L*L*edge);
+  c=mixok(c,col,on*(.35+.65*L));
+  c=mixok(c,uC2,exists*arc*exp(-abs(fr-.5)*8.)*L*.2);
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
