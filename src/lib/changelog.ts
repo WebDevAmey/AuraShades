@@ -10,6 +10,16 @@ export interface Release {
 export const CHANGELOG: Release[] = [
   {
     date: '2026-11-17',
+    title: 'Six new shaders',
+    tag: 'Shaders',
+    notes: [
+      'Clean, single-idea pieces: a grid of glass lenses, a folding sheet of paper, orbits with beads of light, strokes that follow a magnetic field, glass drops bending striped light, and translucent petals.',
+      'Lens Array and Petals are free.',
+    ],
+    shaders: ['lens-array', 'petals', 'paper-fold', 'orbit-trails', 'field-lines', 'refraction'],
+  },
+  {
+    date: '2026-11-17',
     title: 'A tighter library',
     tag: 'Shaders',
     notes: [
