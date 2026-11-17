@@ -1727,6 +1727,24 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;float f=Fm(a,t);float e=.002;
   g=mixok(g,uC3,clamp(exp(-d/px*.35)*.55+sp*.8,0.,1.));
   return mix(c,g,m)+grain()*uGrain;}`,
   },
+  {
+    id: 'petals', name: 'Petals', style: 'Pastel', tier: 'free',
+    summary: 'Translucent petals turning slowly around a soft centre.',
+    description: 'Two rings of translucent petals, each a different pastel, overlap like coloured film. The rings turn in opposite directions and the petals breathe a little, so the overlaps keep making new tints.',
+    palettes: { dark: ['#0d0b14', '#7a3b6a', '#3b4aa8', '#f4d9e6'], light: ['#f6f2ee', '#ee9fb5', '#9cadef', '#fff8ef'] },
+    defaults: { palette: ['#0d0b14', '#7a3b6a', '#3b4aa8', '#f4d9e6'], speed: .35, scale: 1, grain: .04, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 p=uvA()*uScale;float px=1.5/uRes.y*uScale;
+  vec3 c=mixok(uC0,uC3,exp(-dot(p,p)*3.)*.3);
+  for(int ring=0;ring<2;ring++){float fr=float(ring);float sc=1.-fr*.42;float spin=t*(.05-fr*.1)+fr*.45;
+    for(int k=0;k<7;k++){float fk=float(k);float th=fk*.8975979+spin+.04*sin(t*.4+fk);
+      vec2 q=mat2(cos(th),sin(th),-sin(th),cos(th))*p/sc;q.x-=.24;
+      vec2 ab=vec2(.25,.1+.012*sin(t*.5+fk*1.3));float e=(length(q/ab)-1.)*ab.y*sc;
+      float msk=smoothstep(px,-px,e);
+      vec3 col=mixok(uC1,uC2,fract(fk*.43+fr*.3));col=mixok(col,uC3,.25+fr*.25);
+      c=mixok(c,col,msk*.42);
+      c=mixok(c,uC3,exp(-abs(e)/px*.7)*.18*smoothstep(.6,-.2,q.x/.25));}}
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
