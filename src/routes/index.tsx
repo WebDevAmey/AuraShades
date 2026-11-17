@@ -176,7 +176,7 @@ function Styles() {
   return (
     <section className="wrap section" aria-labelledby="styles-title">
       <SecHead n="01" label="Styles" id="styles-title" title={<>{Word(STYLES.length)} styles, <em>one engine.</em></>}>
-        <p className="lede">Gradients, grain, dither, ASCII, chrome and eclipses. Pick a style, or search the whole set by name, colour or mood.</p>
+        <p className="lede">Gradients, grain, dither, ASCII, chrome and orbits. Pick a style, or search the whole set by name, colour or mood.</p>
         <form role="search" onSubmit={(e) => { e.preventDefault(); navigate({ to: '/library', search: q.trim() ? { q: q.trim() } : {} }) }} className="search max-w-[480px]">
           <Search size={17} aria-hidden="true" />
           <label htmlFor="home-search" className="sr-only">Search shaders</label>
@@ -202,7 +202,7 @@ function Styles() {
   )
 }
 
-const FEATURED = ['gilded-chrome', 'jade-marble', 'cobalt-halftone', 'signal-flow', 'prism-flow', 'solar-eclipse']
+const FEATURED = ['gilded-chrome', 'jade-marble', 'cobalt-halftone', 'lavender-arcs', 'prism-flow', 'ring-cascade']
 
 function Featured() {
   return (
@@ -222,7 +222,7 @@ function Featured() {
   )
 }
 
-const PLAY_IDS = ['dune', 'silk', 'signal-flow', 'grain-bloom', 'aurora-veil', 'bayer-wave', 'ascii-flow']
+const PLAY_IDS = ['dune', 'silk', 'grain-bloom', 'aurora-veil', 'flow-field', 'bayer-wave', 'ascii-flow']
 
 function Playground() {
   const [id, setId] = useState('dune')
