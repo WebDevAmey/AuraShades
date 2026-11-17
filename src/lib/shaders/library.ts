@@ -364,35 +364,6 @@ vec3 shade(){float t=T();vec2 px=frag();float s=uScale/uRes.y;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'frost-aurora', name: 'Frost Aurora', style: 'Aurora', tier: 'pro',
-    summary: 'An aurora seen through a frosted window.',
-    description: 'Soft aurora bands behind a pane of ice. Each crystal bends the light a little differently, thin frost lines trace the crystal edges, and tiny sparkles come and go.',
-    palettes: { dark: ['#04070f', '#2ee6b0', '#4f7dff', '#e8f6ff'], light: ['#eef4fa', '#6fd8bd', '#8fa8ff', '#f8faff'] },
-    defaults: { palette: ['#04070f', '#2ee6b0', '#4f7dff', '#e8f6ff'], speed: .35, scale: 1, grain: .02, cell: 6 },
-    body: `vec3 vor(vec2 p){vec2 i=floor(p),f=fract(p);float d1=8.,d2=8.;vec2 id=i;
-  for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++){vec2 g=vec2(float(x),float(y));vec2 o=vec2(hash(i+g),hash(i+g+19.7));vec2 r=g+o-f;float d=dot(r,r);
-    if(d<d1){d2=d1;d1=d;id=i+g;}else if(d<d2){d2=d;}}
-  return vec3(sqrt(d2)-sqrt(d1),id);}
-vec3 shade(){float t=T();vec2 a=uvA();
-  vec3 v=vor(a*7.*uScale);vec3 v2=vor(a*19.*uScale+3.);
-  vec2 bend=(vec2(hash(v.yz),hash(v.yz+5.1))-.5)*.05+(vec2(hash(v2.yz),hash(v2.yz+2.3))-.5)*.02;
-  vec2 b=a+bend;vec2 uv=vec2(b.x,b.y+.5);
-  vec3 c=mix(uC0,mix(uC0,uC2,.2),1.-uv.y);
-  for(int i=0;i<3;i++){float fi=float(i);
-    float y0=.38+fi*.15+.12*sin(b.x*(1.2+fi*.3)+t*.4+fi*1.7)+.08*(fbm(vec2(b.x*.8+fi*4.,t*.1))-.5);
-    float d=uv.y-y0;
-    float band=exp(-d*d*(30.-fi*7.));
-    vec3 col=i==0?uC1:(i==1?uC2:mix(uC1,uC3,.5));
-    c=mix(c,col,band*(.7+.3*fbm(vec2(b.x*8.+fi,d*2.-t*.2)))*.85);}
-  float L0=dot(uC0,vec3(.299,.587,.114));
-  float line=1.-smoothstep(.0,.035,v.x);float fine=1.-smoothstep(.0,.04,v2.x);
-  vec3 frost=mix(uC3,uC0,L0*.6);
-  c=mix(c,frost,line*.28+fine*.12);
-  c=mix(c,frost,fbm(a*30.)*.12);
-  c+=step(.997,hash(floor(frag()/2.)+floor(t*3.)))*.6*(1.-L0);
-  return c+grain()*uGrain;}`,
-  },
-  {
     id: 'crosshatch', name: 'Crosshatch', style: 'Dither', tier: 'pro', cellular: 'pixel',
     summary: 'A moving field engraved in hatched lines.',
     description: 'Tone is built from layers of hand-drawn hatching like an old engraving: one direction for light areas, a crossing set for mid tones and a third for the densest parts. Lines wobble slightly, as if drawn with a pen.',
@@ -696,33 +667,6 @@ vec3 shade(){float t=T();vec2 p=uvA()/uScale;float e=.002;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'terrazzo', name: 'Terrazzo', style: 'Texture', tier: 'pro',
-    summary: 'Chips of colour set in a speckled floor.',
-    description: 'Broken stone chips of different sizes sit in a speckled binder, each with sharp, angular edges. The whole slab drifts slowly and the chips catch a little light as it passes.',
-    palettes: { dark: ['#141318', '#e2735a', '#4f6fd8', '#efe7d8'], light: ['#f1ece3', '#e98a6f', '#5c7be0', '#2e3a4f'] },
-    defaults: { palette: ['#141318', '#e2735a', '#4f6fd8', '#efe7d8'], speed: .15, scale: 1, grain: .02, cell: 6 },
-    body: `vec4 chips(vec2 p){vec2 i=floor(p),f=fract(p);vec4 r=vec4(0.);
-  for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++){vec2 g=vec2(float(x),float(y));vec2 id=i+g;
-    float h=hash(id);if(h>.55)continue;
-    vec2 o=vec2(hash(id+3.1),hash(id+7.7))*.6+.2;vec2 d=g+o-f;
-    float ang=hash(id+1.3)*6.283;mat2 m=mat2(cos(ang),-sin(ang),sin(ang),cos(ang));vec2 e=m*d;
-    float s=.18+.3*hash(id+9.1);
-    float poly=max(max(abs(e.x)*1.1+e.y*.45,abs(e.y)*1.2-e.x*.3),dot(e,vec2(.6,.8)));
-    if(poly<s){r=vec4(1.,h/.55,(s-poly)/s,hash(id+5.5));}}
-  return r;}
-vec3 shade(){float t=T();vec2 a=uvA()*uScale+vec2(t*.05,t*.02);
-  float sp=hash(floor(frag()/1.5));
-  vec3 c=mix(uC0,mix(uC0,uC3,.18),fbm(a*6.)*.6);
-  c=mix(c,uC3,step(.93,sp)*.35);c=mix(c,uC1,step(.985,sp)*.4);
-  vec4 big=chips(a*5.);vec4 small=chips(a*13.+4.);
-  vec4 k=big.x>0.?big:small;
-  if(k.x>0.){vec3 col=k.y<.33?uC1:(k.y<.66?uC2:uC3);
-    col*=.85+.25*k.w;col=mix(col,uC3,smoothstep(.3,.0,k.z)*.15);
-    float glint=exp(-pow(a.x-a.y*.4-sin(t*.6)*1.5,2.)*3.)*k.z;
-    c=mix(col,uC3,glint*.25);}
-  return c+grain()*uGrain;}`,
-  },
-  {
     id: 'linen', name: 'Linen', style: 'Texture', tier: 'pro',
     summary: 'Woven cloth with dye flowing through it.',
     description: 'A plain weave drawn thread by thread: warp and weft cross over and under, each thread a little thicker or thinner than the next, with the odd slub. A slow ombré dye drifts through the cloth.',
@@ -802,28 +746,6 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   h=smoothstep(0.,1.,h);
   vec3 c=ramp(pow(h,1.15));
   c=mixok(c,uC3,smoothstep(.82,1.,h)*.5);
-  return c+grain()*uGrain;}`,
-  },
-  {
-    id: 'holo-foil', name: 'Holo Foil', style: 'Pastel', tier: 'pro',
-    summary: 'Embossed holographic foil that shifts as light moves.',
-    description: 'A sheet of pressed foil. The colour you see depends on how each part of the surface faces a slowly moving light, so the spectrum slides as the foil "tilts". Micro-facets glint as a soft sweep of light crosses the sheet.',
-    palettes: { dark: ['#0b0c14', '#2b3566', '#9a86e0', '#eef2ff'], light: ['#eef0f8', '#cfe3ff', '#f7d1ec', '#fbfaff'] },
-    defaults: { palette: ['#0b0c14', '#2b3566', '#9a86e0', '#eef2ff'], speed: .35, scale: 1, grain: .02, cell: 6 },
-    body: `float FH(vec2 p,float t){vec2 q=p+.4*vec2(noise(p*.8+t*.06),noise(p*.8+4.-t*.05));return noise(q*.9)*.6+noise(q*1.9)*.25+.25*sin(p.x*1.4+p.y*.9+t*.25);}
-vec3 shade(){float t=T();vec2 a=uvA()*uScale;
-  float e=.01;float h=FH(a,t);vec2 g=vec2(FH(a+vec2(e,0.),t)-h,FH(a+vec2(0.,e),t)-h)/e;
-  vec2 cell=floor(frag()/3.);
-  vec3 n=normalize(vec3(-g*.5+(vec2(hash(cell+1.3),hash(cell+7.1))-.5)*.06,1.));
-  vec2 v=vec2(.35*sin(t*.4),.25*cos(t*.33));
-  float ph=dot(n.xy,v)*1.8+h*1.1+a.x*.3+a.y*.15-t*.04;
-  vec3 spec=.5+.5*cos(TAU*(ph+vec3(0.,.33,.67)));
-  float L0=dot(uC0,vec3(.299,.587,.114));
-  vec3 base=ramp(.25+.55*h);
-  vec3 c=mixok(base,mix(spec*.62,mix(spec,vec3(1.),.45),L0),.42);
-  float sw=exp(-pow((a.x+a.y*.5)-mod(t*.5,4.)+2.,2.)*5.);
-  c=mixok(c,uC3,sw*.3);
-  c+=step(.993,hash(cell+floor(t*5.)))*(.25+sw)*.5*(1.-L0*.5);
   return c+grain()*uGrain;}`,
   },
   {
@@ -942,48 +864,6 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*2.3;
   f+=.2*exp(-dot(a-vec2(.45,.3),a-vec2(.45,.3))*3.);
   float lv=clamp(f,0.,.999)*9.;
   return ramp((floor(lv)+step(hash(cell),fract(lv)))/9.);}`,
-  },
-  {
-    id: 'ecliptic-gradient', name: 'Ecliptic Gradient', style: 'Orbit', tier: 'free',
-    summary: 'An orbital, celestial blend.',
-    description: 'The curved edge of a planet rising out of the dark, lit from above. The rim burns hot and thin, the atmosphere glows softly around it, and the light drifts slowly across the limb.',
-    palettes: { dark: ['#05070f', '#121a3a', '#ff8a4c', '#fff0dc'], light: ['#eef1f8', '#c9d3ee', '#ff8f5a', '#fff3e6'] },
-    defaults: { palette: ['#05070f', '#121a3a', '#ff8a4c', '#fff0dc'], speed: .3, scale: 1, grain: .03, cell: 6 },
-    body: ORB_FN + `vec3 shade(){float t=T();vec2 a=uvA()/uScale;
-  vec3 c=mixok(uC0,uC1,smoothstep(.7,-.6,a.y)*.55);
-  c=orb(c,a,vec2(.15+.03*sin(t*.2),-1.05),1.,vec2(.35+.2*sin(t*.15),1.),mixok(uC0,uC1,.25),uC2,uC3);
-  return c+grain()*uGrain;}`,
-  },
-  {
-    id: 'ecliptic-gradient-v2', name: 'Ecliptic Gradient v2', style: 'Orbit', tier: 'pro',
-    summary: 'Two bodies, each with its own orbital glow.',
-    description: 'Two spheres hang in a violet haze, one large and half out of frame, one smaller below it. Each is lit from a different side, so their rims glow in opposite directions as they drift.',
-    palettes: { dark: ['#07051a', '#26125c', '#9a5cff', '#f1e6ff'], light: ['#f3efff', '#d6c8ff', '#9466ff', '#fcf9ff'] },
-    defaults: { palette: ['#07051a', '#26125c', '#9a5cff', '#f1e6ff'], speed: .3, scale: 1, grain: .03, cell: 6 },
-    body: ORB_FN + `vec3 shade(){float t=T();vec2 a=uvA()/uScale;
-  vec3 c=mixok(uC0,uC1,smoothstep(.6,-.6,a.y)*.45+.15*exp(-length(a-vec2(-.3,.1))*2.));
-  vec3 body=mixok(uC0,uC1,.35);
-  c=orb(c,a,vec2(.1+.03*sin(t*.18),.78+.02*cos(t*.2)),.62,vec2(-.9,-.6),body,uC2,uC3);
-  c=orb(c,a,vec2(.78+.03*cos(t*.16),-.42+.03*sin(t*.21)),.42,vec2(-.7,.75),body,uC2,uC3);
-  return c+grain()*uGrain;}`,
-  },
-  {
-    id: 'ecliptic-gradient-v3', name: 'Ecliptic Gradient v3', style: 'Orbit', tier: 'pro',
-    summary: 'Overlapping orbits with depth.',
-    description: 'Four large translucent orbits overlap like rings of glass, each traced by a fine line of teal or amber light. Where they cross, the colours stack, and the whole system turns very slowly.',
-    palettes: { dark: ['#06080d', '#1d6f73', '#ff9a5c', '#f3fbff'], light: ['#f1f4f6', '#3fa7a4', '#ff9a66', '#fdfcff'] },
-    defaults: { palette: ['#06080d', '#1d6f73', '#ff9a5c', '#f3fbff'], speed: .3, scale: 1, grain: .03, cell: 6 },
-    body: `vec3 shade(){float t=T();vec2 a=uvA()/uScale;
-  vec3 c=mixok(uC0,uC1,smoothstep(.8,-.6,a.y)*.22);
-  for(int i=0;i<4;i++){float fi=float(i);
-    vec2 o=vec2(-.45+fi*.33+.06*sin(t*.2+fi*1.7),-.78-fi*.07+.04*cos(t*.17+fi));float R=.72+fi*.13;
-    float d=length(a-o)-R;vec2 n=normalize(a-o);
-    float lit=pow(clamp(dot(n,normalize(vec2(.2,1.)))*.5+.5,0.,1.),2.);
-    vec3 col=mod(fi,2.)<.5?uC2:uC1;
-    c=mixok(c,col,clamp(smoothstep(0.,-.35,d)*lit*.12,0.,1.));
-    c=mixok(c,col,clamp(exp(-abs(d)*55.)*lit*.75,0.,1.));
-    c=mixok(c,uC3,clamp(exp(-pow(d*uRes.y/2.2,2.))*lit*.55,0.,1.));}
-  return c+grain()*uGrain;}`,
   },
   {
     id: 'hero-gradient', name: 'Hero Gradient', style: 'Gradient', tier: 'pro',
@@ -1218,7 +1098,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'violet-horizon', name: 'Violet Horizon', style: 'Orbit', tier: 'pro',
+    id: 'violet-horizon', name: 'Violet Horizon', style: 'Orbit', tier: 'free',
     summary: 'A grainy violet sunrise over a dark world.',
     description: 'A vast planet fills the lower corner, its edge lit violet by a sun just out of view. Heavy film grain and a faint haze above the limb make it feel like a long exposure.',
     palettes: { dark: ['#06051a', '#1d1450', '#8a4dff', '#f0d9ff'], light: ['#f1eefb', '#d8ccf6', '#8f5cff', '#fbf7ff'] },
@@ -1427,28 +1307,6 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;float e=.003;
     body: wave({ ph: 0.4, bg: 1, glow: 0.25, ridge: 0.55, tex: 'emboss' }),
   },
   {
-    id: 'prism-flare', name: 'Prism Flare', style: 'Spectral', tier: 'pro',
-    summary: 'A lens flare splitting light across glass planes.',
-    description: 'Two violet planes meet along a bright seam. A flare burns where light hits the edge, and a thin rainbow streak breaks off it at an angle, the way light does through the side of a prism.',
-    palettes: { dark: ['#06061a', '#2a1f8a', '#6b4dff', '#f2eeff'], light: ['#efeefc', '#c3bdf5', '#7a5cff', '#fdfcff'] },
-    defaults: { palette: ['#06061a', '#2a1f8a', '#6b4dff', '#f2eeff'], speed: .3, scale: 1, grain: .025, cell: 6 },
-    body: `vec3 spec(float h){return .5+.5*cos(TAU*(h+vec3(0.,.33,.67)));}
-vec3 shade(){float t=T();vec2 a=uvA()*uScale;
-  vec3 c=mixok(uC0,uC1,smoothstep(-.9,.9,a.x*.4+a.y*.7)*.6);
-  vec2 F=vec2(-.18+.05*sin(t*.2),-.02+.02*cos(t*.25));
-  float l=dot(a-F,normalize(vec2(.42,1.)));
-  c=mixok(c,uC2,smoothstep(0.,-.7,l)*.4);
-  float fd=length(a-F);
-  c=mixok(c,uC3,clamp(exp(-abs(l)*55.)*exp(-fd*1.6),0.,1.));
-  c=mixok(c,uC2,clamp(exp(-fd*3.)*.6,0.,1.));
-  c=mixok(c,uC3,clamp(exp(-fd*14.)+exp(-abs((a-F).y)*90.)*exp(-abs((a-F).x)*5.)*.5,0.,1.));
-  vec2 dir=normalize(vec2(.55,.85));vec2 nr=vec2(-dir.y,dir.x);
-  float al=dot(a-F,dir);float u=dot(a-F-vec2(.3,0.),nr)/.035;
-  float beam=exp(-u*u*.25)*smoothstep(-.1,.4,al)*smoothstep(1.2,.3,al);
-  c=mixok(c,spec(1.-clamp((u+3.)/6.,0.,1.)*.75),clamp(beam*.55,0.,1.));
-  return c+grain()*uGrain;}`,
-  },
-  {
     id: 'caustic-deep', name: 'Caustic Deep', style: 'Liquid', tier: 'pro',
     summary: 'Underwater light rippling in teal.',
     description: 'The network of light that sunlight throws through moving water, seen from below. Bright threads gather in a band across the frame and fade into deep teal at the edges.',
@@ -1479,33 +1337,6 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*3.4;
   float band=exp(-pow((r-.45-.08*sin(an*2.+t*.2))*4.5,2.))*smoothstep(-.9,.6,sin(an-.4));
   vec3 c=mixok(uC0,uC1,band*.3);
   c=mixok(c,mixok(uC2,uC3,band),clamp(line*band*1.1,0.,1.));
-  return c+grain()*uGrain;}`,
-  },
-  {
-    id: 'plum-satin', name: 'Plum Satin', style: 'Gradient', tier: 'pro',
-    summary: 'Plum satin folds with a rose glow on the edges.',
-    description: 'Deep plum fabric folds up from the lower corner in four layers. The edge of each fold catches a warm rose light, and the hollows between them fall into shadow.',
-    palettes: { dark: ['#140a12', '#4a1f3a', '#d06a96', '#ffd0dc'], light: ['#f6eef2', '#e5bdd0', '#d6719c', '#fff2f6'] },
-    defaults: { palette: ['#140a12', '#4a1f3a', '#d06a96', '#ffd0dc'], speed: .3, scale: 1, grain: .03, cell: 6 },
-    body: `vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();float px=1.5/uRes.y;
-  vec3 c=mixok(uC0,uC1,smoothstep(-.2,1.,uv.x*.5+uv.y*.7)*.5);
-  for(int i=0;i<4;i++){float fi=float(i);
-    float y0=.45*a.x+.35-fi*.24+.12*sin(a.x*(1.6+fi*.3)+fi*1.7+.3*sin(t*.22+fi))+.04*sin(a.x*3.4-t*.18+fi);
-    float d=a.y-y0;float body=smoothstep(px,-px,d);
-    vec3 col=mixok(mixok(uC1,uC0,fi*.18),uC2,smoothstep(-.3,0.,d)*.55);
-    c=mix(c,col,body);
-    c=mixok(c,uC3,clamp(exp(-pow(d/(px+.003),2.))*.75+exp(-abs(d)*22.)*.25*(1.-body),0.,1.));}
-  return c+grain()*uGrain;}`,
-  },
-  {
-    id: 'solar-eclipse', name: 'Solar Eclipse', style: 'Orbit', tier: 'pro',
-    summary: 'A burning orange limb in total darkness.',
-    description: 'A dark planet passes in front of its star. Only the edge is left burning, a thin orange crescent with a corona bleeding into the black around it.',
-    palettes: { dark: ['#060508', '#140f12', '#ff7a22', '#ffe0b0'], light: ['#f3efec', '#d9cfc8', '#ff8a3a', '#fff4e6'] },
-    defaults: { palette: ['#060508', '#140f12', '#ff7a22', '#ffe0b0'], speed: .3, scale: 1, grain: .03, cell: 6 },
-    body: ORB_FN + `vec3 shade(){float t=T();vec2 a=uvA()/uScale;
-  vec3 c=mixok(uC0,uC1,smoothstep(.8,-.6,a.y)*.4);
-  c=orb(c,a,vec2(.42+.02*sin(t*.2),-.78),.95,vec2(-.75+.1*sin(t*.15),1.),uC0,uC2,uC3);
   return c+grain()*uGrain;}`,
   },
   {
@@ -1805,35 +1636,6 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   col=mixok(col,uC3,L*L*edge);
   c=mixok(c,col,on*(.35+.65*L));
   c=mixok(c,uC2,exists*arc*exp(-abs(fr-.5)*8.)*L*.2);
-  return c+grain()*uGrain;}`,
-  },
-  {
-    id: 'signal-flow', name: 'Signal Flow', style: 'Light', tier: 'free',
-    summary: 'A twisting ribbon of fine electric lines.',
-    description: 'A ribbon drawn from eighteen hairlines of light, blue into cyan into pink. It twists slowly as it crosses the frame, so the lines crowd together and flare white where the ribbon turns edge-on, then fan out again.',
-    palettes: { dark: ['#03050c', '#2346ff', '#3fd2ff', '#ff5aa5'], light: ['#03050c', '#2346ff', '#3fd2ff', '#ff5aa5'] },
-    defaults: { palette: ['#03050c', '#2346ff', '#3fd2ff', '#ff5aa5'], speed: .3, scale: 1, grain: .05, cell: 6 },
-    body: `vec3 rib(vec3 c,vec2 a,float t,float o,float k,float N){float px=1./uRes.y;
-  float x=a.x+.08*sin(a.y*2.+t*.2+o);
-  float cy=-.06+o*.22+x*(.26-o*.12)+.1*sin(x*1.3+t*.3+o*2.)+.12*(fbm(vec2(x*.8+t*.05+o,t*.04))-.5);
-  float tw=sin(x*1.15-t*.32+.6+o*2.4);float wd=.06+.24*abs(tw);
-  float v=(a.y-cy)/wd;
-  float m=smoothstep(1.05,.85,abs(v));
-  float f=fract(v*N*.5+.5)-.5;float d=abs(f)*2./N*wd/px/uScale;
-  float line=exp(-d*d*.55)+.22*exp(-d*.25);
-  float face=.35+.65*pow(abs(tw),.6);
-  float edge=1.-abs(v);
-  float h=clamp(.42+x*.46+o*.25+.22*(fbm(vec2(x,t*.05+o))-.5),0.,1.);
-  vec3 col=mixok(uC2,uC1,smoothstep(0.,.48,h));col=mixok(col,uC3,smoothstep(.52,.95,h));
-  c=mixok(c,uC1,clamp(exp(-pow((a.y-cy)/(wd+.25),2.))*.14*k,0.,1.));
-  c=mixok(c,col,clamp(m*(.08+.12*edge)*face*k,0.,1.));
-  c=mixok(c,col,clamp(line*m*face*(.55+.45*edge)*k,0.,1.));
-  float hot=exp(-pow(tw/.12,2.))*m*k;
-  return mixok(c,vec3(.93,.96,1.),clamp(hot*line*.7+hot*.1,0.,1.));}
-vec3 shade(){float t=T();vec2 a=uvA()*uScale;
-  vec3 c=uC0;
-  c=rib(c,a,t*.8,1.7,.38,12.);
-  c=rib(c,a,t,0.,1.,18.);
   return c+grain()*uGrain;}`,
   },
 ]
