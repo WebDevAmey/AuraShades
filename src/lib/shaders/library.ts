@@ -1638,6 +1638,23 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   c=mixok(c,uC2,exists*arc*exp(-abs(fr-.5)*8.)*L*.2);
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'lens-array', name: 'Lens Array', style: 'Light', tier: 'free',
+    summary: 'A grid of glass lenses over a slow colour field.',
+    description: 'A sheet of round lenses sits over a drifting gradient. Each lens flips and magnifies the patch beneath it, catches a soft highlight on its upper edge and drops a faint shadow, so the field reads as glass rather than dots.',
+    palettes: { dark: ['#090a12', '#232f6e', '#c9628f', '#f3dbe6'], light: ['#eef0f6', '#b9c6f0', '#f2b7cb', '#fdf7f4'] },
+    defaults: { palette: ['#090a12', '#232f6e', '#c9628f', '#f3dbe6'], speed: .35, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 bgL(vec2 a,float t){float f=.36+.3*sin(a.x*1.3+t*.3+sin(a.y*1.1-t*.2))+.25*(fbm(a*1.1+t*.04)-.5)+a.y*.3;return ramp(clamp(f,0.,1.));}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale;float n=3.4;vec2 g=a*n;vec2 id=floor(g);vec2 f=fract(g)-.5;float r=length(f);float R=.44;
+  float aa=1.5*n*uScale/uRes.y;
+  vec3 c=mixok(bgL(a,t),uC0,.12+.16*smoothstep(R+.1,R-.04,length(f-vec2(.03,-.05))));
+  float z=sqrt(max(0.,1.-(r/R)*(r/R)));
+  vec3 lens=bgL((id+.5)/n-f/n*2.2*(.5+.5*z),t);
+  lens=mixok(lens,uC3,pow(1.-z,6.)*.35);
+  vec2 h=f/R-vec2(-.34,.42);lens=mixok(lens,uC3,exp(-dot(h,h)*40.)*.6);
+  c=mix(c,lens,smoothstep(R,R-aa,r));
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
