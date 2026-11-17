@@ -1690,6 +1690,23 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;float n=3.4;vec2 g=a*n;vec2 id=floo
     c=mixok(c,col,clamp(line+tr+exp(-bd*bd/(px*px*6.))+exp(-bd*28.)*.35,0.,1.));}
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'field-lines', name: 'Field Lines', style: 'Grid', tier: 'pro', cellular: 'pixel',
+    summary: 'Short strokes that align to a moving magnetic field.',
+    description: 'A grid of short strokes, like iron filings on paper. Three drifting poles bend the field between them; every stroke turns to follow it and grows brighter and longer where the field is strong.',
+    palettes: { dark: ['#08090d', '#2a3352', '#7fb2ff', '#f3f0ff'], light: ['#f5f4f0', '#c9cbd6', '#3c4fd1', '#0e1230'] },
+    defaults: { palette: ['#08090d', '#2a3352', '#7fb2ff', '#f3f0ff'], speed: .4, scale: 1, grain: 0, cell: 6 },
+    body: `vec3 shade(){float t=T();float cs=uCell*3.;vec2 px=frag();vec2 id=floor(px/cs);vec2 lp=px-(id+.5)*cs;
+  vec2 a=((id+.5)*cs-.5*uRes)/uRes.y*uScale;
+  vec2 c1=vec2(-.42+.14*sin(t*.4),.06*cos(t*.3));vec2 c2=vec2(.42+.12*cos(t*.35),-.08*sin(t*.5));vec2 c3=vec2(.15*sin(t*.22),.36*cos(t*.27));
+  vec2 d1=a-c1,d2=a-c2,d3=a-c3;
+  vec2 E=d1/pow(dot(d1,d1)+.012,1.5)-d2/pow(dot(d2,d2)+.012,1.5)+.6*d3/pow(dot(d3,d3)+.02,1.5);
+  float m=length(E);vec2 dir=E/max(m,1e-4);float s=clamp(log(1.+m*.25)*.42,0.,1.);
+  float L=cs*(.14+.28*s);float h=clamp(dot(lp,dir),-L,L);float d=length(lp-dir*h);
+  float w=1.1+.8*s;float line=smoothstep(w+1.,w-.4,d);
+  vec3 col=mixok(uC1,mixok(uC2,uC3,s*s),s);
+  return mix(uC0,col,line*(.45+.55*s));}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
