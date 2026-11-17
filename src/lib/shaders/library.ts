@@ -1670,6 +1670,26 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;float n=3.4;vec2 g=a*n;vec2 id=floo
   c*=.985+.03*noise(frag()*.6);
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'orbit-trails', name: 'Orbit Trails', style: 'Orbit', tier: 'pro',
+    summary: 'Four tilted orbits, each with a bead of light and its trail.',
+    description: 'Thin elliptical orbits nest around a dim centre, each tilted a little differently. A bead of light travels every orbit at its own pace, leaving a trail that fades behind it, like a long exposure of a quiet system.',
+    palettes: { dark: ['#06070d', '#161a33', '#8fa8ff', '#ffd9b8'], light: ['#f3f2f7', '#dcdcef', '#4b5bd6', '#e0743f'] },
+    defaults: { palette: ['#06070d', '#161a33', '#8fa8ff', '#ffd9b8'], speed: .4, scale: 1, grain: .02, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 p=uvA()*uScale;float px=1.5/uRes.y*uScale;
+  vec3 c=mixok(uC0,uC1,exp(-length(p)*2.4)*.5);
+  for(int i=0;i<4;i++){float fi=float(i);float R=.16+fi*.085;float tl=.34+.11*fi;float ro=fi*.75+t*.025;
+    vec2 q=mat2(cos(ro),-sin(ro),sin(ro),cos(ro))*p;q.y/=tl;
+    float r=length(q);float an=atan(q.y,q.x);float d=abs(r-R)*tl;
+    float dir=mod(fi,2.)*2.-1.;float head=t*(.55-.08*fi)*dir+fi*1.7;
+    float da=mod((head-an)*dir,6.2831853);
+    vec3 col=mixok(uC2,uC3,fi/3.);
+    float line=exp(-pow(d/(px*.9),2.))*.28;
+    float tr=exp(-da*1.4)*exp(-pow(d/(px*1.5),2.));
+    vec2 dq=q-R*vec2(cos(head),sin(head));dq.y*=tl;float bd=length(dq);
+    c=mixok(c,col,clamp(line+tr+exp(-bd*bd/(px*px*6.))+exp(-bd*28.)*.35,0.,1.));}
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
