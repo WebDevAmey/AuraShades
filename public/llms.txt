@@ -1,6 +1,6 @@
 # AuraShades
 
-> AuraShades is a library of live WebGL shader backgrounds for websites in fourteen styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light, liquid, texture, orbit, spectral, landscape and wave. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Nineteen shaders are free; Pro unlocks all 96 and the React component.
+> AuraShades is a library of live WebGL shader backgrounds for websites in fourteen styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light, liquid, texture, orbit, spectral, landscape and wave. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Eighteen shaders are free; Pro unlocks all 90 and the React component.
 
 ## Pages
 
@@ -118,18 +118,12 @@
 - [Particle Wave](https://aurashades.com/library/particle-wave) (Wave, Pro): A rolling surface made of thousands of dots.
 - [Flow Field](https://aurashades.com/library/flow-field) (Light, Free): Thousands of fine streamlines swirling through the dark.
 - [Pixel Trail](https://aurashades.com/library/pixel-trail) (Grid, Pro): A path of lit cells wandering across a dark grid.
-- [Ring Cascade](https://aurashades.com/library/ring-cascade) (Orbit, Pro): Broken bronze rings turning at their own speeds.
-- [Lens Array](https://aurashades.com/library/lens-array) (Light, Free): A grid of glass lenses over a slow colour field.
-- [Paper Fold](https://aurashades.com/library/paper-fold) (Texture, Pro): A sheet of paper folding and unfolding in soft light.
-- [Orbit Trails](https://aurashades.com/library/orbit-trails) (Orbit, Pro): Four tilted orbits, each with a bead of light and its trail.
-- [Field Lines](https://aurashades.com/library/field-lines) (Grid, Pro): Short strokes that align to a moving magnetic field.
-- [Refraction](https://aurashades.com/library/refraction) (Liquid, Pro): Drops of clear glass bending a striped light.
 - [Petals](https://aurashades.com/library/petals) (Pastel, Free): Translucent petals turning slowly around a soft centre.
 
 ## Plans
 
-- Free: free. 19 shaders, at least one in every style; Live editor with every control; Copy as GLSL or CSS palette; Personal and commercial use with a credit link.
-- Pro: $12 per month or $96 per year. All 96 shaders and every new release; Copy as a typed React component; No credit link needed; Commercial licence for unlimited sites.
+- Free: free. 18 shaders, at least one in every style; Live editor with every control; Copy as GLSL or CSS palette; Personal and commercial use with a credit link.
+- Pro: $12 per month or $96 per year. All 90 shaders and every new release; Copy as a typed React component; No credit link needed; Commercial licence for unlimited sites.
 - Team: $36 per month or $288 per year. Everything in Pro for 5 seats; Shared palette library for the team; One invoice, add seats any time; Priority email support.
 
 ## FAQ

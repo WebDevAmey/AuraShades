@@ -202,7 +202,7 @@ function Styles() {
   )
 }
 
-const FEATURED = ['gilded-chrome', 'jade-marble', 'cobalt-halftone', 'lavender-arcs', 'prism-flow', 'ring-cascade']
+const FEATURED = ['gilded-chrome', 'jade-marble', 'cobalt-halftone', 'lavender-arcs', 'prism-flow', 'flow-field']
 
 function Featured() {
   return (

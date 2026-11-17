@@ -10,20 +10,17 @@ export interface Release {
 export const CHANGELOG: Release[] = [
   {
     date: '2026-11-17',
-    title: 'Six new shaders',
+    title: 'Petals',
     tag: 'Shaders',
-    notes: [
-      'Clean, single-idea pieces: a grid of glass lenses, a folding sheet of paper, orbits with beads of light, strokes that follow a magnetic field, glass drops bending striped light, and translucent petals.',
-      'Lens Array and Petals are free.',
-    ],
-    shaders: ['lens-array', 'petals', 'paper-fold', 'orbit-trails', 'field-lines', 'refraction'],
+    notes: ['Two rings of translucent petals turning in opposite directions, so the overlaps keep making new tints. Free.'],
+    shaders: ['petals'],
   },
   {
     date: '2026-11-17',
     title: 'A tighter library',
     tag: 'Shaders',
     notes: [
-      'Ten shaders retired so the set stays focused: Signal Flow, Frost Aurora, Terrazzo, Holo Foil, Solar Eclipse, Plum Satin, Prism Flare and the three Ecliptic Gradients.',
+      'Eleven shaders retired so the set stays focused: Signal Flow, Frost Aurora, Terrazzo, Holo Foil, Solar Eclipse, Plum Satin, Prism Flare, Ring Cascade and the three Ecliptic Gradients.',
       'Violet Horizon is now free, so every style still has a free shader.',
     ],
     shaders: ['violet-horizon'],
@@ -44,10 +41,10 @@ export const CHANGELOG: Release[] = [
   },
   {
     date: '2026-11-16',
-    title: 'Six generative shaders',
+    title: 'Five generative shaders',
     tag: 'Shaders',
-    notes: ['Moving, generative pieces: tiles that ripple, falling digits, particles on a wave, a flow field, a wandering pixel trail and turning rings.'],
-    shaders: ['prism-tiles', 'digit-rain', 'particle-wave', 'flow-field', 'pixel-trail', 'ring-cascade'],
+    notes: ['Moving, generative pieces: tiles that ripple, falling digits, particles on a wave, a flow field, and a wandering pixel trail.'],
+    shaders: ['prism-tiles', 'digit-rain', 'particle-wave', 'flow-field', 'pixel-trail'],
   },
   {
     date: '2026-11-15',
