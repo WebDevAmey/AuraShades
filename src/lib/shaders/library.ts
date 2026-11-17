@@ -1655,6 +1655,21 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;float n=3.4;vec2 g=a*n;vec2 id=floo
   c=mix(c,lens,smoothstep(R,R-aa,r));
   return c+grain()*uGrain;}`,
   },
+  {
+    id: 'paper-fold', name: 'Paper Fold', style: 'Texture', tier: 'pro',
+    summary: 'A sheet of paper folding and unfolding in soft light.',
+    description: 'Six creases cross a single sheet and drift slowly, so its flat facets tilt toward and away from one low light. Each fold leaves a fine line, and a little paper tooth keeps the faces from looking digital.',
+    palettes: { dark: ['#141218', '#3b3346', '#a99ab8', '#efe6ee'], light: ['#d9d5cf', '#ebe7e1', '#f6f3ee', '#fffdf9'] },
+    defaults: { palette: ['#d9d5cf', '#ebe7e1', '#f6f3ee', '#fffdf9'], speed: .3, scale: 1, grain: .04, cell: 6 },
+    body: `vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 g=vec2(0.);float cr=1e3;
+  for(int k=0;k<6;k++){float fk=float(k);float ang=fk*2.03+.4+.1*sin(t*.15+fk);vec2 n=vec2(cos(ang),sin(ang));
+    float s=dot(a,n)-(.45*sin(t*.12+fk*1.7)+.12*fk-.3);g+=(.36-.035*fk)*sign(s)*n;cr=min(cr,abs(s));}
+  vec3 N=normalize(vec3(-g,1.));float dif=clamp(dot(N,normalize(vec3(-.5,.6,.62))),0.,1.);
+  vec3 c=ramp(clamp(smoothstep(.45,1.,dif)*.92+.06*uvN().y,0.,1.));
+  float px=1.5/uRes.y*uScale;c=mixok(c,uC0,.35*exp(-cr/px*.7));
+  c*=.985+.03*noise(frag()*.6);
+  return c+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
