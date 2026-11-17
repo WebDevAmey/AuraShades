@@ -1707,6 +1707,26 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;float n=3.4;vec2 g=a*n;vec2 id=floo
   vec3 col=mixok(uC1,mixok(uC2,uC3,s*s),s);
   return mix(uC0,col,line*(.45+.55*s));}`,
   },
+  {
+    id: 'refraction', name: 'Refraction', style: 'Liquid', tier: 'pro',
+    summary: 'Drops of clear glass bending a striped light.',
+    description: 'Soft drops of glass drift and merge over a field of fine diagonal stripes. Inside each drop the stripes bend and swell, a bright rim traces the edge and a quiet shadow sits beneath, so the glass is only visible by what it does to the light.',
+    palettes: { dark: ['#07080c', '#1f2a55', '#5f8cff', '#e9eeff'], light: ['#eef0f3', '#c6d2ea', '#7d94d8', '#fbfcff'] },
+    defaults: { palette: ['#07080c', '#1f2a55', '#5f8cff', '#e9eeff'], speed: .35, scale: 1, grain: .03, cell: 6 },
+    body: `vec3 bgR(vec2 a,float t){float s=smoothstep(.0,.06,abs(fract(a.x*4.2+a.y*1.6+t*.04)-.5)-.2);
+  vec3 base=ramp(clamp(.45+a.x*.4+a.y*.25+.15*(fbm(a+t*.03)-.5),0.,1.));return mixok(base,uC0,s*.6);}
+float Fm(vec2 a,float t){float v=0.;for(int i=0;i<5;i++){float fi=float(i);vec2 c=vec2(.55*sin(t*.21+fi*1.9),.3*cos(t*.17+fi*2.7));float r=.1+.025*fi;vec2 d=a-c;v+=r*r/(dot(d,d)+r*r*.35);}return v;}
+vec3 shade(){float t=T();vec2 a=uvA()*uScale;float f=Fm(a,t);float e=.002;
+  vec2 gr=vec2(Fm(a+vec2(e,0.),t)-f,Fm(a+vec2(0.,e),t)-f)/e;float gl=length(gr)+1e-3;
+  float d=(f-1.)/gl;d=min(d,.3);float px=1.5/uRes.y*uScale;float m=smoothstep(-px,px,d);
+  vec3 c=mixok(bgR(a,t),uC0,.3*exp(min(d,0.)*14.)*(1.-m));
+  vec2 o=gr/gl*.07*(1.-smoothstep(0.,.14,d))+gr/(1.+gl)*.004;
+  vec3 g=bgR(a+o,t);g=mixok(g,uC3,.08);
+  vec3 N=normalize(vec3(-gr/(1.+gl*.08)*.06,1.));
+  float sp=pow(max(dot(N,normalize(vec3(-.45,.55,.7))),0.),60.);
+  g=mixok(g,uC3,clamp(exp(-d/px*.35)*.55+sp*.8,0.,1.));
+  return mix(c,g,m)+grain()*uGrain;}`,
+  },
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
