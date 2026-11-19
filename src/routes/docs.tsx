@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { AuraShade } from '~/components/AuraShade'
 import { SHADERS } from '~/lib/shaders/library'
+import { REPO } from '~/lib/seo'
 import { cx } from '~/lib/cx'
 import { breadcrumbLd, docsLd, seo } from '~/lib/seo'
 
@@ -25,6 +26,7 @@ const TOC = [
   { id: 'text-on-shaders', label: 'Text on top of shaders' },
   { id: 'performance', label: 'Performance' },
   { id: 'support', label: 'Browser support' },
+  { id: 'licence', label: 'Licence' },
 ]
 
 const PROPS = [
@@ -75,10 +77,7 @@ function Docs() {
         <h2 id="install">Install</h2>
         <p>The package ships ES modules and TypeScript types. It needs React 18 or later and nothing else.</p>
         <Code>{`npm install aurashades`}</Code>
-        <p>Pro and Team accounts get a licence key by email. Set it once, anywhere before the first background renders.</p>
-        <Code>{`import { setLicence } from 'aurashades'
-
-setLicence(import.meta.env.VITE_AURASHADES_KEY)`}</Code>
+        <p>There is no account, key or sign-up. Every shader is open source and ships in the package.</p>
 
         <h2 id="first-background">Your first background</h2>
         <p>The component draws into a canvas that fills its parent. Give the parent a size and a position, then place your content above it.</p>
@@ -125,14 +124,12 @@ export function Hero() {
             <thead><tr className="border-b border-line bg-panel-2">
               <th scope="col" className="px-4 py-3 font-medium text-ink">ID</th>
               <th scope="col" className="px-4 py-3 font-medium text-ink">Style</th>
-              <th scope="col" className="px-4 py-3 font-medium text-ink">Plan</th>
             </tr></thead>
             <tbody>
               {SHADERS.map((s) => (
                 <tr key={s.id} className="border-b border-line last:border-0">
                   <td className="px-4 py-3"><Link to="/library/$shaderId" params={{ shaderId: s.id }} className="link font-mono text-[13.5px] text-ink">{s.id}</Link></td>
                   <td className="px-4 py-3">{s.style}</td>
-                  <td className="px-4 py-3">{s.tier === 'pro' ? 'Pro' : 'Free'}</td>
                 </tr>
               ))}
             </tbody>
@@ -148,6 +145,10 @@ export function Hero() {
 
         <h2 id="support">Browser support</h2>
         <p>Any browser with WebGL 1, which covers current Chrome, Edge, Firefox and Safari on desktop and mobile. Without WebGL, the canvas keeps a static CSS gradient built from the palette, so the layout never shows an empty box.</p>
+
+        <h2 id="licence">Licence</h2>
+        <p>AuraShades is open source under the MIT licence. Use every shader in personal and commercial work, change the code and palettes, and ship it anywhere. Keep the licence notice with copies of the source; no credit link is needed on your site.</p>
+        <p>The code, issues and contributions live on <a href={REPO} className="link text-ink" target="_blank" rel="noopener">GitHub</a>.</p>
       </article>
     </div>
   )

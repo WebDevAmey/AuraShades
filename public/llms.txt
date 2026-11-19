@@ -1,12 +1,11 @@
 # AuraShades
 
-> AuraShades is a library of live WebGL shader backgrounds for websites in fourteen styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light, liquid, texture, orbit, spectral, landscape and wave. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. Eighteen shaders are free; Pro unlocks all 90 and the React component.
+> AuraShades is a library of live WebGL shader backgrounds for websites in fourteen styles: gradient, grain, pastel, aurora, dither, ASCII, grid, light, liquid, texture, orbit, spectral, landscape and wave. Tune the palette in the browser, then copy a React component, raw GLSL, or CSS palette tokens. AuraShades is free and open source under the MIT licence: all 90 shaders, the React component and every export, with no account or paid tier. Source: https://github.com/WebDevAmey/AuraShades
 
 ## Pages
 
-- [Home](https://aurashades.com/): what AuraShades is, a live editor, pricing and FAQ
+- [Home](https://aurashades.com/): what AuraShades is, a live editor and FAQ
 - [Library](https://aurashades.com/library): every shader, filterable by style and plan
-- [Pricing](https://aurashades.com/pricing): Free, Pro and Team plans with a feature comparison and licence terms
 - [Docs](https://aurashades.com/docs): install, the <AuraShade /> component props, performance and browser support
 - [Changelog](https://aurashades.com/changelog): new shaders, engine changes and site updates, newest first
 
@@ -29,102 +28,100 @@
 
 ## Shaders
 
-- [Silk](https://aurashades.com/library/silk) (Gradient, Free): Folded satin bands with a soft sheen.
-- [Mesh Drift](https://aurashades.com/library/mesh-drift) (Gradient, Pro): Four colour anchors orbiting and blending by distance.
-- [Grain Bloom](https://aurashades.com/library/grain-bloom) (Grain, Free): Soft light leaks exposed through film grain.
-- [Dune](https://aurashades.com/library/dune) (Grain, Free): Sunset strata pressed into layers.
-- [Pastel Haze](https://aurashades.com/library/pastel-haze) (Pastel, Free): Pastel clouds drifting into one another.
-- [Iridescent](https://aurashades.com/library/iridescent) (Pastel, Pro): Thin-film colour, like foil or a soap bubble.
-- [Aurora Veil](https://aurashades.com/library/aurora-veil) (Aurora, Free): Curtains of light that fray into rays.
-- [Aurora Dawn](https://aurashades.com/library/aurora-dawn) (Aurora, Pro): Soft ribbons that blend into the sky.
-- [Bayer Wave](https://aurashades.com/library/bayer-wave) (Dither, Free): A flowing gradient in four flat inks.
-- [Halftone](https://aurashades.com/library/halftone) (Dither, Pro): A rotated dot screen over moving noise.
-- [ASCII Flow](https://aurashades.com/library/ascii-flow) (ASCII, Free): Warped noise set in type, like a terminal.
-- [ASCII Rings](https://aurashades.com/library/ascii-rings) (ASCII, Pro): Ripples drawn entirely in characters.
-- [Velvet](https://aurashades.com/library/velvet) (Gradient, Pro): Deep folds with a pile that catches light at the edges.
-- [Riso Bloom](https://aurashades.com/library/riso-bloom) (Grain, Pro): Two inks printed slightly out of register.
-- [Watercolour](https://aurashades.com/library/watercolour) (Pastel, Pro): Pastel washes that pool and dry on rough paper.
-- [Crosshatch](https://aurashades.com/library/crosshatch) (Dither, Pro): A moving field engraved in hatched lines.
-- [Ripple Tiles](https://aurashades.com/library/ripple-tiles) (Grid, Pro): A tiled floor that lifts as ripples pass.
-- [Horizon Grid](https://aurashades.com/library/horizon-grid) (Grid, Free): A glowing grid rolling toward a low sun.
-- [Topography](https://aurashades.com/library/topography) (Grid, Pro): Contour lines over slowly shifting terrain.
-- [Fluted Glass](https://aurashades.com/library/fluted-glass) (Light, Pro): Soft colour seen through ribbed glass.
-- [Twisted Ribbon](https://aurashades.com/library/twisted-ribbon) (Light, Pro): A satin ribbon twisting through the frame.
-- [Light Rays](https://aurashades.com/library/light-rays) (Light, Free): Sunbeams falling through dusty air.
-- [Light Lines](https://aurashades.com/library/light-lines) (Light, Pro): Fine lines with pulses of light running along them.
-- [Liquid Chrome](https://aurashades.com/library/liquid-chrome) (Liquid, Pro): Molten metal that reflects a soft sky.
-- [Swell](https://aurashades.com/library/swell) (Liquid, Free): Open water rolling under a quiet sky.
-- [Morph](https://aurashades.com/library/morph) (Liquid, Pro): Soft blobs that merge and split.
-- [Marble](https://aurashades.com/library/marble) (Texture, Free): Polished stone with veins that slowly drift.
-- [Linen](https://aurashades.com/library/linen) (Texture, Pro): Woven cloth with dye flowing through it.
-- [Crumpled Paper](https://aurashades.com/library/crumpled-paper) (Texture, Pro): Creased paper under a light that slowly turns.
-- [Moiré](https://aurashades.com/library/moire) (Texture, Pro): Two fine line screens beating against each other.
-- [Thermal](https://aurashades.com/library/thermal) (Gradient, Free): Heat rising off a dark floor in slow plumes.
-- [Phosphor](https://aurashades.com/library/phosphor) (Grain, Pro): A warm glow on an old tube screen.
-- [Obsidian](https://aurashades.com/library/obsidian) (Liquid, Pro): Near-black liquid metal with light gliding over it.
-- [Pour](https://aurashades.com/library/pour) (Liquid, Pro): Colour poured into milk, curling as it rises.
-- [Neural](https://aurashades.com/library/neural) (Light, Pro): Glowing filaments branching through fog.
-- [Dither Gradient](https://aurashades.com/library/dither-gradient) (Dither, Pro): Smooth and textured, with no banding.
-- [Dither Gradient v2](https://aurashades.com/library/dither-gradient-v2) (Dither, Pro): A retro pixel feel in round dots.
-- [Dither Gradient v3](https://aurashades.com/library/dither-gradient-v3) (Dither, Pro): Subtle grain and a soft blend.
-- [Hero Gradient](https://aurashades.com/library/hero-gradient) (Gradient, Pro): Bold, atmospheric and modern.
-- [Hero Gradient v2](https://aurashades.com/library/hero-gradient-v2) (Gradient, Pro): Layered blobs of soft colour.
-- [Hero Gradient v3](https://aurashades.com/library/hero-gradient-v3) (Gradient, Pro): A glass-like flow of light.
-- [Footer Gradient](https://aurashades.com/library/footer-gradient) (Gradient, Pro): Subtle and minimal, glowing up from below.
-- [Footer Gradient v2](https://aurashades.com/library/footer-gradient-v2) (Gradient, Pro): A brand-coloured wash across the bottom.
-- [Footer Gradient v3](https://aurashades.com/library/footer-gradient-v3) (Gradient, Pro): A soft horizon at dusk.
-- [Spectral Gradient](https://aurashades.com/library/spectral-gradient) (Spectral, Free): A full-spectrum flow of colour.
-- [Spectral Gradient v2](https://aurashades.com/library/spectral-gradient-v2) (Spectral, Pro): A prism-coloured mesh.
-- [Spectral Gradient v3](https://aurashades.com/library/spectral-gradient-v3) (Spectral, Pro): A beam of light splitting into colour.
-- [ASCII Gradient](https://aurashades.com/library/ascii-gradient) (ASCII, Pro): A gradient textured with characters.
-- [ASCII Gradient v2](https://aurashades.com/library/ascii-gradient-v2) (ASCII, Pro): A high-contrast terminal look.
-- [ASCII Gradient v3](https://aurashades.com/library/ascii-gradient-v3) (ASCII, Pro): A minimal matrix style.
-- [Texture Gradient](https://aurashades.com/library/texture-gradient) (Texture, Pro): Paper, grain and an organic blend.
-- [Texture Gradient v2](https://aurashades.com/library/texture-gradient-v2) (Texture, Pro): Liquid and marbled.
-- [Texture Gradient v3](https://aurashades.com/library/texture-gradient-v3) (Texture, Pro): Fabric with a noisy weave.
-- [Ember Fold](https://aurashades.com/library/ember-fold) (Gradient, Pro): Warm folds of light layered like silk.
-- [Violet Horizon](https://aurashades.com/library/violet-horizon) (Orbit, Free): A grainy violet sunrise over a dark world.
-- [Prism Flow](https://aurashades.com/library/prism-flow) (Spectral, Pro): Silky ribbons with an iridescent edge.
-- [Dusk Dunes](https://aurashades.com/library/dusk-dunes) (Landscape, Free): Layered dunes under a rose sky and a low moon.
-- [Verdant Veil](https://aurashades.com/library/verdant-veil) (Light, Pro): Green veils of light crossing in the dark.
-- [Grain Dusk](https://aurashades.com/library/grain-dusk) (Grain, Pro): Navy, teal and peach under heavy film grain.
-- [Rose Veil](https://aurashades.com/library/rose-veil) (Light, Pro): Fanned sheets of rose light on deep plum.
-- [Cotton Sky](https://aurashades.com/library/cotton-sky) (Pastel, Pro): Pink clouds drifting through a lavender sky.
-- [Chromatic Liquid](https://aurashades.com/library/chromatic-liquid) (Liquid, Pro): Dark glossy liquid with rainbow edges.
-- [Crescent Dunes](https://aurashades.com/library/crescent-dunes) (Landscape, Pro): A pale dune and a crescent moon at night.
-- [Gilded Chrome](https://aurashades.com/library/gilded-chrome) (Liquid, Pro): A ribbon of molten silver and gold.
-- [Lime Contours](https://aurashades.com/library/lime-contours) (Grid, Pro): Dense contour lines lit by a lime wave.
-- [Lavender Arcs](https://aurashades.com/library/lavender-arcs) (Light, Pro): Great arcs of lavender light crossing on navy.
-- [Clay Dune](https://aurashades.com/library/clay-dune) (Texture, Pro): Sun-baked clay with a soft curve of shadow.
-- [Caustic Deep](https://aurashades.com/library/caustic-deep) (Liquid, Pro): Underwater light rippling in teal.
-- [Silver Strands](https://aurashades.com/library/silver-strands) (Light, Pro): Fine silver strands curling in a spiral.
-- [Jade Marble](https://aurashades.com/library/jade-marble) (Texture, Pro): Green and cream marble with gold seams.
-- [Sunset Cloud](https://aurashades.com/library/sunset-cloud) (Pastel, Pro): A blue sky with peach clouds rising from below.
-- [Halftone Tide](https://aurashades.com/library/halftone-tide) (Dither, Pro): A cyan wave printed in halftone dots.
-- [Terracotta Drift](https://aurashades.com/library/terracotta-drift) (Wave, Free): Cream to rust on embossed plaster.
-- [Cobalt Halftone](https://aurashades.com/library/cobalt-halftone) (Wave, Pro): A blue wave of light in halftone dots.
-- [Ultraviolet Ember](https://aurashades.com/library/ultraviolet-ember) (Wave, Pro): Violet sky over an ember glow, in film grain.
-- [Moss Ridge](https://aurashades.com/library/moss-ridge) (Wave, Pro): A sage glow along a dark green ridge.
-- [Violet Mesh](https://aurashades.com/library/violet-mesh) (Wave, Pro): A wave drawn in rows of violet dots.
-- [Frost Drift](https://aurashades.com/library/frost-drift) (Wave, Pro): Cream fading into cold blue, embossed.
-- [Tidal Sunset](https://aurashades.com/library/tidal-sunset) (Wave, Pro): Teal sky meeting an orange shore.
-- [Crimson Drift](https://aurashades.com/library/crimson-drift) (Wave, Pro): A crimson glow burning through the dark.
-- [Mauve Drift](https://aurashades.com/library/mauve-drift) (Wave, Pro): Cream into plum, with a peach-lit ridge.
-- [Arctic Halftone](https://aurashades.com/library/arctic-halftone) (Wave, Pro): Icy light on navy, printed in dots.
-- [Amber Ridge](https://aurashades.com/library/amber-ridge) (Wave, Pro): Amber light catching the top of a dark hill.
-- [Violet Halftone](https://aurashades.com/library/violet-halftone) (Wave, Pro): Indigo to violet in a halftone glow.
-- [Prism Tiles](https://aurashades.com/library/prism-tiles) (Grid, Pro): Glass slabs stacked in isometric layers, edges lit.
-- [Digit Rain](https://aurashades.com/library/digit-rain) (ASCII, Pro): Columns of warm digits falling through the dark.
-- [Particle Wave](https://aurashades.com/library/particle-wave) (Wave, Pro): A rolling surface made of thousands of dots.
-- [Flow Field](https://aurashades.com/library/flow-field) (Light, Free): Thousands of fine streamlines swirling through the dark.
-- [Pixel Trail](https://aurashades.com/library/pixel-trail) (Grid, Pro): A path of lit cells wandering across a dark grid.
-- [Petals](https://aurashades.com/library/petals) (Pastel, Free): Translucent petals turning slowly around a soft centre.
+- [Silk](https://aurashades.com/library/silk) (Gradient): Folded satin bands with a soft sheen.
+- [Mesh Drift](https://aurashades.com/library/mesh-drift) (Gradient): Four colour anchors orbiting and blending by distance.
+- [Grain Bloom](https://aurashades.com/library/grain-bloom) (Grain): Soft light leaks exposed through film grain.
+- [Dune](https://aurashades.com/library/dune) (Grain): Sunset strata pressed into layers.
+- [Pastel Haze](https://aurashades.com/library/pastel-haze) (Pastel): Pastel clouds drifting into one another.
+- [Iridescent](https://aurashades.com/library/iridescent) (Pastel): Thin-film colour, like foil or a soap bubble.
+- [Aurora Veil](https://aurashades.com/library/aurora-veil) (Aurora): Curtains of light that fray into rays.
+- [Aurora Dawn](https://aurashades.com/library/aurora-dawn) (Aurora): Soft ribbons that blend into the sky.
+- [Bayer Wave](https://aurashades.com/library/bayer-wave) (Dither): A flowing gradient in four flat inks.
+- [Halftone](https://aurashades.com/library/halftone) (Dither): A rotated dot screen over moving noise.
+- [ASCII Flow](https://aurashades.com/library/ascii-flow) (ASCII): Warped noise set in type, like a terminal.
+- [ASCII Rings](https://aurashades.com/library/ascii-rings) (ASCII): Ripples drawn entirely in characters.
+- [Velvet](https://aurashades.com/library/velvet) (Gradient): Deep folds with a pile that catches light at the edges.
+- [Riso Bloom](https://aurashades.com/library/riso-bloom) (Grain): Two inks printed slightly out of register.
+- [Watercolour](https://aurashades.com/library/watercolour) (Pastel): Pastel washes that pool and dry on rough paper.
+- [Crosshatch](https://aurashades.com/library/crosshatch) (Dither): A moving field engraved in hatched lines.
+- [Ripple Tiles](https://aurashades.com/library/ripple-tiles) (Grid): A tiled floor that lifts as ripples pass.
+- [Horizon Grid](https://aurashades.com/library/horizon-grid) (Grid): A glowing grid rolling toward a low sun.
+- [Topography](https://aurashades.com/library/topography) (Grid): Contour lines over slowly shifting terrain.
+- [Fluted Glass](https://aurashades.com/library/fluted-glass) (Light): Soft colour seen through ribbed glass.
+- [Twisted Ribbon](https://aurashades.com/library/twisted-ribbon) (Light): A satin ribbon twisting through the frame.
+- [Light Rays](https://aurashades.com/library/light-rays) (Light): Sunbeams falling through dusty air.
+- [Light Lines](https://aurashades.com/library/light-lines) (Light): Fine lines with pulses of light running along them.
+- [Liquid Chrome](https://aurashades.com/library/liquid-chrome) (Liquid): Molten metal that reflects a soft sky.
+- [Swell](https://aurashades.com/library/swell) (Liquid): Open water rolling under a quiet sky.
+- [Morph](https://aurashades.com/library/morph) (Liquid): Soft blobs that merge and split.
+- [Marble](https://aurashades.com/library/marble) (Texture): Polished stone with veins that slowly drift.
+- [Linen](https://aurashades.com/library/linen) (Texture): Woven cloth with dye flowing through it.
+- [Crumpled Paper](https://aurashades.com/library/crumpled-paper) (Texture): Creased paper under a light that slowly turns.
+- [Moiré](https://aurashades.com/library/moire) (Texture): Two fine line screens beating against each other.
+- [Thermal](https://aurashades.com/library/thermal) (Gradient): Heat rising off a dark floor in slow plumes.
+- [Phosphor](https://aurashades.com/library/phosphor) (Grain): A warm glow on an old tube screen.
+- [Obsidian](https://aurashades.com/library/obsidian) (Liquid): Near-black liquid metal with light gliding over it.
+- [Pour](https://aurashades.com/library/pour) (Liquid): Colour poured into milk, curling as it rises.
+- [Neural](https://aurashades.com/library/neural) (Light): Glowing filaments branching through fog.
+- [Dither Gradient](https://aurashades.com/library/dither-gradient) (Dither): Smooth and textured, with no banding.
+- [Dither Gradient v2](https://aurashades.com/library/dither-gradient-v2) (Dither): A retro pixel feel in round dots.
+- [Dither Gradient v3](https://aurashades.com/library/dither-gradient-v3) (Dither): Subtle grain and a soft blend.
+- [Hero Gradient](https://aurashades.com/library/hero-gradient) (Gradient): Bold, atmospheric and modern.
+- [Hero Gradient v2](https://aurashades.com/library/hero-gradient-v2) (Gradient): Layered blobs of soft colour.
+- [Hero Gradient v3](https://aurashades.com/library/hero-gradient-v3) (Gradient): A glass-like flow of light.
+- [Footer Gradient](https://aurashades.com/library/footer-gradient) (Gradient): Subtle and minimal, glowing up from below.
+- [Footer Gradient v2](https://aurashades.com/library/footer-gradient-v2) (Gradient): A brand-coloured wash across the bottom.
+- [Footer Gradient v3](https://aurashades.com/library/footer-gradient-v3) (Gradient): A soft horizon at dusk.
+- [Spectral Gradient](https://aurashades.com/library/spectral-gradient) (Spectral): A full-spectrum flow of colour.
+- [Spectral Gradient v2](https://aurashades.com/library/spectral-gradient-v2) (Spectral): A prism-coloured mesh.
+- [Spectral Gradient v3](https://aurashades.com/library/spectral-gradient-v3) (Spectral): A beam of light splitting into colour.
+- [ASCII Gradient](https://aurashades.com/library/ascii-gradient) (ASCII): A gradient textured with characters.
+- [ASCII Gradient v2](https://aurashades.com/library/ascii-gradient-v2) (ASCII): A high-contrast terminal look.
+- [ASCII Gradient v3](https://aurashades.com/library/ascii-gradient-v3) (ASCII): A minimal matrix style.
+- [Texture Gradient](https://aurashades.com/library/texture-gradient) (Texture): Paper, grain and an organic blend.
+- [Texture Gradient v2](https://aurashades.com/library/texture-gradient-v2) (Texture): Liquid and marbled.
+- [Texture Gradient v3](https://aurashades.com/library/texture-gradient-v3) (Texture): Fabric with a noisy weave.
+- [Ember Fold](https://aurashades.com/library/ember-fold) (Gradient): Warm folds of light layered like silk.
+- [Violet Horizon](https://aurashades.com/library/violet-horizon) (Orbit): A grainy violet sunrise over a dark world.
+- [Prism Flow](https://aurashades.com/library/prism-flow) (Spectral): Silky ribbons with an iridescent edge.
+- [Dusk Dunes](https://aurashades.com/library/dusk-dunes) (Landscape): Layered dunes under a rose sky and a low moon.
+- [Verdant Veil](https://aurashades.com/library/verdant-veil) (Light): Green veils of light crossing in the dark.
+- [Grain Dusk](https://aurashades.com/library/grain-dusk) (Grain): Navy, teal and peach under heavy film grain.
+- [Rose Veil](https://aurashades.com/library/rose-veil) (Light): Fanned sheets of rose light on deep plum.
+- [Cotton Sky](https://aurashades.com/library/cotton-sky) (Pastel): Pink clouds drifting through a lavender sky.
+- [Chromatic Liquid](https://aurashades.com/library/chromatic-liquid) (Liquid): Dark glossy liquid with rainbow edges.
+- [Crescent Dunes](https://aurashades.com/library/crescent-dunes) (Landscape): A pale dune and a crescent moon at night.
+- [Gilded Chrome](https://aurashades.com/library/gilded-chrome) (Liquid): A ribbon of molten silver and gold.
+- [Lime Contours](https://aurashades.com/library/lime-contours) (Grid): Dense contour lines lit by a lime wave.
+- [Lavender Arcs](https://aurashades.com/library/lavender-arcs) (Light): Great arcs of lavender light crossing on navy.
+- [Clay Dune](https://aurashades.com/library/clay-dune) (Texture): Sun-baked clay with a soft curve of shadow.
+- [Caustic Deep](https://aurashades.com/library/caustic-deep) (Liquid): Underwater light rippling in teal.
+- [Silver Strands](https://aurashades.com/library/silver-strands) (Light): Fine silver strands curling in a spiral.
+- [Jade Marble](https://aurashades.com/library/jade-marble) (Texture): Green and cream marble with gold seams.
+- [Sunset Cloud](https://aurashades.com/library/sunset-cloud) (Pastel): A blue sky with peach clouds rising from below.
+- [Halftone Tide](https://aurashades.com/library/halftone-tide) (Dither): A cyan wave printed in halftone dots.
+- [Terracotta Drift](https://aurashades.com/library/terracotta-drift) (Wave): Cream to rust on embossed plaster.
+- [Cobalt Halftone](https://aurashades.com/library/cobalt-halftone) (Wave): A blue wave of light in halftone dots.
+- [Ultraviolet Ember](https://aurashades.com/library/ultraviolet-ember) (Wave): Violet sky over an ember glow, in film grain.
+- [Moss Ridge](https://aurashades.com/library/moss-ridge) (Wave): A sage glow along a dark green ridge.
+- [Violet Mesh](https://aurashades.com/library/violet-mesh) (Wave): A wave drawn in rows of violet dots.
+- [Frost Drift](https://aurashades.com/library/frost-drift) (Wave): Cream fading into cold blue, embossed.
+- [Tidal Sunset](https://aurashades.com/library/tidal-sunset) (Wave): Teal sky meeting an orange shore.
+- [Crimson Drift](https://aurashades.com/library/crimson-drift) (Wave): A crimson glow burning through the dark.
+- [Mauve Drift](https://aurashades.com/library/mauve-drift) (Wave): Cream into plum, with a peach-lit ridge.
+- [Arctic Halftone](https://aurashades.com/library/arctic-halftone) (Wave): Icy light on navy, printed in dots.
+- [Amber Ridge](https://aurashades.com/library/amber-ridge) (Wave): Amber light catching the top of a dark hill.
+- [Violet Halftone](https://aurashades.com/library/violet-halftone) (Wave): Indigo to violet in a halftone glow.
+- [Prism Tiles](https://aurashades.com/library/prism-tiles) (Grid): Glass slabs stacked in isometric layers, edges lit.
+- [Digit Rain](https://aurashades.com/library/digit-rain) (ASCII): Columns of warm digits falling through the dark.
+- [Particle Wave](https://aurashades.com/library/particle-wave) (Wave): A rolling surface made of thousands of dots.
+- [Flow Field](https://aurashades.com/library/flow-field) (Light): Thousands of fine streamlines swirling through the dark.
+- [Pixel Trail](https://aurashades.com/library/pixel-trail) (Grid): A path of lit cells wandering across a dark grid.
+- [Petals](https://aurashades.com/library/petals) (Pastel): Translucent petals turning slowly around a soft centre.
 
-## Plans
+## Licence
 
-- Free: free. 18 shaders, at least one in every style; Live editor with every control; Copy as GLSL or CSS palette; Personal and commercial use with a credit link.
-- Pro: $12 per month or $96 per year. All 90 shaders and every new release; Copy as a typed React component; No credit link needed; Commercial licence for unlimited sites.
-- Team: $36 per month or $288 per year. Everything in Pro for 5 seats; Shared palette library for the team; One invoice, add seats any time; Priority email support.
+MIT. Free for personal and commercial use, changes and redistribution. Keep the licence notice with copies of the source.
 
 ## FAQ
 
@@ -148,10 +145,14 @@ Every background on a page shares one WebGL context, so ten backgrounds cost abo
 
 Without WebGL, each background shows a static CSS gradient built from its palette. With reduced motion turned on, shaders draw one still frame and stop.
 
-### Can I use the free shaders in client work?
+### Is AuraShades free?
 
-Yes. Free shaders can be used in personal and commercial projects as long as the site links back to AuraShades. Pro removes the credit requirement and adds the React component.
+Yes, completely. AuraShades is open source under the MIT licence. Every shader, the React component and the GLSL and CSS exports are free, with no account, key or paid tier.
 
-### Can I cancel Pro?
+### Can I use it in client and commercial work?
 
-Yes, any time. Code you copied while subscribed stays yours to use on the sites you shipped it on.
+Yes. The MIT licence allows personal and commercial use, changes and redistribution. Keep the licence notice with copies of the source; no credit link is needed on your site.
+
+### How can I contribute?
+
+The code lives on GitHub at github.com/WebDevAmey/AuraShades. Open an issue for a bug or an idea, or send a pull request with a new shader or a fix.

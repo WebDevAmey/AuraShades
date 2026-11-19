@@ -3,19 +3,23 @@
  * titles, canonical URLs, social cards and structured data stay consistent.
  * Set VITE_SITE_URL at build time to your production origin.
  */
-import { FAQS, PLANS } from '~/lib/content'
+import { FAQS } from '~/lib/content'
 import { SHADERS, STYLES, styleList, word, type ShaderDef } from '~/lib/shaders/library'
 
 export const SITE = {
   name: 'AuraShades',
   url: ((import.meta.env?.VITE_SITE_URL as string | undefined) ?? 'https://aurashades.com').replace(/\/$/, ''),
   email: 'hello@aurashades.example',
-  tagline: 'Live shader backgrounds for websites',
+  tagline: 'Open source shader backgrounds for websites',
   description:
-    `AuraShades is a library of ${SHADERS.length} live WebGL shader backgrounds for websites in ${word(STYLES.length)} styles: ${styleList()}. Tune the palette in the browser and copy a React component, GLSL or CSS.`,
+    `AuraShades is a free, open source library of ${SHADERS.length} live WebGL shader backgrounds for websites in ${word(STYLES.length)} styles: ${styleList()}. Tune the palette in the browser and copy a React component, GLSL or CSS. MIT licensed.`,
 }
 
 type JsonLd = Record<string, unknown>
+
+/** Source repository and licence: AuraShades is MIT-licensed open source. */
+export const REPO = 'https://github.com/WebDevAmey/AuraShades'
+export const LICENSE_URL = 'https://opensource.org/licenses/MIT'
 
 export function seo(opts: { title: string; description: string; path: string; type?: 'website' | 'article'; jsonLd?: JsonLd[]; noindex?: boolean }) {
   const url = SITE.url + (opts.path === '/' ? '/' : opts.path)
@@ -52,6 +56,7 @@ export const organizationLd = (): JsonLd => ({
   url: SITE.url,
   logo: `${SITE.url}/favicon.svg`,
   email: SITE.email,
+  sameAs: ['https://github.com/WebDevAmey/AuraShades'],
 })
 
 export const websiteLd = (): JsonLd => ({
@@ -71,14 +76,10 @@ export const softwareLd = (): JsonLd => ({
   applicationCategory: 'DesignApplication',
   operatingSystem: 'Any browser with WebGL',
   publisher: { '@id': `${SITE.url}/#org` },
-  offers: PLANS.map((p) => ({
-    '@type': 'Offer',
-    name: p.name,
-    price: String(p.monthly),
-    priceCurrency: 'USD',
-    description: p.pitch,
-    url: `${SITE.url}/pricing`,
-  })),
+  isAccessibleForFree: true,
+  license: LICENSE_URL,
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  sameAs: [REPO],
 })
 
 export const faqLd = (): JsonLd => ({
@@ -95,7 +96,7 @@ export const libraryLd = (): JsonLd => ({
   '@type': 'CollectionPage',
   name: 'AuraShades shader library',
   url: `${SITE.url}/library`,
-  description: `All ${SHADERS.length} AuraShades backgrounds, filterable by style and plan.`,
+  description: `All ${SHADERS.length} AuraShades backgrounds, open source and filterable by style.`,
   mainEntity: {
     '@type': 'ItemList',
     numberOfItems: SHADERS.length,
@@ -110,7 +111,9 @@ export const shaderLd = (s: ShaderDef): JsonLd => ({
   description: `${s.summary} ${s.description}`,
   programmingLanguage: ['GLSL', 'TypeScript'],
   runtimePlatform: 'WebGL 1',
-  isAccessibleForFree: s.tier === 'free',
+  isAccessibleForFree: true,
+  license: LICENSE_URL,
+  codeRepository: REPO,
   genre: s.style,
   publisher: { '@id': `${SITE.url}/#org` },
 })
