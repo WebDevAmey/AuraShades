@@ -274,7 +274,7 @@ function DesktopNav({ path }: { path: string }) {
 
       <div ref={bar} className="mnav-bar">
         <Link to="/" className="mnav-mark" aria-label="AuraShades home">
-          <LogoMark size={22} className="text-[#f7ae8c]" />
+          <LogoMark size={24} />
           AuraShades
         </Link>
         <div ref={links} className="mnav-links" onPointerLeave={() => { window.clearTimeout(timers.current.open); if (activeRef.current < 0) links.current?.classList.remove('hovering'); else glideTo(activeRef.current) }}>
@@ -369,7 +369,7 @@ function MobileNav({ path }: { path: string }) {
       <motion.div className="mnav-sheet" initial={false} animate={{ height: open ? 'auto' : 56 }} transition={{ duration: open ? 0.56 : 0.32, ease: open ? [0.32, 0.72, 0, 1] : [0.23, 1, 0.32, 1] }}>
         <div className="flex h-14 items-center gap-1 p-2">
           <Link to="/" className="mnav-mark" aria-label="AuraShades home" onClick={close}>
-            <LogoMark size={22} className="text-[#f7ae8c]" />
+            <LogoMark size={24} />
             AuraShades
           </Link>
           <span className="flex-1" />

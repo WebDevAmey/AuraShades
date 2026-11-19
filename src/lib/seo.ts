@@ -54,7 +54,7 @@ export const organizationLd = (): JsonLd => ({
   '@id': `${SITE.url}/#org`,
   name: SITE.name,
   url: SITE.url,
-  logo: `${SITE.url}/favicon.svg`,
+  logo: `${SITE.url}/icon-512.png`,
   email: SITE.email,
   sameAs: ['https://github.com/WebDevAmey/AuraShades'],
 })

@@ -27,7 +27,7 @@ export function SiteFooter() {
 
       <div className="grid gap-12 pt-20 md:grid-cols-[1.5fr_1fr_1.5fr_1fr] md:gap-8 md:pt-24">
         <div className="flex max-w-[34ch] flex-col gap-4">
-          <span className="flex items-center gap-2.5 text-[17px] font-[600] tracking-[-0.025em]"><LogoMark size={22} className="text-ink" />AuraShades</span>
+          <span className="flex items-center gap-2.5 text-[17px] font-[600] tracking-[-0.025em]"><LogoMark size={28} />AuraShades</span>
           <p className="small">Live shader backgrounds for product websites. Tune four colours, copy one component, ship it.</p>
           <p className="small">Open source under the MIT licence. Contributions welcome.</p>
         </div>

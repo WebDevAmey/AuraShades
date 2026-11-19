@@ -23,6 +23,9 @@ export const Route = createRootRoute({
     links: [
       { rel: 'stylesheet', href: appCss },
       { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' },
+      { rel: 'apple-touch-icon', href: '/apple-touch-icon.png', sizes: '180x180' },
+      { rel: 'manifest', href: '/site.webmanifest' },
+      { rel: 'preload', href: '/logo.svg', as: 'image', type: 'image/svg+xml' },
       { rel: 'sitemap', type: 'application/xml', href: '/sitemap.xml' },
     ],
     scripts: [organizationLd(), websiteLd()].map((j) => ({ type: 'application/ld+json', children: JSON.stringify({ '@context': 'https://schema.org', ...j }) })),
