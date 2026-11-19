@@ -2,24 +2,21 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Search, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { ShotCard } from '~/components/ShotCard'
-import { Segmented } from '~/components/Segmented'
-import { freeCount, SHADERS, STYLES, word, type Style } from '~/lib/shaders/library'
+import { SHADERS, STYLES, word, type Style } from '~/lib/shaders/library'
 import { breadcrumbLd, libraryLd, seo } from '~/lib/seo'
 import { button } from '~/lib/button'
 
 type Filter = Style | 'All'
-type Tier = 'all' | 'free' | 'pro'
 
 export const Route = createFileRoute('/library/')({
-  validateSearch: (s: Record<string, unknown>): { style?: Style; tier?: Tier; q?: string } => ({
+  validateSearch: (s: Record<string, unknown>): { style?: Style; q?: string } => ({
     style: STYLES.some((x) => x.id === s.style) ? (s.style as Style) : undefined,
-    tier: s.tier === 'free' || s.tier === 'pro' ? s.tier : undefined,
     q: typeof s.q === 'string' && s.q.trim() ? s.q.slice(0, 60) : undefined,
   }),
   head: () =>
     seo({
       title: 'Shader background library · AuraShades',
-      description: `Browse ${SHADERS.length} live WebGL backgrounds: mesh gradients, film grain, pastel washes, aurora, dithering and ASCII. Filter by style and plan.`,
+      description: `Browse ${SHADERS.length} live WebGL backgrounds: mesh gradients, film grain, pastel washes, aurora, dithering and ASCII. Free and open source, filterable by style.`,
       path: '/library',
       jsonLd: [libraryLd(), breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Library', path: '/library' }])],
     }),
@@ -30,22 +27,20 @@ const haystack = Object.fromEntries(SHADERS.map((s) => [s.id, `${s.name} ${s.sty
 const styleCount = (st: Filter) => (st === 'All' ? SHADERS.length : SHADERS.filter((s) => s.style === st).length)
 
 function Library() {
-  const { style, tier, q } = Route.useSearch()
+  const { style, q } = Route.useSearch()
   const navigate = useNavigate({ from: '/library/' })
   const filter: Filter = style ?? 'All'
-  const t: Tier = tier ?? 'all'
   const [text, setText] = useState(q ?? '')
   const input = useRef<HTMLInputElement>(null)
   const terms = (q ?? '').toLowerCase().split(/\s+/).filter(Boolean)
-  const list = SHADERS.filter((s) => (filter === 'All' || s.style === filter) && (t === 'all' || s.tier === t) && terms.every((w) => haystack[s.id].includes(w)))
+  const list = SHADERS.filter((s) => (filter === 'All' || s.style === filter) && terms.every((w) => haystack[s.id].includes(w)))
 
-  const set = (next: { style?: Filter; tier?: Tier; q?: string }) =>
+  const set = (next: { style?: Filter; q?: string }) =>
     navigate({
       search: (prev) => {
         const st = next.style ?? prev.style ?? 'All'
-        const ti = next.tier ?? prev.tier ?? 'all'
         const qq = next.q !== undefined ? next.q.trim() : prev.q
-        return { style: st === 'All' ? undefined : (st as Style), tier: ti === 'all' ? undefined : ti, q: qq || undefined }
+        return { style: st === 'All' ? undefined : (st as Style), q: qq || undefined }
       },
       replace: true,
       resetScroll: false,
@@ -66,7 +61,7 @@ function Library() {
     return () => window.removeEventListener('keydown', k)
   }, [])
 
-  const reset = () => { setText(''); set({ style: 'All', tier: 'all', q: '' }) }
+  const reset = () => { setText(''); set({ style: 'All', q: '' }) }
 
   return (
     <section className="wrap page-top" aria-labelledby="lib-title">
@@ -75,10 +70,10 @@ function Library() {
           <span className="eyebrow">Library · {SHADERS.length} shaders</span>
           <h1 id="lib-title" className="display">Every background, <em>live.</em></h1>
         </div>
-        <p className="lede lg:pb-1">{SHADERS.length} live backgrounds across {word(STYLES.length)} styles, {freeCount} of them free. Every one opens in the editor, free or Pro.</p>
+        <p className="lede lg:pb-1">{SHADERS.length} live backgrounds across {word(STYLES.length)} styles. Every one is open source and opens in the editor.</p>
       </div>
 
-      {/* Toolbar: search and plan on one line, styles as a row of pills beneath. It stays with the page. */}
+      {/* Toolbar: search and count on one line, styles as a row of pills beneath. It stays with the page. */}
       <div className="mb-10 flex flex-col gap-4 border-y border-line py-5">
         <div className="flex flex-col gap-2 md:flex-row md:items-center">
           <div className="search flex-1 md:max-w-[520px]">
@@ -92,7 +87,6 @@ function Library() {
             )}
           </div>
           <div className="flex items-center justify-between gap-3 md:ml-auto">
-            <Segmented size="sm" label="Filter by plan" value={t} onChange={(v) => set({ tier: v })} options={[{ value: 'all', label: 'Any plan' }, { value: 'free', label: 'Free' }, { value: 'pro', label: 'Pro' }]} />
             <p className="spec shrink-0 px-2 text-muted md:min-w-[88px] md:text-right" aria-live="polite">{String(list.length).padStart(2, '0')} / {SHADERS.length}</p>
           </div>
         </div>

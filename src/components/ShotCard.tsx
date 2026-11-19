@@ -10,9 +10,6 @@ export function ShotCard({ id, summary = false, feature = false }: { id: string;
     <Link to="/library/$shaderId" params={{ shaderId: s.id }} className="shot h-full">
       <span className={feature ? 'shot-media sm:!aspect-auto sm:min-h-[340px] sm:flex-1' : 'shot-media'}>
         <span className="absolute inset-0"><AuraShade shader={s.id} label={`${s.name} preview`} /></span>
-        <span className="absolute left-3 top-3 flex gap-1.5">
-          {s.tier === 'pro' ? <span className="chip chip-on-media">Pro</span> : <span className="chip chip-on-media"><i className="h-1.5 w-1.5 rounded-full bg-good" />Free</span>}
-        </span>
       </span>
       <span className="shot-body">
         <span className="flex min-w-0 flex-col gap-0.5">

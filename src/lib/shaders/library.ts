@@ -1,5 +1,4 @@
 export type Style = 'Gradient' | 'Grain' | 'Pastel' | 'Aurora' | 'Dither' | 'ASCII' | 'Grid' | 'Light' | 'Liquid' | 'Texture' | 'Orbit' | 'Spectral' | 'Landscape' | 'Wave'
-export type Tier = 'free' | 'pro'
 export type ThemeName = 'dark' | 'light'
 
 export interface ShaderParams {
@@ -14,7 +13,6 @@ export interface ShaderDef {
   id: string
   name: string
   style: Style
-  tier: Tier
   summary: string
   description: string
   /** Uses the cell uniform (pixel or character size) instead of grain. */
@@ -113,7 +111,7 @@ const wave = (o: { ph: number; bg: number; glow: number; ridge: number; tex: key
 
 export const SHADERS: ShaderDef[] = [
   {
-    id: 'silk', name: 'Silk', style: 'Gradient', tier: 'free',
+    id: 'silk', name: 'Silk', style: 'Gradient',
     summary: 'Folded satin bands with a soft sheen.',
     description: 'Domain-warped sine layers make long, slow folds. A narrow highlight rides each crest, so the surface reads as fabric rather than a blur.',
     palettes: { dark: ['#080c20', '#1c2a7a', '#4a5fd6', '#a9b6ff'], light: ['#f3f5fb', '#c9d4ff', '#8ea2f7', '#f8f9ff'] },
@@ -129,7 +127,7 @@ export const SHADERS: ShaderDef[] = [
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'mesh-drift', name: 'Mesh Drift', style: 'Gradient', tier: 'pro',
+    id: 'mesh-drift', name: 'Mesh Drift', style: 'Gradient',
     summary: 'Four colour anchors orbiting and blending by distance.',
     description: 'The classic mesh gradient, kept alive. Each anchor traces its own slow orbit and the field between them is warped slightly so seams never line up.',
     palettes: { dark: ['#ff7a4d', '#141936', '#4f7dff', '#0b0e1e'], light: ['#ffb08f', '#ffe6d4', '#b9cdff', '#8193e8'] },
@@ -146,7 +144,7 @@ export const SHADERS: ShaderDef[] = [
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'grain-bloom', name: 'Grain Bloom', style: 'Grain', tier: 'free',
+    id: 'grain-bloom', name: 'Grain Bloom', style: 'Grain',
     summary: 'Soft light leaks exposed through film grain.',
     description: 'Three soft light sources drift over the base colour and are exposed through per-frame film grain, like light leaking onto a roll of film.',
     palettes: { dark: ['#07080d', '#3b67ef', '#ff9d70', '#7aa2ff'], light: ['#f4f6fb', '#9db6ff', '#ffc4a6', '#c9d8ff'] },
@@ -163,7 +161,7 @@ export const SHADERS: ShaderDef[] = [
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'dune', name: 'Dune', style: 'Grain', tier: 'free',
+    id: 'dune', name: 'Dune', style: 'Grain',
     summary: 'Sunset strata pressed into layers.',
     description: 'A vertical ramp bent by noise and partly posterised into bands, like coloured sand in glass. Fine grain gives it a printed tooth.',
     palettes: { dark: ['#0c0b1c', '#3a1f45', '#a8484f', '#f08a5d'], light: ['#e3e6f6', '#f1c6d0', '#f7ae8c', '#fff1e2'] },
@@ -176,7 +174,7 @@ export const SHADERS: ShaderDef[] = [
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'pastel-haze', name: 'Pastel Haze', style: 'Pastel', tier: 'free',
+    id: 'pastel-haze', name: 'Pastel Haze', style: 'Pastel',
     summary: 'Pastel clouds drifting into one another.',
     description: 'Two noise fields at different scales are blended through the palette. Contrast stays low enough that body text on top keeps its legibility.',
     palettes: { dark: ['#0f1424', '#23345f', '#5a6fa8', '#d9a7b8'], light: ['#e9dbff', '#bcd6ff', '#ffc9dc', '#c8f5e3'] },
@@ -189,7 +187,7 @@ export const SHADERS: ShaderDef[] = [
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'iridescent', name: 'Iridescent', style: 'Pastel', tier: 'pro',
+    id: 'iridescent', name: 'Iridescent', style: 'Pastel',
     summary: 'Thin-film colour, like foil or a soap bubble.',
     description: 'A cosine spectrum is run along a warped height field, then softened with a pastel base so the effect reads as holographic foil instead of a rainbow.',
     palettes: { dark: ['#0c0f1c', '#1d3b55', '#3a2c55', '#9fd9e8'], light: ['#e6e9ff', '#bfe9f5', '#ffd6ec', '#fffaf0'] },
@@ -205,7 +203,7 @@ export const SHADERS: ShaderDef[] = [
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'aurora-veil', name: 'Aurora Veil', style: 'Aurora', tier: 'free',
+    id: 'aurora-veil', name: 'Aurora Veil', style: 'Aurora',
     summary: 'Curtains of light that fray into rays.',
     description: 'Three ribbons glow at their lower edge and fray into vertical rays above. On a dark sky, a sparse star field shows through behind them.',
     palettes: { dark: ['#05070f', '#19e3a1', '#4b7bff', '#b04bff'], light: ['#eef2f8', '#3fcca3', '#6f95ff', '#b98cff'] },
@@ -224,7 +222,7 @@ export const SHADERS: ShaderDef[] = [
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'aurora-dawn', name: 'Aurora Dawn', style: 'Aurora', tier: 'pro',
+    id: 'aurora-dawn', name: 'Aurora Dawn', style: 'Aurora',
     summary: 'Soft ribbons that blend into the sky.',
     description: 'Soft ribbons float across the background and blend into it rather than glowing. A calmer aurora for heroes where rays would be too busy.',
     palettes: { dark: ['#070a14', '#1fbf97', '#5b7cff', '#ff8f70'], light: ['#f4f1fb', '#8fd6c8', '#b9a6ff', '#ffb9a0'] },
@@ -241,7 +239,7 @@ export const SHADERS: ShaderDef[] = [
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'bayer-wave', name: 'Bayer Wave', style: 'Dither', tier: 'free', cellular: 'pixel',
+    id: 'bayer-wave', name: 'Bayer Wave', style: 'Dither', cellular: 'pixel',
     summary: 'A flowing gradient in four flat inks.',
     description: 'The field is quantised to four colours with an 8×8 ordered Bayer matrix, the same trick early print and game screens used to fake tone.',
     palettes: { dark: ['#101114', '#3d2bd6', '#ff6b4a', '#f3efe6'], light: ['#f3efe6', '#c9d2ff', '#ff6b4a', '#2c3ad6'] },
@@ -255,7 +253,7 @@ export const SHADERS: ShaderDef[] = [
   return idx<.5?uC0:(idx<1.5?uC1:(idx<2.5?uC2:uC3));}`,
   },
   {
-    id: 'halftone', name: 'Halftone', style: 'Dither', tier: 'pro', cellular: 'pixel',
+    id: 'halftone', name: 'Halftone', style: 'Dither', cellular: 'pixel',
     summary: 'A rotated dot screen over moving noise.',
     description: 'Dots on a 45° screen swell where the field is bright and pick up spot colours across the frame, like a two-colour print run that never sits still.',
     palettes: { dark: ['#0f1116', '#e9e6df', '#ff5a3c', '#5b7cff'], light: ['#f2efe9', '#1a1a1a', '#e4442f', '#2c4bd1'] },
@@ -273,7 +271,7 @@ export const SHADERS: ShaderDef[] = [
   return mix(uC0,ink,dotm);}`,
   },
   {
-    id: 'ascii-flow', name: 'ASCII Flow', style: 'ASCII', tier: 'free', cellular: 'glyph',
+    id: 'ascii-flow', name: 'ASCII Flow', style: 'ASCII', cellular: 'glyph',
     summary: 'Warped noise set in type, like a terminal.',
     description: 'Each cell samples a warped noise field and picks one of ten characters by brightness, from a space to an @. Colour follows the same value.',
     palettes: { dark: ['#0d0b09', '#4a2e12', '#f29a3e', '#ffe6c2'], light: ['#f4f1ea', '#d9c8ae', '#c46a1c', '#3a2410'] },
@@ -286,7 +284,7 @@ export const SHADERS: ShaderDef[] = [
   return mix(mix(uC0,uC1,.25*f),ramp(.34+f*.66),m);}`,
   },
   {
-    id: 'ascii-rings', name: 'ASCII Rings', style: 'ASCII', tier: 'pro', cellular: 'glyph',
+    id: 'ascii-rings', name: 'ASCII Rings', style: 'ASCII', cellular: 'glyph',
     summary: 'Ripples drawn entirely in characters.',
     description: 'Rings spread from a drifting centre and twist slightly with angle. Wave height sets both the character and its colour.',
     palettes: { dark: ['#0b0d14', '#3a4256', '#6f8cff', '#ff6f98'], light: ['#f3f1ec', '#a9b0c0', '#4057e6', '#ff5c8a'] },
@@ -301,7 +299,7 @@ export const SHADERS: ShaderDef[] = [
   return mix(uC0,ramp(.34+f*.66),m);}`,
   },
   {
-    id: 'velvet', name: 'Velvet', style: 'Gradient', tier: 'pro',
+    id: 'velvet', name: 'Velvet', style: 'Gradient',
     summary: 'Deep folds with a pile that catches light at the edges.',
     description: 'Slow folds like Silk, but shaded like velvet: the faces turned away from you glow, the faces turned toward you sink, and a fine fibre pile runs along each fold.',
     palettes: { dark: ['#0a0612', '#3a0f3d', '#8c2a6b', '#ffb3d9'], light: ['#f7eff4', '#e7b8d0', '#c0679a', '#fff6fb'] },
@@ -323,7 +321,7 @@ vec3 shade(){float t=T();vec2 uv=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'riso-bloom', name: 'Riso Bloom', style: 'Grain', tier: 'pro',
+    id: 'riso-bloom', name: 'Riso Bloom', style: 'Grain',
     summary: 'Two inks printed slightly out of register.',
     description: 'Light leaks like Grain Bloom, printed the way a risograph would: each colour is its own ink of clumpy dots, the second plate sits a few pixels off, and where the two overlap a third colour appears.',
     palettes: { dark: ['#0d0c10', '#ff5a8a', '#2fb5ff', '#f4e9ff'], light: ['#f6f1e7', '#ff4f7b', '#1d8fe0', '#3b2a6b'] },
@@ -343,7 +341,7 @@ vec3 shade(){float t=T();vec2 px=frag();float s=uScale/uRes.y;
   return c;}`,
   },
   {
-    id: 'watercolour', name: 'Watercolour', style: 'Pastel', tier: 'pro',
+    id: 'watercolour', name: 'Watercolour', style: 'Pastel',
     summary: 'Pastel washes that pool and dry on rough paper.',
     description: 'Soft washes laid in layers. Pigment gathers at the edge of each wash as it dries, settles into the tooth of the paper, and the layers slowly bleed into new shapes.',
     palettes: { dark: ['#121521', '#2c3b63', '#6b7fb8', '#e4b7c6'], light: ['#fbf8f1', '#bcd3f0', '#f3b9c9', '#9ec9b4'] },
@@ -364,7 +362,7 @@ vec3 shade(){float t=T();vec2 px=frag();float s=uScale/uRes.y;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'crosshatch', name: 'Crosshatch', style: 'Dither', tier: 'pro', cellular: 'pixel',
+    id: 'crosshatch', name: 'Crosshatch', style: 'Dither', cellular: 'pixel',
     summary: 'A moving field engraved in hatched lines.',
     description: 'Tone is built from layers of hand-drawn hatching like an old engraving: one direction for light areas, a crossing set for mid tones and a third for the densest parts. Lines wobble slightly, as if drawn with a pen.',
     palettes: { dark: ['#0e0f12', '#5c6b8a', '#e9b872', '#f6efe2'], light: ['#f5f0e6', '#7a7468', '#2a3d6b', '#141414'] },
@@ -383,7 +381,7 @@ vec3 shade(){float t=T();vec2 px=frag();vec2 a=uvA()*uScale;
   return mix(c,uC3,h3);}`,
   },
   {
-    id: 'ripple-tiles', name: 'Ripple Tiles', style: 'Grid', tier: 'pro',
+    id: 'ripple-tiles', name: 'Ripple Tiles', style: 'Grid',
     summary: 'A tiled floor that lifts as ripples pass.',
     description: 'A perspective floor of square tiles. Rings spread out from shifting points, and each tile brightens and catches a bevel of light as a ring crosses it, then fades into the distance.',
     palettes: { dark: ['#07090f', '#1b2235', '#3b67ef', '#9ec2ff'], light: ['#eef1f7', '#dde3ee', '#7a96ff', '#3b5bdb'] },
@@ -417,7 +415,7 @@ vec3 shade(){float t=T();vec2 px=frag();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'horizon-grid', name: 'Horizon Grid', style: 'Grid', tier: 'free',
+    id: 'horizon-grid', name: 'Horizon Grid', style: 'Grid',
     summary: 'A glowing grid rolling toward a low sun.',
     description: 'Fine perspective lines stream toward the viewer and fade into a hazy horizon, where a banded sun sits half-risen. Line width follows the pixel, so the far grid stays clean instead of shimmering.',
     palettes: { dark: ['#06070d', '#2a1a3d', '#ff7a59', '#ffd29a'], light: ['#f6f3ef', '#f2dccf', '#ef6a4a', '#c2410c'] },
@@ -450,7 +448,7 @@ vec3 shade(){float t=T();vec2 px=frag();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'topography', name: 'Topography', style: 'Grid', tier: 'pro',
+    id: 'topography', name: 'Topography', style: 'Grid',
     summary: 'Contour lines over slowly shifting terrain.',
     description: 'A height field drawn as a contour map. Every fifth line is an index contour drawn heavier, lines stay one pixel wide at any zoom, and the land itself drifts and reshapes over time.',
     palettes: { dark: ['#0b0d12', '#1f2a3a', '#59a5ff', '#c9f0ff'], light: ['#f4f3ef', '#e4e1d6', '#8a7f63', '#2f6b4f'] },
@@ -471,7 +469,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*1.6;
   return mix(fill,lc,line)+grain()*uGrain;}`,
   },
   {
-    id: 'fluted-glass', name: 'Fluted Glass', style: 'Light', tier: 'pro',
+    id: 'fluted-glass', name: 'Fluted Glass', style: 'Light',
     summary: 'Soft colour seen through ribbed glass.',
     description: 'Drifting pools of colour sit behind a pane of vertical glass flutes. Each flute flips and squeezes what is behind it like a real lens, with a bright highlight on one shoulder and a soft crease between flutes.',
     palettes: { dark: ['#090b12', '#3b67ef', '#ff8a5b', '#7fd6c8'], light: ['#f1f3f8', '#9db6ff', '#ffc4a6', '#a6e3d6'] },
@@ -501,7 +499,7 @@ vec3 shade(){float t=T();vec2 a=uvA();float n=11./uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'twisted-ribbon', name: 'Twisted Ribbon', style: 'Light', tier: 'pro',
+    id: 'twisted-ribbon', name: 'Twisted Ribbon', style: 'Light',
     summary: 'A satin ribbon twisting through the frame.',
     description: 'Two ribbons drift across the frame and turn as they go, narrowing to an edge and widening again. Front and back faces carry different colours, with a sheen along the middle and lit edges.',
     palettes: { dark: ['#07080d', '#4b7bff', '#ff6f98', '#e9ecff'], light: ['#f4f5f9', '#5b7cff', '#ff7aa0', '#fff7f9'] },
@@ -527,7 +525,7 @@ vec3 shade(){float t=T();vec2 a=uvA();float n=11./uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'light-rays', name: 'Light Rays', style: 'Light', tier: 'free',
+    id: 'light-rays', name: 'Light Rays', style: 'Light',
     summary: 'Sunbeams falling through dusty air.',
     description: 'Shafts of light fan down from a bright source in the corner, breaking into beams that slowly shift. Dust specks catch the light only where a beam passes through them.',
     palettes: { dark: ['#05060a', '#1a2238', '#ffcf9a', '#fff4e3'], light: ['#d9dfe8', '#c9d1df', '#ffa95a', '#fff2df'] },
@@ -550,7 +548,7 @@ vec3 shade(){float t=T();vec2 a=uvA();float n=11./uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'light-lines', name: 'Light Lines', style: 'Light', tier: 'pro',
+    id: 'light-lines', name: 'Light Lines', style: 'Light',
     summary: 'Fine lines with pulses of light running along them.',
     description: 'Twelve hairlines flow across the frame and gather toward one side. Short pulses of light race along each line at its own pace, with a faint glow around the line that carries them.',
     palettes: { dark: ['#06070c', '#3b67ef', '#19e3a1', '#f1fdf9'], light: ['#f3f4f8', '#5b7cff', '#18b98a', '#2f4fe0'] },
@@ -572,7 +570,7 @@ vec3 shade(){float t=T();vec2 a=uvA();float n=11./uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'liquid-chrome', name: 'Liquid Chrome', style: 'Liquid', tier: 'pro',
+    id: 'liquid-chrome', name: 'Liquid Chrome', style: 'Liquid',
     summary: 'Molten metal that reflects a soft sky.',
     description: 'A flowing surface lit like polished chrome. Its slope picks colours from a studio reflection, with a dark horizon band, a pale sky and sharp specular highlights where the metal turns toward the light.',
     palettes: { dark: ['#05060a', '#2a3550', '#9fb3d9', '#f9fafd'], light: ['#7d869c', '#d9dee8', '#a9b6cf', '#fafbfc'] },
@@ -594,7 +592,7 @@ vec3 shade(){float t=T();vec2 p=uvA()*uScale*1.6;float e=.01;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'swell', name: 'Swell', style: 'Liquid', tier: 'free',
+    id: 'swell', name: 'Swell', style: 'Liquid',
     summary: 'Open water rolling under a quiet sky.',
     description: 'A perspective sea built from crossing wave trains and noise. Faces turned to the light brighten, the far water takes on the colour of the sky, and foam gathers on the highest crests.',
     palettes: { dark: ['#05070d', '#0a2a3a', '#2f7f95', '#cfe9ef'], light: ['#eaf1f5', '#5d9cb0', '#a9d6df', '#fafdfd'] },
@@ -622,7 +620,7 @@ vec3 shade(){float t=T();vec2 a=uvA();float hz=.18;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'morph', name: 'Morph', style: 'Liquid', tier: 'pro',
+    id: 'morph', name: 'Morph', style: 'Liquid',
     summary: 'Soft blobs that merge and split.',
     description: 'Five drops of colour drift on their own paths and melt together when they meet, like oil in water. Edges stay smooth at any size, with a lit rim and a soft glow on the background around them.',
     palettes: { dark: ['#07080d', '#3b67ef', '#ff8a5b', '#ffe3d1'], light: ['#f2f4f9', '#7f9bff', '#ffb08f', '#fffaf8'] },
@@ -648,7 +646,7 @@ vec3 shade(){float t=T();vec2 p=uvA()/uScale;float e=.002;
   return mix(c,fill,inside)+grain()*uGrain;}`,
   },
   {
-    id: 'marble', name: 'Marble', style: 'Texture', tier: 'free',
+    id: 'marble', name: 'Marble', style: 'Texture',
     summary: 'Polished stone with veins that slowly drift.',
     description: 'Cloudy stone cut through by one heavy vein system and a finer one beneath it. A soft reflection slides across the polished surface, so it never looks like a flat photo.',
     palettes: { dark: ['#0b0c0f', '#262a33', '#7d8596', '#e9e4da'], light: ['#f4f1ec', '#ddd6cb', '#9c9384', '#3b3833'] },
@@ -667,7 +665,7 @@ vec3 shade(){float t=T();vec2 p=uvA()/uScale;float e=.002;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'linen', name: 'Linen', style: 'Texture', tier: 'pro',
+    id: 'linen', name: 'Linen', style: 'Texture',
     summary: 'Woven cloth with dye flowing through it.',
     description: 'A plain weave drawn thread by thread: warp and weft cross over and under, each thread a little thicker or thinner than the next, with the odd slub. A slow ombré dye drifts through the cloth.',
     palettes: { dark: ['#0d0e10', '#2d3b4f', '#c9734d', '#efe2cf'], light: ['#f3eee5', '#d9cbb5', '#a8b8c9', '#6d5a46'] },
@@ -692,7 +690,7 @@ vec3 shade(){float t=T();vec2 p=uvA()/uScale;float e=.002;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'crumpled-paper', name: 'Crumpled Paper', style: 'Texture', tier: 'pro',
+    id: 'crumpled-paper', name: 'Crumpled Paper', style: 'Texture',
     summary: 'Creased paper under a light that slowly turns.',
     description: 'A sheet crushed into flat facets at two sizes. As the light swings round, each facet turns lighter or darker on its own, the creases pick up a hint of colour and fine fibres show in the paper.',
     palettes: { dark: ['#0a0b0e', '#22262f', '#5a6378', '#d7dbe6'], light: ['#f6f4ef', '#e2ded5', '#b9b3a6', '#fbfafa'] },
@@ -714,7 +712,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'moire', name: 'Moiré', style: 'Texture', tier: 'pro',
+    id: 'moire', name: 'Moiré', style: 'Texture',
     summary: 'Two fine line screens beating against each other.',
     description: 'Two screens of fine lines, one turning slowly and bent by noise. Up close you see the lines; from a distance you see the wide, flowing interference bands where the screens fall in and out of step.',
     palettes: { dark: ['#06070b', '#1b2440', '#7b5cff', '#7df0d4'], light: ['#f5f4f9', '#cfd3e6', '#6b4df2', '#0f9f86'] },
@@ -732,7 +730,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`
   },
   {
-    id: 'thermal', name: 'Thermal', style: 'Gradient', tier: 'free',
+    id: 'thermal', name: 'Thermal', style: 'Gradient',
     summary: 'Heat rising off a dark floor in slow plumes.',
     description: 'A heat map that never settles. Warmth pools low and to one side, then lifts in slow convection plumes that curl as they rise, cooling through violet into the dark. Crop it to a corner and it still holds.',
     palettes: { dark: ['#07050d', '#3a1260', '#e0466b', '#ffc98a'], light: ['#f6f1f5', '#dcc8f3', '#ff8a78', '#ffcf94'] },
@@ -749,7 +747,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'phosphor', name: 'Phosphor', style: 'Grain', tier: 'pro',
+    id: 'phosphor', name: 'Phosphor', style: 'Grain',
     summary: 'A warm glow on an old tube screen.',
     description: 'Slow amber light seen through a CRT: an RGB phosphor mask, fine scanlines, a soft bloom that bleeds past the lines, a gentle bulge toward the edges and a faint bright band rolling down the glass.',
     palettes: { dark: ['#0a0606', '#4a1410', '#ff6a3d', '#ffd9a0'], light: ['#f3eee8', '#efcfb8', '#e2532e', '#6a2414'] },
@@ -771,7 +769,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'obsidian', name: 'Obsidian', style: 'Liquid', tier: 'pro',
+    id: 'obsidian', name: 'Obsidian', style: 'Liquid',
     summary: 'Near-black liquid metal with light gliding over it.',
     description: 'A dark, slow-moving metal surface, every shade tinted rather than black. Thin streaks of reflected light travel across the ripples one after another, so it looks expensive without ever getting loud.',
     palettes: { dark: ['#050508', '#17141f', '#7a7699', '#eeeaff'], light: ['#eeedf2', '#d3d1dc', '#5b5875', '#1d1b29'] },
@@ -790,7 +788,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;float e=.015;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'pour', name: 'Pour', style: 'Liquid', tier: 'pro',
+    id: 'pour', name: 'Pour', style: 'Liquid',
     summary: 'Colour poured into milk, curling as it rises.',
     description: 'Ink drifting up through something creamy. The flow folds over on itself in slow swirls, thin wisps break off at the edges, and the colour thins out as it climbs, like matcha poured into a glass.',
     palettes: { dark: ['#0b0f0c', '#1f3a2a', '#7fc48a', '#e3f0d6'], light: ['#f6f3ea', '#e6ead6', '#86b35f', '#3d6a3a'] },
@@ -808,7 +806,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;float e=.015;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'neural', name: 'Neural', style: 'Light', tier: 'pro',
+    id: 'neural', name: 'Neural', style: 'Light',
     summary: 'Glowing filaments branching through fog.',
     description: 'Fine branching threads of light, like nerves or lightning frozen mid-strike, drifting in a low fog. Pulses of brightness travel along them and a soft halo keeps them from looking sharp-edged.',
     palettes: { dark: ['#05060c', '#141a33', '#4f8dff', '#d9f1ff'], light: ['#f1f3f9', '#dde3f2', '#3b6fe0', '#102c70'] },
@@ -827,7 +825,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*2.3;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'dither-gradient', name: 'Dither Gradient', style: 'Dither', tier: 'pro', cellular: 'pixel',
+    id: 'dither-gradient', name: 'Dither Gradient', style: 'Dither', cellular: 'pixel',
     summary: 'Smooth and textured, with no banding.',
     description: 'A soft diagonal blend broken into sixteen steps and then dithered back together with an ordered pattern, so it reads as one smooth gradient up close but carries a fine printed texture.',
     palettes: { dark: ['#0d0716', '#5a1a7a', '#e0457b', '#ffc98f'], light: ['#f6eef4', '#e9b6d6', '#f27d9b', '#ffd2a3'] },
@@ -839,7 +837,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*2.3;
   return ramp((floor(lv)+step(bayer8(cell),fract(lv)))/15.);}`,
   },
   {
-    id: 'dither-gradient-v2', name: 'Dither Gradient v2', style: 'Dither', tier: 'pro', cellular: 'pixel',
+    id: 'dither-gradient-v2', name: 'Dither Gradient v2', style: 'Dither', cellular: 'pixel',
     summary: 'A retro pixel feel in round dots.',
     description: 'The same idea pushed toward old screens: four inks, a coarse 4×4 dither and each pixel drawn as a round dot with a little gap around it, so the gradient looks like it is lit from behind a grille.',
     palettes: { dark: ['#08061a', '#2a1fd0', '#7b5cff', '#e9e2ff'], light: ['#f1efff', '#c7bfff', '#6d54f5', '#2a1fb0'] },
@@ -853,7 +851,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*2.3;
   return mix(mix(uC0,ink,.2),ink,dotm);}`,
   },
   {
-    id: 'dither-gradient-v3', name: 'Dither Gradient v3', style: 'Dither', tier: 'pro', cellular: 'pixel',
+    id: 'dither-gradient-v3', name: 'Dither Gradient v3', style: 'Dither', cellular: 'pixel',
     summary: 'Subtle grain and a soft blend.',
     description: 'A quiet blend from deep teal to warm cream. Instead of an ordered pattern it uses random dither, so the steps dissolve into something that looks like fine film grain rather than a grid.',
     palettes: { dark: ['#0a1214', '#1f3b42', '#7a9c8e', '#eadfc8'], light: ['#f4f1e8', '#cfe0d6', '#8fb3a5', '#2c4a4f'] },
@@ -866,7 +864,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*2.3;
   return ramp((floor(lv)+step(hash(cell),fract(lv)))/9.);}`,
   },
   {
-    id: 'hero-gradient', name: 'Hero Gradient', style: 'Gradient', tier: 'pro',
+    id: 'hero-gradient', name: 'Hero Gradient', style: 'Gradient',
     summary: 'Bold, atmospheric and modern.',
     description: 'Deep blue and violet rolling under a soft crest of light, with a glow sitting high on one side. Strong enough to carry a headline on its own, calm enough not to fight it.',
     palettes: { dark: ['#05061a', '#3a1fa0', '#2f6bff', '#c6a8ff'], light: ['#eef1ff', '#b9b0ff', '#5b8cff', '#3b2bd6'] },
@@ -880,7 +878,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*2.3;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'hero-gradient-v2', name: 'Hero Gradient v2', style: 'Gradient', tier: 'pro',
+    id: 'hero-gradient-v2', name: 'Hero Gradient v2', style: 'Gradient',
     summary: 'Layered blobs of soft colour.',
     description: 'Four soft waves stacked like paper cut-outs, each a shade further along the palette and each casting a faint shadow on the one behind it. They slide past each other at different speeds.',
     palettes: { dark: ['#120a2a', '#5b2a9e', '#ff6fa8', '#ffb3a1'], light: ['#fbeef5', '#c9a6ff', '#ff8fb8', '#ffd0c2'] },
@@ -897,7 +895,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*2.3;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'hero-gradient-v3', name: 'Hero Gradient v3', style: 'Gradient', tier: 'pro',
+    id: 'hero-gradient-v3', name: 'Hero Gradient v3', style: 'Gradient',
     summary: 'A glass-like flow of light.',
     description: 'Two clear glass ribbons sweep up through a lavender field. Their edges catch a bright, thin highlight, their bodies tint what is behind them, and they sway slowly in place.',
     palettes: { dark: ['#0c0a24', '#4b3fb0', '#8f86ff', '#f5f3ff'], light: ['#eeedfb', '#c3bff5', '#8d84f0', '#fdfcff'] },
@@ -911,7 +909,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*2.3;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'footer-gradient', name: 'Footer Gradient', style: 'Gradient', tier: 'pro',
+    id: 'footer-gradient', name: 'Footer Gradient', style: 'Gradient',
     summary: 'Subtle and minimal, glowing up from below.',
     description: 'Almost all dark, with a violet glow rising from the bottom edge along a gently moving horizon. Made to sit under a footer or a closing call to action without pulling focus.',
     palettes: { dark: ['#06070f', '#151a3d', '#5b4de8', '#c4b8ff'], light: ['#f4f4fa', '#dcdaf5', '#8b7ff0', '#5a4ad6'] },
@@ -923,7 +921,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*2.3;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'footer-gradient-v2', name: 'Footer Gradient v2', style: 'Gradient', tier: 'pro',
+    id: 'footer-gradient-v2', name: 'Footer Gradient v2', style: 'Gradient',
     summary: 'A brand-coloured wash across the bottom.',
     description: 'A wider, cloudier wash of colour filling the lower half, with soft noise moving through it like low mist. Swap in your brand colours and it becomes a closing band for the page.',
     palettes: { dark: ['#050a0c', '#0d2a33', '#1f9e8f', '#8ff0d2'], light: ['#f1f7f6', '#cfe9e4', '#46c2a8', '#127a6a'] },
@@ -936,7 +934,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*2.3;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'footer-gradient-v3', name: 'Footer Gradient v3', style: 'Gradient', tier: 'pro',
+    id: 'footer-gradient-v3', name: 'Footer Gradient v3', style: 'Gradient',
     summary: 'A soft horizon at dusk.',
     description: 'A low, warm horizon line with light spilling up into the dark above and a rosy glow below it, like the last minute of a sunset seen from very far away.',
     palettes: { dark: ['#07060c', '#1e1530', '#d9708a', '#ffd3b0'], light: ['#f7f3f2', '#ead9e2', '#f29a9e', '#ffcfa8'] },
@@ -949,7 +947,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*2.3;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'spectral-gradient', name: 'Spectral Gradient', style: 'Spectral', tier: 'free',
+    id: 'spectral-gradient', name: 'Spectral Gradient', style: 'Spectral',
     summary: 'A full-spectrum flow of colour.',
     description: 'The whole spectrum laid diagonally across the frame and gently warped, so the bands bend and drift. Your palette tints it and sinks one corner into shadow, which keeps it from looking like a test card.',
     palettes: { dark: ['#0a0620', '#3b1fa8', '#ff5fa2', '#ffe066'], light: ['#f4f0ff', '#b8a6ff', '#ff8fbf', '#ffe58a'] },
@@ -962,7 +960,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'spectral-gradient-v2', name: 'Spectral Gradient v2', style: 'Spectral', tier: 'pro',
+    id: 'spectral-gradient-v2', name: 'Spectral Gradient v2', style: 'Spectral',
     summary: 'A prism-coloured mesh.',
     description: 'Five soft anchors, each a different hue of the spectrum nudged toward your palette, orbit and melt into each other. The blend runs in perceptual colour, so there are no grey seams between them.',
     palettes: { dark: ['#0b0a1f', '#6b5cff', '#ff7ad1', '#5ee0ff'], light: ['#f6f4ff', '#a99cff', '#ff9fdc', '#8fe9ff'] },
@@ -981,7 +979,7 @@ vec3 shade(){float t=T()*.6;vec2 uv=uvN();float asp=uRes.x/uRes.y;vec2 p=uv;p.x*
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'spectral-gradient-v3', name: 'Spectral Gradient v3', style: 'Spectral', tier: 'pro',
+    id: 'spectral-gradient-v3', name: 'Spectral Gradient v3', style: 'Spectral',
     summary: 'A beam of light splitting into colour.',
     description: 'A single beam crosses the dark and fans out into its spectrum as it travels, red on one edge and violet on the other, with a bright core and a faint haze of stray light around it.',
     palettes: { dark: ['#06050c', '#1a1530', '#5b4de0', '#fff3e6'], light: ['#f5f4f8', '#dedbea', '#8d7ff0', '#fcfbff'] },
@@ -1000,7 +998,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'ascii-gradient', name: 'ASCII Gradient', style: 'ASCII', tier: 'pro', cellular: 'glyph',
+    id: 'ascii-gradient', name: 'ASCII Gradient', style: 'ASCII', cellular: 'glyph',
     summary: 'A gradient textured with characters.',
     description: 'A soft violet glow set entirely in type. Brightness picks the character, so the light fades from @ through dots to empty space, and noise keeps the edges of the glow moving.',
     palettes: { dark: ['#070818', '#1c1d55', '#7d6cff', '#efeaff'], light: ['#f3f2fb', '#d6d3f2', '#5b4de0', '#1b1660'] },
@@ -1012,7 +1010,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return mix(mix(uC0,uC1,f*.5),ramp(.4+f*.6),glyph(l,f));}`,
   },
   {
-    id: 'ascii-gradient-v2', name: 'ASCII Gradient v2', style: 'ASCII', tier: 'pro', cellular: 'glyph',
+    id: 'ascii-gradient-v2', name: 'ASCII Gradient v2', style: 'ASCII', cellular: 'glyph',
     summary: 'A high-contrast terminal look.',
     description: 'A bright amber band cuts diagonally through black, drawn in dense characters at its core and thinning out at the edges. Noise runs along it so the band flickers like output scrolling past.',
     palettes: { dark: ['#070504', '#2a1406', '#ff7a1a', '#ffd08a'], light: ['#f5f0e8', '#e8d3bd', '#e0620c', '#3a1a05'] },
@@ -1024,7 +1022,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return mix(uC0,ramp(.35+f*.65),glyph(l,f));}`,
   },
   {
-    id: 'ascii-gradient-v3', name: 'ASCII Gradient v3', style: 'ASCII', tier: 'pro', cellular: 'glyph',
+    id: 'ascii-gradient-v3', name: 'ASCII Gradient v3', style: 'ASCII', cellular: 'glyph',
     summary: 'A minimal matrix style.',
     description: 'Sparse green characters falling in columns at different speeds, visible only where a slow wave rises from the bottom of the frame. Minimal enough to sit behind text, alive enough to watch.',
     palettes: { dark: ['#030807', '#0b2a22', '#2fe0a8', '#c9ffe9'], light: ['#eef6f2', '#c9e6da', '#14a37a', '#063d2c'] },
@@ -1038,7 +1036,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return mix(uC0,ramp(.35+f*.65),glyph(l,f));}`,
   },
   {
-    id: 'texture-gradient', name: 'Texture Gradient', style: 'Texture', tier: 'pro',
+    id: 'texture-gradient', name: 'Texture Gradient', style: 'Texture',
     summary: 'Paper, grain and an organic blend.',
     description: 'A warm blend from cream to burnt orange printed onto heavy paper. You can see the fibres and the tooth of the sheet, and the colour pools unevenly, the way ink does on real stock.',
     palettes: { dark: ['#140a06', '#6b260c', '#e5651c', '#f3d7b0'], light: ['#f7efe2', '#f1c79a', '#e2701f', '#7a2a0c'] },
@@ -1052,7 +1050,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'texture-gradient-v2', name: 'Texture Gradient v2', style: 'Texture', tier: 'pro',
+    id: 'texture-gradient-v2', name: 'Texture Gradient v2', style: 'Texture',
     summary: 'Liquid and marbled.',
     description: 'Deep blue and cream folded into each other like marbled endpaper. Thin pale lines trace where the colours meet, and a fine paper tooth sits over everything as the swirls slowly drift.',
     palettes: { dark: ['#070d2a', '#14348f', '#4f7de0', '#efe6d2'], light: ['#f4ecdc', '#d8cdb4', '#3f6ad6', '#0f2a7a'] },
@@ -1067,7 +1065,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'texture-gradient-v3', name: 'Texture Gradient v3', style: 'Texture', tier: 'pro',
+    id: 'texture-gradient-v3', name: 'Texture Gradient v3', style: 'Texture',
     summary: 'Fabric with a noisy weave.',
     description: 'A violet-to-coral gradient seen through a fine woven mesh. The threads alternate over and under in tiny squares and wander slightly, so it reads as cloth rather than a screen.',
     palettes: { dark: ['#0b0614', '#3b1f6e', '#c2365a', '#ffb07a'], light: ['#f4eef6', '#c9b6e6', '#e5577a', '#ffb27f'] },
@@ -1081,7 +1079,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'ember-fold', name: 'Ember Fold', style: 'Gradient', tier: 'pro',
+    id: 'ember-fold', name: 'Ember Fold', style: 'Gradient',
     summary: 'Warm folds of light layered like silk.',
     description: 'Four soft sheets fold over each other from cream through orange to ember red, each lighter at its edge and catching a thin rim of light. They sway slowly at different speeds.',
     palettes: { dark: ['#120b0c', '#4a1d1c', '#e3552c', '#ffc995'], light: ['#dedbdd', '#f6cfae', '#e9552e', '#fff3e3'] },
@@ -1098,7 +1096,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'violet-horizon', name: 'Violet Horizon', style: 'Orbit', tier: 'free',
+    id: 'violet-horizon', name: 'Violet Horizon', style: 'Orbit',
     summary: 'A grainy violet sunrise over a dark world.',
     description: 'A vast planet fills the lower corner, its edge lit violet by a sun just out of view. Heavy film grain and a faint haze above the limb make it feel like a long exposure.',
     palettes: { dark: ['#06051a', '#1d1450', '#8a4dff', '#f0d9ff'], light: ['#f1eefb', '#d8ccf6', '#8f5cff', '#fbf7ff'] },
@@ -1109,7 +1107,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'prism-flow', name: 'Prism Flow', style: 'Spectral', tier: 'pro',
+    id: 'prism-flow', name: 'Prism Flow', style: 'Spectral',
     summary: 'Silky ribbons with an iridescent edge.',
     description: 'Lavender and blue silk flows through the frame, and wherever it folds the light splits into a soft rainbow. The colour bands follow the folds, so they bend and travel as it moves.',
     palettes: { dark: ['#151335', '#3b4aa8', '#8f7ff0', '#ffe9f4'], light: ['#e9e8fb', '#9fb4f2', '#b79cf2', '#fff4f8'] },
@@ -1128,7 +1126,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'dusk-dunes', name: 'Dusk Dunes', style: 'Landscape', tier: 'free',
+    id: 'dusk-dunes', name: 'Dusk Dunes', style: 'Landscape',
     summary: 'Layered dunes under a rose sky and a low moon.',
     description: 'Three ridges of sand fade into a rose and peach sky, each further one softer in the haze. A pale moon hangs above, and the dunes shift very slowly, like wind reshaping them.',
     palettes: { dark: ['#141632', '#6b4466', '#f29a86', '#fde6e0'], light: ['#7c6a8e', '#d99aa8', '#ffc2a6', '#fff6f0'] },
@@ -1151,7 +1149,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'verdant-veil', name: 'Verdant Veil', style: 'Light', tier: 'pro',
+    id: 'verdant-veil', name: 'Verdant Veil', style: 'Light',
     summary: 'Green veils of light crossing in the dark.',
     description: 'Three translucent sheets of green light cross each other in a dark forest tone. Each edge carries a thin bright line that flickers along its length, and the veils fade softly behind it.',
     palettes: { dark: ['#050a06', '#1b3a1f', '#7fbf4d', '#e9ffb8'], light: ['#eff5ea', '#cfe3c2', '#6fa83e', '#2f5a1b'] },
@@ -1164,7 +1162,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'grain-dusk', name: 'Grain Dusk', style: 'Grain', tier: 'pro',
+    id: 'grain-dusk', name: 'Grain Dusk', style: 'Grain',
     summary: 'Navy, teal and peach under heavy film grain.',
     description: 'A twilight blend with deep navy above, a cold teal edge, an electric blue centre and warm peach rising from one corner, all pressed through coarse film grain so it feels printed.',
     palettes: { dark: ['#0a1236', '#2b5fd9', '#2fb3a6', '#ffc7a0'], light: ['#cfd8f2', '#7ea2f0', '#7fd6c9', '#ffd9bf'] },
@@ -1177,7 +1175,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return srgb(acc/ws)+grain()*uGrain;}`,
   },
   {
-    id: 'rose-veil', name: 'Rose Veil', style: 'Light', tier: 'pro',
+    id: 'rose-veil', name: 'Rose Veil', style: 'Light',
     summary: 'Fanned sheets of rose light on deep plum.',
     description: 'Thin pink sheets fan up from one corner like layers of chiffon, each with a lit edge and a soft blush behind it. They breathe open and closed very slowly.',
     palettes: { dark: ['#0c0710', '#3d1a33', '#e27aa6', '#ffd9e6'], light: ['#f8eef3', '#ecc4d6', '#d9608f', '#7a2448'] },
@@ -1190,7 +1188,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'cotton-sky', name: 'Cotton Sky', style: 'Pastel', tier: 'pro',
+    id: 'cotton-sky', name: 'Cotton Sky', style: 'Pastel',
     summary: 'Pink clouds drifting through a lavender sky.',
     description: 'A bank of soft cumulus crossing a lavender sky at golden hour. The tops of the clouds catch peach light, their undersides fall into rose, and wisps break off the edges as they drift.',
     palettes: { dark: ['#141433', '#3e3a8a', '#c46f95', '#f7c3b0'], light: ['#a8a0ea', '#c9bff5', '#f6a5bf', '#ffe0c9'] },
@@ -1208,7 +1206,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'chromatic-liquid', name: 'Chromatic Liquid', style: 'Liquid', tier: 'pro',
+    id: 'chromatic-liquid', name: 'Chromatic Liquid', style: 'Liquid',
     summary: 'Dark glossy liquid with rainbow edges.',
     description: 'A deep navy liquid surface rolling in slow waves. Where it turns away from you, the edges flare with an oil-slick rainbow, and a crisp highlight slides along the crests.',
     palettes: { dark: ['#060816', '#1b2550', '#7d8cff', '#f4f0ff'], light: ['#e9ebf7', '#b9c2ea', '#6f7ff0', '#fcfbff'] },
@@ -1226,7 +1224,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*1.5;float e=.004;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'crescent-dunes', name: 'Crescent Dunes', style: 'Landscape', tier: 'pro',
+    id: 'crescent-dunes', name: 'Crescent Dunes', style: 'Landscape',
     summary: 'A pale dune and a crescent moon at night.',
     description: 'A navy night with a thin crescent moon. One long dune catches the last warm light along its crest while the foreground falls into shadow, with a low mist lying between them.',
     palettes: { dark: ['#0f1530', '#2c3766', '#cdb9a6', '#fff1dc'], light: ['#5d6a96', '#9aa6cc', '#efd8c2', '#fffaf2'] },
@@ -1250,7 +1248,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*1.5;float e=.004;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'gilded-chrome', name: 'Gilded Chrome', style: 'Liquid', tier: 'pro',
+    id: 'gilded-chrome', name: 'Gilded Chrome', style: 'Liquid',
     summary: 'A ribbon of molten silver and gold.',
     description: 'A single liquid-metal ribbon winds across a dark stage. Its surface ripples as it moves, reflecting warm gold in the folds and sharp white highlights on the crests.',
     palettes: { dark: ['#0b0a0a', '#3a332c', '#c9935a', '#fff5e6'], light: ['#e9e6e1', '#9c948a', '#c08a52', '#fffaf3'] },
@@ -1268,7 +1266,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;float e=.003;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'lime-contours', name: 'Lime Contours', style: 'Grid', tier: 'pro',
+    id: 'lime-contours', name: 'Lime Contours', style: 'Grid',
     summary: 'Dense contour lines lit by a lime wave.',
     description: 'Hundreds of fine contour lines follow a wave as it bends through the frame. Lines far from the crest stay a quiet green, and the ones along it glow acid lime.',
     palettes: { dark: ['#060a06', '#1f3a1a', '#9fd33a', '#efffb0'], light: ['#f1f5ea', '#b9cfa0', '#6aa61c', '#2c4a10'] },
@@ -1286,7 +1284,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;float e=.003;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'lavender-arcs', name: 'Lavender Arcs', style: 'Light', tier: 'pro',
+    id: 'lavender-arcs', name: 'Lavender Arcs', style: 'Light',
     summary: 'Great arcs of lavender light crossing on navy.',
     description: 'Three huge translucent arcs sweep across a navy field and cross over each other. Each has a crisp lit edge and a soft lavender body, and they drift apart and together very slowly.',
     palettes: { dark: ['#0a0a22', '#1c1f55', '#8f86ff', '#e8e6ff'], light: ['#efeffb', '#cfd0f3', '#7f74f0', '#3a33a8'] },
@@ -1299,7 +1297,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;float e=.003;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'clay-dune', name: 'Clay Dune', style: 'Texture', tier: 'pro',
+    id: 'clay-dune', name: 'Clay Dune', style: 'Texture',
     summary: 'Sun-baked clay with a soft curve of shadow.',
     description: 'A plastered wall in cream and rust, with a deep curve of shadow rolling across it. The rough relief catches the light, so you can almost feel the grit under your hand.',
     palettes: { dark: ['#2a0c06', '#a8360f', '#e9a06a', '#f7e2c8'], light: ['#5a1a08', '#c8501e', '#f0b07a', '#fbeedd'] },
@@ -1307,7 +1305,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;float e=.003;
     body: wave({ ph: 0.4, bg: 1, glow: 0.25, ridge: 0.55, tex: 'emboss' }),
   },
   {
-    id: 'caustic-deep', name: 'Caustic Deep', style: 'Liquid', tier: 'pro',
+    id: 'caustic-deep', name: 'Caustic Deep', style: 'Liquid',
     summary: 'Underwater light rippling in teal.',
     description: 'The network of light that sunlight throws through moving water, seen from below. Bright threads gather in a band across the frame and fade into deep teal at the edges.',
     palettes: { dark: ['#03101a', '#0b3a4a', '#2fd6b0', '#d8fff0'], light: ['#eaf6f6', '#a9dcdc', '#1fae96', '#0b4a52'] },
@@ -1324,7 +1322,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*3.4;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'silver-strands', name: 'Silver Strands', style: 'Light', tier: 'pro',
+    id: 'silver-strands', name: 'Silver Strands', style: 'Light',
     summary: 'Fine silver strands curling in a spiral.',
     description: 'Dozens of thin silver threads spiral around an unseen centre, bright where they bunch together and fading into the dark at either end. The spiral turns slowly, like a sweep of fibres caught in light.',
     palettes: { dark: ['#08090c', '#1f232c', '#9aa3b5', '#f2f4f8'], light: ['#eef0f3', '#cfd3db', '#6b7487', '#1e2230'] },
@@ -1340,7 +1338,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*3.4;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'jade-marble', name: 'Jade Marble', style: 'Texture', tier: 'pro',
+    id: 'jade-marble', name: 'Jade Marble', style: 'Texture',
     summary: 'Green and cream marble with gold seams.',
     description: 'Bands of jade, sage and cream run diagonally through polished stone, with thin seams of gold where the bands meet and fine cloudy veining inside each one.',
     palettes: { dark: ['#0e1f17', '#4f7a62', '#ece6d6', '#d4a548'], light: ['#2c4a3a', '#8fb09c', '#f4efe3', '#c9982f'] },
@@ -1357,7 +1355,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale*3.4;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'sunset-cloud', name: 'Sunset Cloud', style: 'Pastel', tier: 'pro',
+    id: 'sunset-cloud', name: 'Sunset Cloud', style: 'Pastel',
     summary: 'A blue sky with peach clouds rising from below.',
     description: 'Clear blue overhead, fading toward the horizon, and a bank of cloud rising from one corner lit peach and gold by a low sun. The clouds roll slowly as they drift.',
     palettes: { dark: ['#1a2a6b', '#5d6fd6', '#f29a7a', '#ffd9a8'], light: ['#6f86e6', '#a9b6f2', '#ffb38f', '#ffe3c2'] },
@@ -1376,7 +1374,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'halftone-tide', name: 'Halftone Tide', style: 'Dither', tier: 'pro', cellular: 'pixel',
+    id: 'halftone-tide', name: 'Halftone Tide', style: 'Dither', cellular: 'pixel',
     summary: 'A cyan wave printed in halftone dots.',
     description: 'A glowing wave of cyan light rendered as a halftone screen: dots swell where the light is strongest and shrink to pinpoints in the deep blue around it.',
     palettes: { dark: ['#020818', '#0a2f8a', '#1fb8ff', '#d6fbff'], light: ['#e8eef8', '#9fb8ef', '#1f9fe8', '#0a2f8a'] },
@@ -1384,7 +1382,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     body: wave({ ph: 2.2, bg: 0.15, glow: 1, ridge: 0.7, tex: 'halftone' }),
   },
   {
-    id: 'terracotta-drift', name: 'Terracotta Drift', style: 'Wave', tier: 'free',
+    id: 'terracotta-drift', name: 'Terracotta Drift', style: 'Wave',
     summary: 'Cream to rust on embossed plaster.',
     description: 'A warm plaster wall that fades from cream into deep rust, with a soft wave of shadow rolling through it and a raised, hand-finished texture over everything.',
     palettes: { dark: ['#2a0c06', '#a8360f', '#e8682a', '#f6dcc0'], light: ['#5f4944', '#b55433', '#e8682a', '#f9e6d3'] },
@@ -1392,7 +1390,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     body: wave({ ph: 0.9, bg: 1, glow: 0.35, ridge: 0.6, tex: 'emboss' }),
   },
   {
-    id: 'cobalt-halftone', name: 'Cobalt Halftone', style: 'Wave', tier: 'pro', cellular: 'pixel',
+    id: 'cobalt-halftone', name: 'Cobalt Halftone', style: 'Wave', cellular: 'pixel',
     summary: 'A blue wave of light in halftone dots.',
     description: 'A bright wave of cobalt light crossing deep navy, printed as a halftone screen. The dots are largest along the crest and fade to specks in the dark.',
     palettes: { dark: ['#030714', '#0b2a7a', '#2f7dff', '#bfe6ff'], light: ['#030714', '#0b2a7a', '#2f7dff', '#bfe6ff'] },
@@ -1400,7 +1398,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     body: wave({ ph: 1.6, bg: 0.1, glow: 1, ridge: 0.7, tex: 'halftone' }),
   },
   {
-    id: 'ultraviolet-ember', name: 'Ultraviolet Ember', style: 'Wave', tier: 'pro',
+    id: 'ultraviolet-ember', name: 'Ultraviolet Ember', style: 'Wave',
     summary: 'Violet sky over an ember glow, in film grain.',
     description: 'A deep violet field with a hot coral and orange glow rising along a curved ridge. Coarse film grain sits over all of it, like a photo pushed two stops.',
     palettes: { dark: ['#120a3a', '#5a1fb0', '#ff5a7a', '#ffc28a'], light: ['#120a3a', '#5a1fb0', '#ff5a7a', '#ffc28a'] },
@@ -1408,7 +1406,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     body: wave({ ph: 2.6, bg: 0.35, glow: 0.9, ridge: 0.6, tex: 'grain' }),
   },
   {
-    id: 'moss-ridge', name: 'Moss Ridge', style: 'Wave', tier: 'pro',
+    id: 'moss-ridge', name: 'Moss Ridge', style: 'Wave',
     summary: 'A sage glow along a dark green ridge.',
     description: 'A dark forest-green field with pale sage light catching the crest of a long ridge. The embossed surface makes it read like painted stucco in low light.',
     palettes: { dark: ['#060d08', '#1f3a26', '#7fa77a', '#dfeccf'], light: ['#060d08', '#1f3a26', '#7fa77a', '#dfeccf'] },
@@ -1416,7 +1414,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     body: wave({ ph: 3.4, bg: 0.15, glow: 0.7, ridge: 0.8, tex: 'emboss' }),
   },
   {
-    id: 'violet-mesh', name: 'Violet Mesh', style: 'Wave', tier: 'pro',
+    id: 'violet-mesh', name: 'Violet Mesh', style: 'Wave',
     summary: 'A wave drawn in rows of violet dots.',
     description: 'Rows of tiny dots follow the curve of a wave, so the surface reads as a mesh. The dots light up violet along the crest and dissolve into the dark everywhere else.',
     palettes: { dark: ['#05040f', '#1d1550', '#8a6cff', '#e6dcff'], light: ['#05040f', '#1d1550', '#8a6cff', '#e6dcff'] },
@@ -1424,7 +1422,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     body: wave({ ph: 4.1, bg: 0.05, glow: 1, ridge: 0.6, tex: 'mesh' }),
   },
   {
-    id: 'frost-drift', name: 'Frost Drift', style: 'Wave', tier: 'pro',
+    id: 'frost-drift', name: 'Frost Drift', style: 'Wave',
     summary: 'Cream fading into cold blue, embossed.',
     description: 'A pale cream wall turning into icy blue and then deep navy along a curving shadow. The raised texture gives it the feel of snow-dusted plaster.',
     palettes: { dark: ['#0a1430', '#3a5d9a', '#a9c1e6', '#f6efe2'], light: ['#474f64', '#5875a9', '#a9c1e6', '#f9f4eb'] },
@@ -1432,7 +1430,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     body: wave({ ph: 0.2, bg: 1, glow: 0.3, ridge: 0.7, tex: 'emboss' }),
   },
   {
-    id: 'tidal-sunset', name: 'Tidal Sunset', style: 'Wave', tier: 'pro',
+    id: 'tidal-sunset', name: 'Tidal Sunset', style: 'Wave',
     summary: 'Teal sky meeting an orange shore.',
     description: 'Teal and sky blue above, a bright orange glow along the curve of a dune below, and a dark ridge in the foreground, all with a raised, sandy texture.',
     palettes: { dark: ['#140806', '#2a6f8f', '#ff8a3a', '#5fc8e6'], light: ['#4f4644', '#4a85a0', '#ff8a3a', '#8fd8ee'] },
@@ -1440,7 +1438,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     body: wave({ ph: 1.1, bg: 1, glow: 0.85, ridge: 0.7, tex: 'emboss' }),
   },
   {
-    id: 'crimson-drift', name: 'Crimson Drift', style: 'Wave', tier: 'pro',
+    id: 'crimson-drift', name: 'Crimson Drift', style: 'Wave',
     summary: 'A crimson glow burning through the dark.',
     description: 'Deep maroon darkness with a crimson and orange glow burning along a sweeping ridge, softened by an embossed, almost velvet surface.',
     palettes: { dark: ['#0e0408', '#4a0c1a', '#ff3d2a', '#ffb07a'], light: ['#0e0408', '#4a0c1a', '#ff3d2a', '#ffb07a'] },
@@ -1448,7 +1446,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     body: wave({ ph: 2.0, bg: 0.25, glow: 0.9, ridge: 0.75, tex: 'emboss' }),
   },
   {
-    id: 'mauve-drift', name: 'Mauve Drift', style: 'Wave', tier: 'pro',
+    id: 'mauve-drift', name: 'Mauve Drift', style: 'Wave',
     summary: 'Cream into plum, with a peach-lit ridge.',
     description: 'A soft cream sky dropping into dusky plum, with peach light sitting on the ridge between them and a gentle plaster texture across the frame.',
     palettes: { dark: ['#1a0c22', '#6a3a6e', '#e38a6a', '#fbe6d2'], light: ['#534959', '#805884', '#e38a6a', '#fceee0'] },
@@ -1456,7 +1454,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     body: wave({ ph: 2.9, bg: 1, glow: 0.5, ridge: 0.6, tex: 'emboss' }),
   },
   {
-    id: 'arctic-halftone', name: 'Arctic Halftone', style: 'Wave', tier: 'pro', cellular: 'pixel',
+    id: 'arctic-halftone', name: 'Arctic Halftone', style: 'Wave', cellular: 'pixel',
     summary: 'Icy light on navy, printed in dots.',
     description: 'A diagonal sheet of icy blue light falling across navy, reproduced as a halftone. Bright areas become dense dots and the darkness thins to a fine grid.',
     palettes: { dark: ['#030a18', '#123a6e', '#5ab8ff', '#e8f8ff'], light: ['#030a18', '#123a6e', '#5ab8ff', '#e8f8ff'] },
@@ -1464,7 +1462,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     body: wave({ ph: 3.8, bg: 0.25, glow: 0.9, ridge: 0.7, tex: 'halftone' }),
   },
   {
-    id: 'amber-ridge', name: 'Amber Ridge', style: 'Wave', tier: 'pro',
+    id: 'amber-ridge', name: 'Amber Ridge', style: 'Wave',
     summary: 'Amber light catching the top of a dark hill.',
     description: 'Near-black olive with a band of golden amber light lying along the crest of a hill, as if the last of the sun is hitting it. The textured surface catches every bit of the glow.',
     palettes: { dark: ['#070806', '#2a2e14', '#f0a828', '#ffe3a0'], light: ['#070806', '#2a2e14', '#f0a828', '#ffe3a0'] },
@@ -1472,7 +1470,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     body: wave({ ph: 0.7, bg: 0.1, glow: 1, ridge: 0.8, tex: 'emboss' }),
   },
   {
-    id: 'violet-halftone', name: 'Violet Halftone', style: 'Wave', tier: 'pro', cellular: 'pixel',
+    id: 'violet-halftone', name: 'Violet Halftone', style: 'Wave', cellular: 'pixel',
     summary: 'Indigo to violet in a halftone glow.',
     description: 'A glow of violet and magenta rising over an indigo ridge, rendered in halftone dots that swell toward the light and shrink in the shadows.',
     palettes: { dark: ['#08061e', '#2a1fa8', '#9a5cff', '#f0dcff'], light: ['#08061e', '#2a1fa8', '#9a5cff', '#f0dcff'] },
@@ -1480,7 +1478,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
     body: wave({ ph: 1.4, bg: 0.2, glow: 1, ridge: 0.7, tex: 'halftone' }),
   },
   {
-    id: 'prism-tiles', name: 'Prism Tiles', style: 'Grid', tier: 'pro',
+    id: 'prism-tiles', name: 'Prism Tiles', style: 'Grid',
     summary: 'Glass slabs stacked in isometric layers, edges lit.',
     description: 'Three layers of glass tiles drift past each other at different depths. Each slab glows along its edges, fills with a soft violet-to-amber light, and pulses on its own clock, so the stack never repeats.',
     palettes: { dark: ['#07051a', '#1b1240', '#7b4dff', '#ff8a4c'], light: ['#07051a', '#1b1240', '#7b4dff', '#ff8a4c'] },
@@ -1506,7 +1504,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;vec2 uv=uvN();
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'digit-rain', name: 'Digit Rain', style: 'ASCII', tier: 'pro', cellular: 'glyph',
+    id: 'digit-rain', name: 'Digit Rain', style: 'ASCII', cellular: 'glyph',
     summary: 'Columns of warm digits falling through the dark.',
     description: 'Seven-segment digits drawn by the shader itself rain down in columns at their own speeds. The head of each stream burns bright gold, the tail cools as it falls, and every digit keeps changing as it passes.',
     palettes: { dark: ['#050403', '#2a1d0c', '#c98a3a', '#ffe2b0'], light: ['#050403', '#2a1d0c', '#c98a3a', '#ffe2b0'] },
@@ -1540,7 +1538,7 @@ vec3 shade(){float t=T();vec2 cs=vec2(uCell,uCell*1.6);vec2 px=frag();vec2 cell=
   return c;}`,
   },
   {
-    id: 'particle-wave', name: 'Particle Wave', style: 'Wave', tier: 'pro',
+    id: 'particle-wave', name: 'Particle Wave', style: 'Wave',
     summary: 'A rolling surface made of thousands of dots.',
     description: 'A sheet of particles seen in perspective, rising and falling like slow water. Dots catch more light on the crests and fade into the distance, so the surface reads as depth without a single drawn line.',
     palettes: { dark: ['#06051a', '#1d1252', '#9a4dff', '#f0c8ff'], light: ['#06051a', '#1d1252', '#9a4dff', '#f0c8ff'] },
@@ -1567,7 +1565,7 @@ vec3 shade(){float t=T();vec2 a=uvA();
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'flow-field', name: 'Flow Field', style: 'Light', tier: 'free',
+    id: 'flow-field', name: 'Flow Field', style: 'Light',
     summary: 'Thousands of fine streamlines swirling through the dark.',
     description: 'Hair-thin lines of light follow an invisible current that bends into S-curves. Dashes of brightness travel along each line, the current slowly shifts, and the strands bunch into a glowing ribbon across the frame.',
     palettes: { dark: ['#040a0c', '#0e2a2c', '#3fb8a0', '#d4fff2'], light: ['#040a0c', '#0e2a2c', '#3fb8a0', '#d4fff2'] },
@@ -1586,7 +1584,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c+grain()*uGrain;}`,
   },
   {
-    id: 'pixel-trail', name: 'Pixel Trail', style: 'Grid', tier: 'pro', cellular: 'pixel',
+    id: 'pixel-trail', name: 'Pixel Trail', style: 'Grid', cellular: 'pixel',
     summary: 'A path of lit cells wandering across a dark grid.',
     description: 'A field of hollow squares, mostly asleep. A trail of light winds through them, waking each cell it touches, letting it glow, then fade, while a few stray cells flicker on their own.',
     palettes: { dark: ['#07061a', '#1a1540', '#7b5cff', '#e6dcff'], light: ['#07061a', '#1a1540', '#7b5cff', '#e6dcff'] },
@@ -1611,7 +1609,7 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
   return c;}`,
   },
   {
-    id: 'petals', name: 'Petals', style: 'Pastel', tier: 'free',
+    id: 'petals', name: 'Petals', style: 'Pastel',
     summary: 'Translucent petals turning slowly around a soft centre.',
     description: 'Two rings of translucent petals, each a different pastel, overlap like coloured film. The rings turn in opposite directions and the petals breathe a little, so the overlaps keep making new tints.',
     palettes: { dark: ['#0d0b14', '#7a3b6a', '#3b4aa8', '#f4d9e6'], light: ['#f6f2ee', '#ee9fb5', '#9cadef', '#fff8ef'] },
@@ -1631,8 +1629,6 @@ vec3 shade(){float t=T();vec2 a=uvA()*uScale;
 ]
 
 export const byId = (id: string) => SHADERS.find((s) => s.id === id)
-export const freeCount = SHADERS.filter((s) => s.tier === 'free').length
-export const proCount = SHADERS.length - freeCount
 
 const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty']
 /** A count as a word for copy ("nine styles"), digits past twenty. */

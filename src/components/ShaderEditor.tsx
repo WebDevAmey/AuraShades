@@ -1,5 +1,4 @@
-import { Link } from '@tanstack/react-router'
-import { Check, Copy, Lock, RotateCcw, Shuffle } from 'lucide-react'
+import { Check, Copy, RotateCcw, Shuffle } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { AuraShade } from './AuraShade'
@@ -37,7 +36,6 @@ export function ShaderEditor({ id, params, setParams, layout = 'full' }: {
     return exportCSS(def, params)
   }, [def, params, format])
 
-  const locked = format === 'react' || (def.tier === 'pro' && format === 'glsl')
 
   const copy = async () => {
     try {
@@ -129,26 +127,19 @@ export function ShaderEditor({ id, params, setParams, layout = 'full' }: {
           onChange={setFormat}
           options={[{ value: 'react', label: 'React' }, { value: 'glsl', label: 'GLSL' }, { value: 'css', label: 'CSS' }]}
         />
-        {locked ? (
-          <Link to="/pricing" className={button({ variant: 'secondary', size: 'sm' })}><Lock size={14} />Unlock with Pro</Link>
-        ) : (
-          <button type="button" onClick={copy} className={button({ variant: 'primary', size: 'sm', className: 'min-w-[120px]' })}>
-            {copied ? <Check size={15} /> : <Copy size={15} />}
-            {copied ? 'Copied' : 'Copy code'}
-          </button>
-        )}
+        <button type="button" onClick={copy} className={button({ variant: 'primary', size: 'sm', className: 'min-w-[120px]' })}>
+          {copied ? <Check size={15} /> : <Copy size={15} />}
+          {copied ? 'Copied' : 'Copy code'}
+        </button>
       </div>
       <div className="relative">
         <pre className={cx('code', layout === 'frame' ? 'h-[210px]' : 'max-h-[460px]')} tabIndex={0} aria-label={`${format} code`}>
           <code>{code}</code>
         </pre>
-        {locked && (
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 rounded-b-[10px] bg-gradient-to-t from-[var(--code-bg)] to-transparent" aria-hidden="true" />
-        )}
       </div>
       <p className="small">
-        {format === 'react' && 'The React component is part of Pro. Free plans can copy GLSL and CSS for free shaders.'}
-        {format === 'glsl' && (def.tier === 'pro' ? 'This is a Pro shader. Preview it freely; copying needs Pro.' : 'Paste into any WebGL 1 fragment shader. Set uRes and uTime each frame.')}
+        {format === 'react' && 'A typed React component with your palette and dials baked in. MIT licensed.'}
+        {format === 'glsl' && 'Paste into any WebGL 1 fragment shader. Set uRes and uTime each frame.'}
         {format === 'css' && 'Palette tokens plus a static gradient fallback for print and no-WebGL browsers.'}
       </p>
     </div>

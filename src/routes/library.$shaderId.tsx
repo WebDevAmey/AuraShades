@@ -50,7 +50,6 @@ function ShaderPage() {
         <div className="stack-4">
           <div className="flex items-center gap-2">
             <Link to="/library" search={{ style: def.style }} className="chip hover:border-line-strong">{def.style}</Link>
-            {def.tier === 'pro' ? <span className="chip chip-pro">Pro</span> : <span className="chip chip-free">Free</span>}
           </div>
           <h1 id="shader-title" className="display">{def.name}</h1>
         </div>
