@@ -56,3 +56,5 @@ Issues and pull requests are welcome. New shaders should be one clear idea, run 
 ## Licence
 
 MIT. See [LICENSE](LICENSE).
+
+The AuraShades icon is the "sunburst" tile from [Glazed Icons](https://glazed-icons.vercel.app) (MIT), whose glyphs come from [Tabler Icons](https://tabler.io/icons) (MIT, © Paweł Kuna).
