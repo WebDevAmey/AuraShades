@@ -9,10 +9,20 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    date: '2026-11-19',
+    title: 'AuraShades is open source',
+    tag: 'Site',
+    notes: [
+      'Every shader, the React component and all exports are free under the MIT licence. No account, key or paid tier.',
+      'Pricing and plans are gone. Copy any shader as React, GLSL or CSS straight from the editor.',
+      'The code lives on GitHub; issues and pull requests are welcome.',
+    ],
+  },
+  {
     date: '2026-11-17',
     title: 'Petals',
     tag: 'Shaders',
-    notes: ['Two rings of translucent petals turning in opposite directions, so the overlaps keep making new tints. Free.'],
+    notes: ['Two rings of translucent petals turning in opposite directions, so the overlaps keep making new tints.'],
     shaders: ['petals'],
   },
   {
@@ -21,7 +31,6 @@ export const CHANGELOG: Release[] = [
     tag: 'Shaders',
     notes: [
       'Eleven shaders retired so the set stays focused: Signal Flow, Frost Aurora, Terrazzo, Holo Foil, Solar Eclipse, Plum Satin, Prism Flare, Ring Cascade and the three Ecliptic Gradients.',
-      'Violet Horizon is now free, so every style still has a free shader.',
     ],
     shaders: ['violet-horizon'],
   },
@@ -31,7 +40,7 @@ export const CHANGELOG: Release[] = [
     tag: 'Site',
     notes: [
       'New look: a white page, Geist for every word and one Instrument Serif phrase per headline.',
-      'The Dune gradient is now the hero, and it is free in the library.',
+      'The Dune gradient is now the hero.',
       'Scrolling uses the browser again, and shader thumbnails slow down while you scroll so the page stays smooth.',
       'The library search sits with the page instead of following you down it.',
       'This changelog.',
@@ -81,7 +90,6 @@ export const CHANGELOG: Release[] = [
     notes: [
       'Colour blends run in OKLab, so mid-tones stay saturated instead of going grey.',
       'Film grain is weighted by brightness, highlights roll off softly, and no palette uses pure white.',
-      'The free plan now holds at least one shader in every style.',
     ],
     shaders: ['thermal', 'phosphor', 'obsidian', 'pour', 'neural', 'moire', 'crumpled-paper', 'linen'],
   },

@@ -44,10 +44,10 @@ in its dusk set, on the closing band. Every other colour comes from the shaders 
 ## Components
 - **Navbar** (`SiteHeader`): one dark shell floating 16px from the top that grows into the Library, Styles and
   Docs panels via `clip-path`. A highlight glides between triggers; the current page is shown by brighter text,
-  never an underline. "Get Pro" flip-rolls its letters on hover.
+  never an underline. The GitHub button flip-rolls its letters on hover.
 - **Hero**: centred headline, two pills, then a 16:9 stage running Dune with a floating `hero.tsx` card whose
   palette buttons re-tint the stage.
-- **Shot card**: radius 20, 8px inset, 4:3 media radius 12, plan chip on the media, name and summary below.
+- **Shot card**: radius 20, 8px inset, 4:3 media radius 12, name and summary below.
 - **Search**: a pill field with a `/` shortcut. On the library it scrolls with the page.
 - **Changelog** (`/changelog`): dated releases from `src/lib/changelog.ts`, each with its shaders as pills.
 
