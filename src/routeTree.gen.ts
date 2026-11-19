@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ChangelogRouteImport } from './routes/changelog'
 import { Route as DocsRouteImport } from './routes/docs'
-import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as LibraryIndexRouteImport } from './routes/library.index'
 import { Route as LibraryShaderIdRouteImport } from './routes/library.$shaderId'
 
@@ -31,11 +30,6 @@ const DocsRoute = DocsRouteImport.update({
   path: '/docs',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PricingRoute = PricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LibraryIndexRoute = LibraryIndexRouteImport.update({
   id: '/library/',
   path: '/library/',
@@ -51,7 +45,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/changelog': typeof ChangelogRoute
   '/docs': typeof DocsRoute
-  '/pricing': typeof PricingRoute
   '/library/$shaderId': typeof LibraryShaderIdRoute
   '/library/': typeof LibraryIndexRoute
 }
@@ -59,7 +52,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/changelog': typeof ChangelogRoute
   '/docs': typeof DocsRoute
-  '/pricing': typeof PricingRoute
   '/library/$shaderId': typeof LibraryShaderIdRoute
   '/library': typeof LibraryIndexRoute
 }
@@ -68,33 +60,19 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/changelog': typeof ChangelogRoute
   '/docs': typeof DocsRoute
-  '/pricing': typeof PricingRoute
   '/library/$shaderId': typeof LibraryShaderIdRoute
   '/library/': typeof LibraryIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/changelog'
-    | '/docs'
-    | '/pricing'
-    | '/library/$shaderId'
-    | '/library/'
+  fullPaths: '/' | '/changelog' | '/docs' | '/library/$shaderId' | '/library/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/changelog'
-    | '/docs'
-    | '/pricing'
-    | '/library/$shaderId'
-    | '/library'
+  to: '/' | '/changelog' | '/docs' | '/library/$shaderId' | '/library'
   id:
     | '__root__'
     | '/'
     | '/changelog'
     | '/docs'
-    | '/pricing'
     | '/library/$shaderId'
     | '/library/'
   fileRoutesById: FileRoutesById
@@ -103,7 +81,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ChangelogRoute: typeof ChangelogRoute
   DocsRoute: typeof DocsRoute
-  PricingRoute: typeof PricingRoute
   LibraryShaderIdRoute: typeof LibraryShaderIdRoute
   LibraryIndexRoute: typeof LibraryIndexRoute
 }
@@ -131,13 +108,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/pricing': {
-      id: '/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof PricingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/library/': {
       id: '/library/'
       path: '/library'
@@ -159,7 +129,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ChangelogRoute: ChangelogRoute,
   DocsRoute: DocsRoute,
-  PricingRoute: PricingRoute,
   LibraryShaderIdRoute: LibraryShaderIdRoute,
   LibraryIndexRoute: LibraryIndexRoute,
 }

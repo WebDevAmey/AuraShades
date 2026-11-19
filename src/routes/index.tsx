@@ -4,10 +4,11 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 
 import { AuraShade, useMotionPaused } from '~/components/AuraShade'
 import { Segmented } from '~/components/Segmented'
 import { ShotCard } from '~/components/ShotCard'
-import { faqLd, seo, softwareLd } from '~/lib/seo'
+import { faqLd, REPO, seo, softwareLd } from '~/lib/seo'
 import { ShaderEditor, useShaderParams } from '~/components/ShaderEditor'
-import { Faq, PricingPlans } from '~/components/Pricing'
-import { BRAND_FIELDS, BRAND_SHADER, brandParams, byId, freeCount, proCount, SHADERS, STYLES, styleList, word, Word, type BrandField } from '~/lib/shaders/library'
+import { Faq } from '~/components/Faq'
+import { GitHubMark } from '~/components/SiteHeader'
+import { BRAND_FIELDS, BRAND_SHADER, brandParams, byId, SHADERS, STYLES, styleList, word, Word, type BrandField } from '~/lib/shaders/library'
 import { CHANGELOG } from '~/lib/changelog'
 import { getEngine } from '~/lib/shaders/engine'
 import { cx } from '~/lib/cx'
@@ -17,7 +18,7 @@ export const Route = createFileRoute('/')({
   head: () =>
     seo({
       title: 'AuraShades · Live shader backgrounds for websites',
-      description: `${SHADERS.length} hand-tuned WebGL shader backgrounds in ${word(STYLES.length)} styles: ${styleList()}. Tune four colours in the browser and copy one React component, GLSL or CSS. ${Word(freeCount)} are free.`,
+      description: `${SHADERS.length} hand-tuned WebGL shader backgrounds in ${word(STYLES.length)} styles: ${styleList()}. Tune four colours in the browser and copy one React component, GLSL or CSS. Free and open source.`,
       path: '/',
       jsonLd: [softwareLd(), faqLd()],
     }),
@@ -34,7 +35,6 @@ function Home() {
       <Playground />
       <Steps />
       <Engine />
-      <PricingSection />
       <FaqSection />
     </>
   )
@@ -89,9 +89,9 @@ function Hero() {
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Link to="/library" className={button({ variant: 'primary' })}>Browse the library <ArrowRight size={16} className="arrow" /></Link>
-          <Link to="/docs" className={button({ variant: 'secondary' })}>Read the docs</Link>
+          <a href={REPO} target="_blank" rel="noopener" className={button({ variant: 'secondary' })}><GitHubMark />Star on GitHub</a>
         </div>
-        <p className="small">{Word(freeCount)} free shaders · React, GLSL or CSS · No account</p>
+        <p className="small">Open source · MIT licensed · React, GLSL or CSS</p>
       </div>
 
       {/* The stage: Dune, live, with the editor card it would come out of */}
@@ -158,10 +158,11 @@ function Statement() {
   )
 }
 
-/** One live tile per style: the style's free shader if it has one. */
+/** One live tile per style. */
+const STYLE_PICK: Record<string, string> = { Gradient: 'silk', Grain: 'grain-bloom', Pastel: 'pastel-haze', Aurora: 'aurora-veil', Dither: 'bayer-wave', ASCII: 'ascii-flow', Grid: 'horizon-grid', Light: 'light-rays', Liquid: 'swell', Texture: 'marble', Orbit: 'violet-horizon', Spectral: 'spectral-gradient', Landscape: 'dusk-dunes', Wave: 'terracotta-drift' }
 const STYLE_TILES = STYLES.map((s) => {
   const list = SHADERS.filter((x) => x.style === s.id)
-  return { style: s.id, id: (list.find((x) => x.tier === 'free') ?? list[0]).id, n: list.length }
+  return { style: s.id, id: (STYLE_PICK[s.id] && list.some((x) => x.id === STYLE_PICK[s.id]) ? STYLE_PICK[s.id] : list[0].id), n: list.length }
 })
 
 function Styles() {
@@ -208,7 +209,7 @@ function Featured() {
   return (
     <section className="wrap section" aria-labelledby="featured-title">
       <SecHead n="02" label="Featured" id="featured-title" title={<>Picked from <em>the library.</em></>}>
-        <p className="lede">{Word(proCount)} more backgrounds come with Pro: liquid chrome, polished marble, halftone light and iridescent silk. Every one previews free in the editor.</p>
+        <p className="lede">Liquid chrome, polished marble, halftone light and iridescent silk. Every one is free to use, change and ship.</p>
         <Link to="/library" className={button({ variant: 'secondary', className: 'self-start' })}>See all {SHADERS.length} shaders <ArrowRight size={16} className="arrow" /></Link>
       </SecHead>
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
@@ -297,23 +298,12 @@ function Engine() {
   )
 }
 
-function PricingSection() {
-  return (
-    <section className="wrap section" aria-labelledby="pricing-title">
-      <SecHead n="06" label="Pricing" id="pricing-title" title={<>Start free. Upgrade when <em>a client signs.</em></>}>
-        <p className="lede">The free plan keeps at least one shader in every style. Pro unlocks the full set and the React component.</p>
-      </SecHead>
-      <div data-reveal><PricingPlans /></div>
-    </section>
-  )
-}
-
 function FaqSection() {
   return (
     <section className="wrap section" aria-labelledby="faq-title">
       <div className="sec-label" data-reveal>
         <span className="eyebrow">FAQ</span>
-        <span className="eyebrow">07</span>
+        <span className="eyebrow">06</span>
       </div>
       <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20" data-reveal>
         <div className="stack-6 self-start">
