@@ -7,6 +7,7 @@ import { AuraShade } from './AuraShade'
 import { cx } from '~/lib/cx'
 import { setTheme, startThemeSync, useTheme } from '~/lib/theme'
 import { byId, SHADERS, STYLES, word } from '~/lib/shaders/library'
+import { REPO } from '~/lib/seo'
 
 /*
   The navbar is a port of Amey's Morphing Navbar: one dark shell. Closed, it is the bar;
@@ -21,7 +22,7 @@ const RESOURCES = [
   { to: '/docs', hash: 'props', t: 'Component props', s: 'Palette, speed, scale, grain' },
   { to: '/docs', hash: 'performance', t: 'Performance', s: 'One WebGL context per page' },
   { to: '/docs', hash: 'support', t: 'Browser support', s: 'Fallbacks without WebGL' },
-  { to: '/pricing', hash: 'licence', t: 'Licence', s: 'What each plan covers' },
+  { to: '/docs', hash: 'licence', t: 'Licence', s: 'MIT, free for any project' },
   { to: '/changelog', hash: undefined, t: 'Changelog', s: 'New shaders and fixes' },
 ] as const
 const TRIGGERS = [
@@ -63,12 +64,20 @@ export function ThemeToggle({ className }: { className?: string }) {
   )
 }
 
-/** "Get Pro": the letters flip-roll over one after another on hover. */
+export function GitHubMark({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+    </svg>
+  )
+}
+
+/** GitHub: the letters flip-roll over one after another on hover. */
 function RollCta({ className, onNavigate }: { className?: string; onNavigate?: () => void }) {
   const [rolled, setRolled] = useState(false)
   const [reset, setReset] = useState(false)
   const busy = useRef(false)
-  const text = 'Get Pro'
+  const text = 'GitHub'
   const flip = () => {
     if (busy.current || matchMedia('(prefers-reduced-motion: reduce)').matches) return
     busy.current = true
@@ -80,7 +89,8 @@ function RollCta({ className, onNavigate }: { className?: string; onNavigate?: (
     }, 560 + 16 * text.length + 40)
   }
   return (
-    <Link to="/pricing" className={cx('mnav-cta', rolled && 'rolled', className)} aria-label={text} onPointerEnter={(e) => e.pointerType === 'mouse' && flip()} onFocus={flip} onClick={onNavigate}>
+    <a href={REPO} target="_blank" rel="noopener" className={cx('mnav-cta gap-2', rolled && 'rolled', className)} aria-label="AuraShades on GitHub" onPointerEnter={(e) => e.pointerType === 'mouse' && flip()} onFocus={flip} onClick={onNavigate}>
+      <GitHubMark />
       <span className={cx('roll', reset && 'reset')} aria-hidden="true">
         {[...text].map((c, k) => (
           <span key={k} className="ch" data-c={c} style={{ '--k': k } as CSSProperties}>
@@ -88,7 +98,7 @@ function RollCta({ className, onNavigate }: { className?: string; onNavigate?: (
           </span>
         ))}
       </span>
-    </Link>
+    </a>
   )
 }
 
@@ -300,12 +310,12 @@ function DesktopNav({ path }: { path: string }) {
             </button>
           ))}
           <Link
-            to="/pricing"
+            to="/changelog"
             className="mnav-trigger"
-            data-current={path === '/pricing' ? '' : undefined}
+            data-current={path === '/changelog' ? '' : undefined}
             onPointerEnter={(e) => { if (e.pointerType === 'mouse' && hl.current && links.current) { const el = e.currentTarget; hl.current.style.setProperty('--hx', `${el.offsetLeft}px`); hl.current.style.setProperty('--hw', `${el.offsetWidth}px`); links.current.classList.add('hovering'); scheduleClose() } }}
           >
-            Pricing
+            Changelog
           </Link>
         </div>
         <ThemeToggle className="ml-1" />
@@ -371,7 +381,6 @@ function MobileNav({ path }: { path: string }) {
         <nav id="mobile-menu" aria-label="Mobile" className="flex flex-col gap-1 px-2 pb-2" inert={!open}>
           {[
             { to: '/library' as const, label: 'Library', s: `${SHADERS.length} live shaders` },
-            { to: '/pricing' as const, label: 'Pricing', s: 'Free, Pro and Team' },
             { to: '/docs' as const, label: 'Docs', s: 'Install and props' },
             { to: '/changelog' as const, label: 'Changelog', s: 'What shipped' },
           ].map((n) => (
